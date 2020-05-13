@@ -45,3 +45,11 @@ $router->group(['prefix' => 'nivel-usuario'], function () use ($router) {
     $router->put('/{codNivelUsuario}', 'NivelUsuarioController@update');
     $router->delete('/{codNivelUsuario}', 'NivelUsuarioController@destroy');
 });
+
+$router->group(['prefix' => 'vaga'], function () use ($router) {
+    $router->get('/{codVaga}/beneficio', 'BeneficioController@getPorVaga');
+    $router->get('/beneficio/{codBeneficio}', 'BeneficioController@show');
+    $router->post('beneficio/', 'BeneficioController@store');
+    $router->put('/beneficio/{codBeneficio}', 'BeneficioController@update');
+    $router->delete('/beneficio/{codBeneficio}', 'BeneficioController@destroy');
+});
