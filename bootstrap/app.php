@@ -37,6 +37,8 @@ $app->withEloquent();
 |
 */
 
+class_alias(\Intervention\Image\ImageManagerStatic::class, 'Image');
+
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class

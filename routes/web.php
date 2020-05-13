@@ -17,6 +17,18 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->get('/key', function() {
+    return \Illuminate\Support\Str::random(32);
+});
+
+$router->group(['prefix' => 'adicional'], function () use ($router) {
+    $router->get('/', 'AdicionalController@index');
+    $router->get('/{codAdicional}', 'AdicionalController@show');
+    $router->post('/', 'AdicionalController@store');
+    $router->put('/{codAdicional}', 'AdicionalController@update');
+    $router->delete('/{codAdicional}', 'AdicionalController@destroy');
+});
+
 $router->group(['prefix' => 'nivel-usuario'], function () use ($router) {
     $router->get('/', 'NivelUsuarioController@index');
     $router->get('/{codNivelUsuario}', 'NivelUsuarioController@show');
