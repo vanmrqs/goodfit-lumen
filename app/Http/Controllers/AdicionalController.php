@@ -108,6 +108,19 @@ class AdicionalController extends Controller {
     }
 
     /**
+     * Retorna os adicionais de um
+     * currículo
+     *
+     * @param $codCurriculo
+     * @return mixed
+     */
+    public function getEmCurriculo($codCurriculo){
+        return Adicional::join('tbAdicionalCurriculo', 'tbAdicional.codAdicional', '=', 'tbAdicionalCurriculo.codAdicional')
+            ->where('tbAdicionalCurriculo.codCurriculo', '=', $codCurriculo)
+            ->get();
+    }
+
+    /**
      * Realiza o upload de uma imagem e
      * retorna o nome dela
      *

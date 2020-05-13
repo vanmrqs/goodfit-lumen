@@ -31,6 +31,13 @@ $router->group(['prefix' => 'adicional'], function () use ($router) {
     $router->delete('/{codAdicional}', 'AdicionalController@destroy');
 });
 
+$router->group(['prefix' => 'curriculo'], function () use ($router) {
+    $router->get('/{codCurriculo}/adicional', 'AdicionalController@getEmCurriculo');
+    $router->get('/adicional/{codAdicionalCurriculo}', 'AdicionalCurriculoController@show');
+    $router->post('/adicional', 'AdicionalCurriculoController@store');
+    $router->delete('/adicional/{codAdicionalCurriculo}', 'AdicionalCurriculoController@destroy');
+});
+
 $router->group(['prefix' => 'nivel-usuario'], function () use ($router) {
     $router->get('/', 'NivelUsuarioController@index');
     $router->get('/{codNivelUsuario}', 'NivelUsuarioController@show');
