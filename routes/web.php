@@ -31,6 +31,15 @@ $router->group(['prefix' => 'adicional'], function () use ($router) {
     $router->delete('/{codAdicional}', 'AdicionalController@destroy');
 });
 
+$router->group(['prefix' => 'candidato'], function () use ($router) {
+    $router->get('/', 'CandidatoController@index');
+    $router->get('/{codCandidato}', 'CandidatoController@show');
+    $router->get('/usuario/{codUsuario}', 'CandidatoController@getPorUsuario');
+    $router->post('/', 'CandidatoController@store');
+    $router->put('/{codCandidato}', 'CandidatoController@update');
+    $router->delete('/{codCandidato}', 'CandidatoController@destroy');
+});
+
 $router->group(['prefix' => 'curriculo'], function () use ($router) {
     $router->get('/{codCurriculo}/adicional', 'AdicionalController@getEmCurriculo');
     $router->get('/adicional/{codAdicionalCurriculo}', 'AdicionalCurriculoController@show');
