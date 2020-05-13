@@ -73,6 +73,41 @@ class AdicionalController extends Controller {
     }
 
     /**
+     * Exclui um adicional
+     *
+     * @param int $codAdicional
+     */
+    public function destroy($codAdicional){
+        Adicional::findOrFail($codAdicional)->delete();
+    }
+
+    /**
+     * Retorna os adicionais pelo código
+     * do tipo
+     *
+     * @param $codTipoAdicional
+     * @return mixed
+     */
+    public function getPorTipo($codTipoAdicional){
+        return Adicional::where('codTipoAdicional', $codTipoAdicional)->get();
+    }
+
+    /**
+     * Retorna os adicionais pelo nome
+     * do tipo
+     *
+     * @param $nomeTipoAdicional
+     * @return mixed
+     */
+    public function getPorNomeTipo($nomeTipoAdicional){
+        //TODO: Corrigir consultas com caracteres especiais
+
+        return Adicional::join('tbTipoAdicional', 'tbAdicional.codTipoAdicional', '=', 'tbTipoAdicional.codTipoAdicional')
+            ->where('tbTipoAdicional.nomeTipoAdicional', '=', $nomeTipoAdicional)
+            ->get();
+    }
+
+    /**
      * Realiza o upload de uma imagem e
      * retorna o nome dela
      *

@@ -24,6 +24,8 @@ $router->get('/key', function() {
 $router->group(['prefix' => 'adicional'], function () use ($router) {
     $router->get('/', 'AdicionalController@index');
     $router->get('/{codAdicional}', 'AdicionalController@show');
+    $router->get('/tipo/{codTipoAdicional}', 'AdicionalController@getPorTipo');
+    $router->get('/tipo/nome/{nomeTipoAdicional}', 'AdicionalController@getPorNomeTipo');
     $router->post('/', 'AdicionalController@store');
     $router->put('/{codAdicional}', 'AdicionalController@update');
     $router->delete('/{codAdicional}', 'AdicionalController@destroy');
