@@ -40,6 +40,14 @@ $router->group(['prefix' => 'candidato'], function () use ($router) {
     $router->delete('/{codCandidato}', 'CandidatoController@destroy');
 });
 
+$router->group(['prefix' => 'candidatura'], function () use ($router) {
+    $router->get('/', 'CandidaturaController@index');
+    $router->get('/{codCandidatura}', 'CandidaturaController@show');
+    $router->post('/', 'CandidaturaController@store');
+    $router->delete('/{codCandidatura}', 'CandidaturaController@destroy');
+    $router->put('{codCandidatura}/status/', 'CandidaturaController@trocarStatus');
+});
+
 $router->group(['prefix' => 'curriculo'], function () use ($router) {
     $router->get('/{codCurriculo}/adicional', 'AdicionalController@getEmCurriculo');
     $router->get('/adicional/{codAdicionalCurriculo}', 'AdicionalCurriculoController@show');

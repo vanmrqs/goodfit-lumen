@@ -15,14 +15,14 @@ class Candidatura extends Model
   public static $rules  = [
       'codCandidato'         => 'integer|required',
       'codVaga'              => 'integer|required',
-      'codStatusCandidatura' => 'integer|required'
+      'codStatusCandidatura' => 'integer'
   ];
 
   public function Candidato(){
-    return $this->hasMany(Candidato::class, 'codCandidato', 'codCandidato');
+    return $this->belongsTo(Candidato::class, 'codCandidato', 'codCandidato');
   }
 
   public function Vaga(){
-    return $this->hasMany(Vaga::class, 'codVaga', 'codVaga');
+    return $this->hasOne(Vaga::class, 'codVaga', 'codVaga');
   }
 }
