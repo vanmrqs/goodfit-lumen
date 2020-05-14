@@ -12,7 +12,7 @@ class Categoria extends Model
 
     public static $rules  = [
         'nomeCategoria'   => 'string|required|min:2|max:100',
-        'imagemCategoria' => 'string'
+        'imagemCategoria' => ''
     ];
 
 }

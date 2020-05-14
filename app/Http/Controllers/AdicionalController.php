@@ -8,7 +8,6 @@ use App\Adicional;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Intervention\Image\Facades\Image;
 
 define('PASTA_IMAGENS', 'adicional');
 
@@ -43,7 +42,7 @@ class AdicionalController extends Controller {
         $adicional = $this->validate($request, Adicional::$rules);
 
         if ( $request->has('imagemAdicional') ) {
-            $adicional['imagemAdicional'] = $this->uploadImagem($request->imagemAdicional, 300, 300);
+            $adicional['imagemAdicional'] = $this->uploadImagem($request->imagemAdicional, 300, 300, PASTA_IMAGENS);
         }
 
         Adicional::create($adicional);
@@ -62,8 +61,8 @@ class AdicionalController extends Controller {
         $adicional = Adicional::findOrFail($codAdicional);
 
         if ( $request->has('imagemAdicional') ) {
-            $this->deletaImagem($adicional['imagemAdicional']);
-            $adicional['imagemAdicional'] = $this->uploadImagem($request->imagemAdicional, 300, 300);
+            $this->deletaImagem($adicional['imagemAdicional'], PASTA_IMAGENS);
+            $adicional['imagemAdicional'] = $this->uploadImagem($request->imagemAdicional, 300, 300, PASTA_IMAGENS);
         }
 
         $adicional['nomeAdicional']    = $request->nomeAdicional;
@@ -118,39 +117,5 @@ class AdicionalController extends Controller {
         return Adicional::join('tbAdicionalCurriculo', 'tbAdicional.codAdicional', '=', 'tbAdicionalCurriculo.codAdicional')
             ->where('tbAdicionalCurriculo.codCurriculo', '=', $codCurriculo)
             ->get();
-    }
-
-    /**
-     * Realiza o upload de uma imagem e
-     * retorna o nome dela
-     *
-     * @param $imagem
-     * @param $pastaDestino
-     * @param $width
-     * @param $height
-     * @return string
-     */
-    public function uploadImagem($imagem, $width, $height, $pastaDestino = PASTA_IMAGENS){
-        $nomeImagem = md5(uniqid(microtime())).'.'.$imagem->getClientOriginalExtension();
-
-        $image = Image::make($imagem);
-        $image->orientate()->fit($width, $height);
-        $image->save(app()->basePath('public/images/'.$pastaDestino.'/'.$nomeImagem));
-
-        return $nomeImagem;
-    }
-
-    /**
-     * Apaga uma imagem existente
-     *
-     * @param $imagem
-     * @param string $pastaOrigem
-     */
-    public function deletaImagem($imagem, $pastaOrigem = PASTA_IMAGENS){
-        $imagem = app()->basePath('public/images/'.$pastaOrigem.'/' . $imagem);
-
-        if ( file_exists($imagem) ) {
-            unlink($imagem);
-        }
     }
 }
