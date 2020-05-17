@@ -13,6 +13,19 @@
 |
 */
 
+/*
+| In case you need to configure your .env file,
+| uncomment the route method below and access 
+| the created route to generate a random key
+| you can use it to enable your .env file.
+*/
+
+// $router->get('/key', function() {
+//     return \Illuminate\Support\Str::random(32);
+// });
+
+
+
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
