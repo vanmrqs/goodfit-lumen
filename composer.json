@@ -6,7 +6,8 @@
     "type": "project",
     "require": {
         "php": "^7.2.5",
-        "laravel/lumen-framework": "^7.0"
+        "laravel/lumen-framework": "^7.0",
+		"intervention/image": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9.1",
@@ -30,7 +31,9 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+		"disable-tls": true,
+        "secure-http": false
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

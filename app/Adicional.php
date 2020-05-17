@@ -11,7 +11,7 @@ class Adicional extends Model
     protected $fillable   = ['imagemAdicional', 'nomeAdicional', 'grauAdicional', 'codTipoAdicional'];
 
     public static $rules  = [
-        'imagemAdicional'  => 'string',
+        'imagemAdicional'  => '',
         'nomeAdicional'    => 'required|max:100|string',
         'grauAdicional'    => 'required|integer',
         'codTipoAdicional' => 'required|integer'

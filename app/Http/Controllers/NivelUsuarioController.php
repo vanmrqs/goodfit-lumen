@@ -39,4 +39,28 @@ class NivelUsuarioController extends Controller {
         $nivelUsuario = $this->validate($request, NivelUsuario::$rules);
         NivelUsuario::create($nivelUsuario);
     }
+
+    /**
+     * Atualiza um nível de usuário
+     *
+     * @param Request $request
+     * @param $codNivelUsuario
+     * @throws ValidationException
+     */
+    public function update(Request $request, $codNivelUsuario){
+        $this->validate($request, NivelUsuario::$rules);
+
+        $nivelUsuario = NivelUsuario::findOrFail($codNivelUsuario);
+        $nivelUsuario->nomeNivelUsuario = $request->nomeNivelUsuario;
+        $nivelUsuario->save();
+    }
+
+    /**
+     * Exclui um nível de usuário
+     *
+     * @param $codNivelUsuario
+     */
+    public function destroy($codNivelUsuario){
+        NivelUsuario::findOrFail($codNivelUsuario)->delete();
+    }
 }
