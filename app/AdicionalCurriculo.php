@@ -13,8 +13,8 @@ class AdicionalCurriculo extends Model
     protected $fillable   = ['codAdicional', 'codCurriculo'];
 
     public static $rules  = [
-        'codAdicional' => 'integer',
-        'codCurriculo' => 'integer'
+        'codAdicional' => 'integer|required',
+        'codCurriculo' => 'integer|required'
     ];
 
     public function Adicional(){

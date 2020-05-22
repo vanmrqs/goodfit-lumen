@@ -83,6 +83,10 @@ $router->group(['prefix' => 'empresa'], function () use ($router) {
     $router->delete('/{codEmpresa}', 'EmpresaController@destroy');
 });
 
+$router->group(['prefix' => 'habilidade'], function () use ($router) {
+    $router->get('/{codCurriculo}', 'AdicionalController@getHabilidadesCurriculo');
+});
+
 $router->group(['prefix' => 'nivel-usuario'], function () use ($router) {
     $router->get('/', 'NivelUsuarioController@index');
     $router->get('/{codNivelUsuario}', 'NivelUsuarioController@show');

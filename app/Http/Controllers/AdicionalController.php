@@ -118,4 +118,20 @@ class AdicionalController extends Controller {
             ->where('tbAdicionalCurriculo.codCurriculo', '=', $codCurriculo)
             ->get();
     }
+
+    /**
+     * Retorna as habilidades de um
+     * currículo
+     *
+     * @param $codCurriculo
+     * @return mixed
+     */
+    public function getHabilidadesCurriculo($codCurriculo){
+        return Adicional::join('tbTipoAdicional', 'tbAdicional.codTipoAdicional', '=', 'tbTipoAdicional.codTipoAdicional')
+            ->join('tbAdicionalCurriculo', 'tbAdicionalCurriculo.codAdicional', '=', 'tbAdicional.codAdicional')
+            ->where('tbTipoAdicional.nomeTipoAdicional', '=', 'Habilidade')
+            ->where('tbAdicionalCurriculo.codCurriculo', '=', $codCurriculo)
+            ->orderBy('tbAdicional.nomeAdicional', 'ASC')
+            ->get();
+    }
 }

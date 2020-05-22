@@ -4,9 +4,10 @@
 namespace App\Http\Controllers;
 
 
+use App\AdicionalCurriculo;
 use App\Curriculo;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 
 class CurriculoController extends Controller {
     /**
@@ -33,5 +34,21 @@ class CurriculoController extends Controller {
     public function store(Request $request){
         $curriculo = $this->validate($request, Curriculo::$rules);
         $curriculo = Curriculo::create($curriculo);
+
+        $adicionais = [];
+        $adicionais[] = $request->escolaridadeCurriculo;
+        $adicionais[] = $request->alfabetizacaoCurriculo;
+        foreach ( $request->habilidadeCurriculo as $codAdicional ) {
+            $adicionais[] = $codAdicional;
+        }
+
+        // Adiciona adicionais de curriculo (Escolaridade, alfabetização e habilidades)
+        $adicional = [];
+        $adicional['codCurriculo'] = $curriculo->codCurriculo;
+        foreach ( $adicionais as $codAdicional ) {
+            $adicional['codAdicional'] = $codAdicional;
+
+            AdicionalCurriculo::create($adicional);
+        }
     }
 }
