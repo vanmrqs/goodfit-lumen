@@ -46,7 +46,7 @@ class CandidaturaController extends Controller {
      * @param int $codCandidatura
      */
     public function destroy(int $codCandidatura){
-        Candidatura::findOrFail($codCandidatura)->delete();
+        Candidatura::destroy($codCandidatura);
     }
 
     /**

@@ -40,6 +40,6 @@ class CargoCurriculoController extends Controller {
      * @param $codCargoCurriculo
      */
     public function destroy($codCargoCurriculo){
-        CargoCurriculo::findOrFail($codCargoCurriculo)->delete();
+        CargoCurriculo::destroy($codCargoCurriculo);
     }
 }

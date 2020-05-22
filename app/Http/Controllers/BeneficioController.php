@@ -55,7 +55,7 @@ class BeneficioController extends Controller {
      * @param $codBeneficio
      */
     public function destroy($codBeneficio){
-        Beneficio::findOrFail($codBeneficio)->delete();
+        Beneficio::destroy($codBeneficio);
     }
 
     /**

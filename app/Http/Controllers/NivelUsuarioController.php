@@ -61,6 +61,6 @@ class NivelUsuarioController extends Controller {
      * @param $codNivelUsuario
      */
     public function destroy($codNivelUsuario){
-        NivelUsuario::findOrFail($codNivelUsuario)->delete();
+        NivelUsuario::destroy($codNivelUsuario);
     }
 }

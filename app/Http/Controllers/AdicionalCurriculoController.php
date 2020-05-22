@@ -39,6 +39,6 @@ class AdicionalCurriculoController extends Controller {
      * @param int $codAdicionalCurriculo
      */
     public function destroy($codAdicionalCurriculo){
-        AdicionalCurriculo::findOrFail($codAdicionalCurriculo)->delete();
+        AdicionalCurriculo::destroy($codAdicionalCurriculo);
     }
 }

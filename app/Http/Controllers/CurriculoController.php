@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Curriculo;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Client\Request;
 
 class CurriculoController extends Controller {
     /**
@@ -26,5 +27,11 @@ class CurriculoController extends Controller {
      */
     public function show(int $codCurriculo){
         return Curriculo::findOrFail($codCurriculo);
+    }
+
+    // TODO: terminar dps de criar todos os controllers
+    public function store(Request $request){
+        $curriculo = $this->validate($request, Curriculo::$rules);
+        $curriculo = Curriculo::create($curriculo);
     }
 }

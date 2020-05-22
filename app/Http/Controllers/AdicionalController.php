@@ -77,7 +77,7 @@ class AdicionalController extends Controller {
      * @param int $codAdicional
      */
     public function destroy($codAdicional){
-        Adicional::findOrFail($codAdicional)->delete();
+        Adicional::destroy($codAdicional);
     }
 
     /**

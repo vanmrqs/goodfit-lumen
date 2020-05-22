@@ -72,7 +72,7 @@ class CandidatoController extends Controller {
      */
     public function destroy(int $codCandidato){
         // TODO: Excluir usuário
-        Candidato::findOrFail($codCandidato)->delete();
+        Candidato::destroy($codCandidato);
     }
 
     /**

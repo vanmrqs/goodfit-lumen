@@ -77,7 +77,7 @@ class CategoriaController extends Controller {
      */
     public function destroy(int $codCategoria){
         //TODO: Excluir cargoCurriculo
-        Categoria::findOrFail($codCategoria)->delete();
+        Categoria::destroy($codCategoria);
     }
 
     /**
