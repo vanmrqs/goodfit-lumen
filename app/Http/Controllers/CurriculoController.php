@@ -8,6 +8,9 @@ use App\AdicionalCurriculo;
 use App\Curriculo;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+
+define('PASTA_UPLOADS', 'curriculo');
 
 class CurriculoController extends Controller {
     /**
@@ -30,8 +33,18 @@ class CurriculoController extends Controller {
         return Curriculo::find($codCurriculo);
     }
 
-    // TODO: terminar dps de criar todos os controllers
+    /**
+     * Criando um currículo e salvando seus
+     * adicionais
+     *
+     * @param Request $request
+     * @throws ValidationException
+     */
     public function store(Request $request){
+        if ( $request->has('videoArquivo') ) {
+            $request['videoCurriculo'] = $this->uploadVideo($request->videoArquivo, PASTA_UPLOADS);
+        }
+
         $curriculo = $this->validate($request, Curriculo::$rules);
         $curriculo = Curriculo::create($curriculo);
 
@@ -42,7 +55,7 @@ class CurriculoController extends Controller {
             $adicionais[] = $codAdicional;
         }
 
-        // Adiciona adicionais de curriculo (Escolaridade, alfabetização e habilidades)
+        // Cria adicionais de curriculo (Escolaridade, alfabetização e habilidades)
         $adicional = [];
         $adicional['codCurriculo'] = $curriculo->codCurriculo;
         foreach ( $adicionais as $codAdicional ) {

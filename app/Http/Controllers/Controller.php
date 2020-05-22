@@ -40,4 +40,20 @@ class Controller extends BaseController
             unlink($imagem);
         }
     }
+
+    /**
+     * Realiza o upload de um vídeo
+     * e retorna o nome dele
+     *
+     * @param $video
+     * @param $pastaDestino
+     * @return string
+     */
+    public function uploadVideo($video, $pastaDestino){
+        $nomeVideo = md5(uniqid(microtime())).'.'.$video->getClientOriginalExtension();
+
+        $video->move(app()->basePath('public/videos/'.$pastaDestino), $nomeVideo);
+
+        return $nomeVideo;
+    }
 }
