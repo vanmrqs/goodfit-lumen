@@ -26,7 +26,7 @@ class CurriculoController extends Controller {
      * @return mixed
      */
     public function show(int $codCurriculo){
-        return Curriculo::findOrFail($codCurriculo);
+        return Curriculo::find($codCurriculo);
     }
 
     // TODO: terminar dps de criar todos os controllers

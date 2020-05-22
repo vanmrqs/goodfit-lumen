@@ -28,7 +28,7 @@ class CandidatoController extends Controller {
      * @return mixed
      */
     public function show(int $codCandidato){
-        return Candidato::findOrFail($codCandidato);
+        return Candidato::find($codCandidato);
     }
 
     /**

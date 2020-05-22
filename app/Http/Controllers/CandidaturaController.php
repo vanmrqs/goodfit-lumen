@@ -25,7 +25,7 @@ class CandidaturaController extends Controller {
     }
 
     public function show($codCandidatura){
-        return Candidatura::findOrFail($codCandidatura);
+        return Candidatura::find($codCandidatura);
     }
 
     /**

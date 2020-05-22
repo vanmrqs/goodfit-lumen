@@ -18,7 +18,7 @@ class CargoCurriculoController extends Controller {
      * @return CargoCurriculo[]|Collection
      */
     public function show($codCargoCurriculo){
-        return CargoCurriculo::findOrFail($codCargoCurriculo);
+        return CargoCurriculo::find($codCargoCurriculo);
     }
 
     /**

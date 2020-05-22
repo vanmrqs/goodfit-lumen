@@ -18,7 +18,7 @@ class AdicionalCurriculoController extends Controller {
      * @return mixed
      */
     public function show($codAdicionalCurriculo){
-        return AdicionalCurriculo::findOrFail($codAdicionalCurriculo);
+        return AdicionalCurriculo::find($codAdicionalCurriculo);
     }
 
     /**

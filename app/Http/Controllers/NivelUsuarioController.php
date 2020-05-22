@@ -26,7 +26,7 @@ class NivelUsuarioController extends Controller {
      * @return mixed
      */
     public function show($codNivelUsuario){
-        return NivelUsuario::findOrFail($codNivelUsuario);
+        return NivelUsuario::find($codNivelUsuario);
     }
 
     /**

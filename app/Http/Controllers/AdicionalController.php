@@ -29,7 +29,7 @@ class AdicionalController extends Controller {
      * @return mixed
      */
     public function show($codAdicional){
-        return Adicional::findOrFail($codAdicional);
+        return Adicional::find($codAdicional);
     }
 
     /**

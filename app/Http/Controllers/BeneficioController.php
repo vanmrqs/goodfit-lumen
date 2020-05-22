@@ -17,7 +17,7 @@ class BeneficioController extends Controller {
      * @return mixed
      */
     public function show($codBeneficio){
-        return Beneficio::findOrFail($codBeneficio);
+        return Beneficio::find($codBeneficio);
     }
 
     /**

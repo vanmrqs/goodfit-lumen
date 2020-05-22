@@ -75,6 +75,14 @@ $router->group(['prefix' => 'curriculo'], function () use ($router) {
     $router->delete('/cargo/{codCargoCurriculo}', 'CargoCurriculoController@destroy');
 });
 
+$router->group(['prefix' => 'empresa'], function () use ($router) {
+    $router->get('/', 'EmpresaController@index');
+    $router->get('/{codEmpresa}', 'EmpresaController@show');
+    $router->post('/', 'EmpresaController@store');
+    $router->put('/{codEmpresa}', 'EmpresaController@update');
+    $router->delete('/{codEmpresa}', 'EmpresaController@destroy');
+});
+
 $router->group(['prefix' => 'nivel-usuario'], function () use ($router) {
     $router->get('/', 'NivelUsuarioController@index');
     $router->get('/{codNivelUsuario}', 'NivelUsuarioController@show');

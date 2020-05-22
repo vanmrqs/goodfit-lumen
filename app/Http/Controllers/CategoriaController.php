@@ -30,7 +30,7 @@ class CategoriaController extends Controller {
      * @return mixed
      */
     public function show(int $codCategoria){
-        return Categoria::findOrFail($codCategoria);
+        return Categoria::find($codCategoria);
     }
 
     /**
