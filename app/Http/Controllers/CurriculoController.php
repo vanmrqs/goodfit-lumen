@@ -48,10 +48,8 @@ class CurriculoController extends Controller {
         $curriculo = $this->validate($request, Curriculo::$rules);
         $curriculo = Curriculo::create($curriculo);
 
-        $adicionais = $this->agruparAdicionais($request->escolaridadeCurriculo, $request->alfabetizacaoCurriculo, $request->habilidadeCurriculo);
-
         // Cria adicionais de curriculo (Escolaridade, alfabetização e habilidades)
-        $this->criaAdicionais($curriculo->codCurriculo, $adicionais);
+        $this->criaAdicionais($curriculo->codCurriculo, $request->adicionalCurriculo);
     }
 
     /**
@@ -66,11 +64,10 @@ class CurriculoController extends Controller {
 
         $curriculo  = Curriculo::findOrFail($codCurriculo);
 
-        // Edita os adicionais de um currículo
+        // Edita os adicionais de um currículo (Escolaridade, alfabetização e habilidades)
         $adicionaisExistentes = array_map(function($i){return (int)$i['codAdicional'];}, AdicionalCurriculo::where('tbAdicionalCurriculo.codCurriculo', '=', $codCurriculo)->get()->toArray());
-        $adicionaisNovos      = $this->agruparAdicionais($request->escolaridadeCurriculo, $request->alfabetizacaoCurriculo, $request->habilidadeCurriculo);
-        $this->criaAdicionais($curriculo->codCurriculo, array_diff($adicionaisNovos, $adicionaisExistentes));
-        $this->removeAdicionais($curriculo->codCurriculo, array_diff($adicionaisExistentes, $adicionaisNovos));
+        $this->criaAdicionais($curriculo->codCurriculo, array_diff($request->adicionalCurriculo, $adicionaisExistentes));
+        $this->removeAdicionais($curriculo->codCurriculo, array_diff($adicionaisExistentes, $request->adicionalCurriculo));
 
         if ( $request->has('videoArquivo') ) {
             $this->deletaVideo($curriculo['videoCurriculo'], PASTA_UPLOADS);
@@ -90,26 +87,6 @@ class CurriculoController extends Controller {
      */
     public function destroy(int $codCurriculo){
         Curriculo::destroy($codCurriculo);
-    }
-
-    /**
-     * Agrupa e retorna os adicionais
-     * de um currículo
-     *
-     * @param int $escolaridade
-     * @param int $alfabetizacao
-     * @param array $habilidades
-     * @return array
-     */
-    private function agruparAdicionais(int $escolaridade, int $alfabetizacao, array $habilidades){
-        $adicionais = [];
-        $adicionais[] = $escolaridade;
-        $adicionais[] = $alfabetizacao;
-        foreach ( $habilidades as $codAdicional ) {
-            $adicionais[] = (int)$codAdicional;
-        }
-
-        return $adicionais;
     }
 
     /**
