@@ -43,6 +43,7 @@ $router->group(['prefix' => 'candidato'], function () use ($router) {
 $router->group(['prefix' => 'candidatura'], function () use ($router) {
     $router->get('/', 'CandidaturaController@index');
     $router->get('/{codCandidatura}', 'CandidaturaController@show');
+    $router->get('/{codCandidatura}/status', 'StatusController@getPorCandidatura');
     $router->post('/', 'CandidaturaController@store');
     $router->delete('/{codCandidatura}', 'CandidaturaController@destroy');
     $router->put('{codCandidatura}/status/', 'CandidaturaController@trocarStatus');
@@ -102,6 +103,13 @@ $router->group(['prefix' => 'profissao'], function () use ($router) {
     $router->post('/', 'ProfissaoController@store');
     $router->put('/{codProfissao}', 'ProfissaoController@update');
     $router->delete('/{codProfissao}', 'ProfissaoController@destroy');
+});
+
+$router->group(['prefix' => 'status'], function () use ($router) {
+    $router->get('/', 'StatusController@index');
+    $router->get('/{codStatus}', 'StatusController@show');
+    $router->post('/', 'StatusController@store');
+    $router->put('/{codStatus}', 'StatusController@update');
 });
 
 $router->group(['prefix' => 'vaga'], function () use ($router) {
