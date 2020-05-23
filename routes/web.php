@@ -112,6 +112,15 @@ $router->group(['prefix' => 'status'], function () use ($router) {
     $router->put('/{codStatus}', 'StatusController@update');
 });
 
+$router->group(['prefix' => 'tipo-adicional'], function () use ($router) {
+    $router->get('/', 'TipoAdicionalController@index');
+    $router->get('/{codTipoAdicional}', 'TipoAdicionalController@show');
+    $router->get('/nome/{nomeTipo}', 'TipoAdicionalController@getPorNome');
+    $router->post('/', 'TipoAdicionalController@store');
+    $router->put('/{codTipoAdicional}', 'TipoAdicionalController@update');
+    $router->delete('/{codTipoAdicional}', 'TipoAdicionalController@destroy');
+});
+
 $router->group(['prefix' => 'vaga'], function () use ($router) {
     $router->get('/{codVaga}/beneficio', 'BeneficioController@getPorVaga');
     $router->get('/beneficio/{codBeneficio}', 'BeneficioController@show');
