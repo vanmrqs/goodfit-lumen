@@ -34,7 +34,7 @@ class Controller extends BaseController
      * @param string $pastaOrigem
      */
     public function deletaImagem($imagem, $pastaOrigem){
-        $imagem = app()->basePath('public/images/'.$pastaOrigem.'/' . $imagem);
+        $imagem = app()->basePath('public/images/' . $pastaOrigem . '/' . $imagem);
 
         if ( file_exists($imagem) ) {
             unlink($imagem);
@@ -55,5 +55,19 @@ class Controller extends BaseController
         $video->move(app()->basePath('public/videos/'.$pastaDestino), $nomeVideo);
 
         return $nomeVideo;
+    }
+
+    /**
+     * Apaga um vídeo existente
+     *
+     * @param $video
+     * @param $pastaOrigem
+     */
+    public function deletaVideo($video, $pastaOrigem){
+        $video = app()->basePath('public/videos/' . $pastaOrigem . '/' . $video);
+
+        if ( file_exists($video) ) {
+            unlink($video);
+        }
     }
 }
