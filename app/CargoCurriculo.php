@@ -17,8 +17,8 @@ class CargoCurriculo extends Model
       'codCurriculo' => 'integer|required'
   ];
 
-  public function Cargo(){
-    return $this->hasOne(Profissao::class, 'codProfissao', 'codProfissao');
+  public function Categoria(){
+    return $this->hasOne(Profissao::class, 'codCategoria', 'codCategoria');
   }
 
   public function Curriculo(){

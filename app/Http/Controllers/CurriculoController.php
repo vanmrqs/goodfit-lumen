@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 
 use App\AdicionalCurriculo;
+use App\CargoCurriculo;
+use App\Categoria;
 use App\Curriculo;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -50,6 +52,9 @@ class CurriculoController extends Controller {
 
         // Cria adicionais de curriculo (Escolaridade, alfabetização e habilidades)
         $this->criaAdicionais($curriculo->codCurriculo, $request->adicionalCurriculo);
+
+        // Adiciona cargos em um currículo
+        $this->adicionaCargo($curriculo->codCurriculo, $request->cargoCurriculo);
     }
 
     /**
@@ -64,15 +69,16 @@ class CurriculoController extends Controller {
 
         $curriculo  = Curriculo::findOrFail($codCurriculo);
 
-        // Edita os adicionais de um currículo (Escolaridade, alfabetização e habilidades)
-        $adicionaisExistentes = array_map(function($i){return (int)$i['codAdicional'];}, AdicionalCurriculo::where('tbAdicionalCurriculo.codCurriculo', '=', $codCurriculo)->get()->toArray());
-        $this->criaAdicionais($curriculo->codCurriculo, array_diff($request->adicionalCurriculo, $adicionaisExistentes));
-        $this->removeAdicionais($curriculo->codCurriculo, array_diff($adicionaisExistentes, $request->adicionalCurriculo));
-
         if ( $request->has('videoArquivo') ) {
             $this->deletaVideo($curriculo['videoCurriculo'], PASTA_UPLOADS);
             $request['videoCurriculo'] = $this->uploadVideo($request->videoArquivo, PASTA_UPLOADS);
         }
+
+        // Edita os adicionais de um currículo (Escolaridade, alfabetização e habilidades)
+        $this->editaAdicionais($curriculo->codCurriculo, $request->adicionalCurriculo);
+
+        // Edita os cargos de um currículo (Categorias de profissão)
+        $this->editaCargo($curriculo->codCurriculo, $request->cargoCurriculo);
 
         $curriculo['videoCurriculo']     = $request->videoCurriculo;
         $curriculo['descricaoCurriculo'] = $request->descricaoCurriculo;
@@ -119,5 +125,70 @@ class CurriculoController extends Controller {
 
             AdicionalCurriculo::destroy($adicional->codAdicionalCurriculo);
         }
+    }
+
+    /**
+     * Edita os adicionais de um currículo
+     *
+     * @param int $codCurriculo
+     * @param array $adicionais
+     */
+    private function editaAdicionais(int $codCurriculo, array $adicionais){
+        $adicionaisExistentes = array_map(
+            function($i){
+                return (int)$i['codAdicional'];
+            }, AdicionalCurriculo::where('tbAdicionalCurriculo.codCurriculo', '=', $codCurriculo)->get()->toArray()
+        );
+
+        $this->criaAdicionais($codCurriculo, array_diff($adicionais, $adicionaisExistentes));
+        $this->removeAdicionais($codCurriculo, array_diff($adicionaisExistentes, $adicionais));
+    }
+
+    /**
+     * Adiciona cargos (categorias de profissão)
+     * em um currículo
+     *
+     * @param int $codCurriculo
+     * @param array $cargos
+     */
+    private function adicionaCargo(int $codCurriculo, array $cargos){
+        $cargo = [];
+        $cargo['codCurriculo'] = $codCurriculo;
+        foreach ( $cargos as $codCategoria ) {
+            $cargo['codCategoria'] = $codCategoria;
+            CargoCurriculo::create($cargo);
+        }
+    }
+
+    /**
+     * @param int $codCurriculo
+     * @param array $cargos
+     */
+    private function removeCargo(int $codCurriculo, array $cargos){
+        foreach ( $cargos as $codCategoria ) {
+            $cargo = Categoria::where([
+                ['codCurriculo', $codCurriculo],
+                ['codCategoria', $codCategoria]
+            ])->first();
+
+            CargoCurriculo::destroy($cargo->codCargoCurriculo);
+        }
+    }
+
+    /**
+     * Edita os cargos de um currículo
+     *
+     * @param int $codCurriculo
+     * @param array $cargos
+     */
+    private function editaCargo(int $codCurriculo, array $cargos){
+        $cargosExistentes = array_map(
+            function($i){
+                return (int)$i['codAdicional'];
+            }, CargoCurriculo::where('tbCargoCurriculo.codCurriculo', '=', $codCurriculo)->get()->toArray()
+        );
+
+        $this->adicionaCargo($codCurriculo, array_diff($cargos, $cargosExistentes));
+        $this->removeCargo($codCurriculo, array_diff($cargosExistentes, $cargos));
     }
 }
