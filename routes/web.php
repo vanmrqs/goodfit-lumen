@@ -51,6 +51,7 @@ $router->group(['prefix' => 'candidatura'], function () use ($router) {
 $router->group(['prefix' => 'categoria'], function () use ($router) {
     $router->get('/', 'CategoriaController@index');
     $router->get('/{codCategoria}', 'CategoriaController@show');
+    $router->get('/{codCategoria}/profissao', 'ProfissaoController@getPorCategoria');
     $router->post('/', 'CategoriaController@store');
     $router->put('/{codCategoria}', 'CategoriaController@update');
     $router->delete('/{codCategoria}', 'CategoriaController@destroy');
@@ -93,6 +94,14 @@ $router->group(['prefix' => 'nivel-usuario'], function () use ($router) {
     $router->post('/', 'NivelUsuarioController@store');
     $router->put('/{codNivelUsuario}', 'NivelUsuarioController@update');
     $router->delete('/{codNivelUsuario}', 'NivelUsuarioController@destroy');
+});
+
+$router->group(['prefix' => 'profissao'], function () use ($router) {
+    $router->get('/', 'ProfissaoController@index');
+    $router->get('/{codProfissao}', 'ProfissaoController@show');
+    $router->post('/', 'ProfissaoController@store');
+    $router->put('/{codProfissao}', 'ProfissaoController@update');
+    $router->delete('/{codProfissao}', 'ProfissaoController@destroy');
 });
 
 $router->group(['prefix' => 'vaga'], function () use ($router) {
