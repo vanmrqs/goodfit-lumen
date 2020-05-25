@@ -67,6 +67,8 @@ $router->group(['prefix' => 'curriculo'], function () use ($router) {
 
     $router->get('/adicional/{codAdicionalCurriculo}', 'AdicionalCurriculoController@show');
     $router->post('/adicional', 'AdicionalCurriculoController@store');
+    $router->post('/adicionais', 'AdicionalCurriculoController@criaAdicionais');
+    $router->put('/adicionais/{codCurriculo}', 'AdicionalCurriculoController@editaAdicionais');
     $router->delete('/adicional/{codAdicionalCurriculo}', 'AdicionalCurriculoController@destroy');
     $router->get('/{codCurriculo}/adicional', 'AdicionalController@getEmCurriculo');
 
@@ -74,6 +76,8 @@ $router->group(['prefix' => 'curriculo'], function () use ($router) {
 
     $router->get('/cargo/{codCargoCurriculo}', 'CargoCurriculoController@show');
     $router->post('/cargo', 'CargoCurriculoController@store');
+    $router->post('/cargos', 'CargoCurriculoController@adicionaCargos');
+    $router->put('/cargos/{codCurriculo}', 'CargoCurriculoController@editaCargos');
     $router->delete('/cargo/{codCargoCurriculo}', 'CargoCurriculoController@destroy');
 });
 

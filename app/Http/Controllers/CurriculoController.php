@@ -40,6 +40,7 @@ class CurriculoController extends Controller {
      * adicionais
      *
      * @param Request $request
+     * @return int
      * @throws ValidationException
      */
     public function store(Request $request){
@@ -50,11 +51,7 @@ class CurriculoController extends Controller {
         $curriculo = $this->validate($request, Curriculo::$rules);
         $curriculo = Curriculo::create($curriculo);
 
-        // Cria adicionais de curriculo (Escolaridade, alfabetização e habilidades)
-        $this->criaAdicionais($curriculo->codCurriculo, $request->adicionalCurriculo);
-
-        // Adiciona cargos em um currículo
-        $this->adicionaCargo($curriculo->codCurriculo, $request->cargoCurriculo);
+        return $curriculo->codCurriculo;
     }
 
     /**
@@ -74,12 +71,6 @@ class CurriculoController extends Controller {
             $request['videoCurriculo'] = $this->uploadVideo($request->videoArquivo, PASTA_UPLOADS);
         }
 
-        // Edita os adicionais de um currículo (Escolaridade, alfabetização e habilidades)
-        $this->editaAdicionais($curriculo->codCurriculo, $request->adicionalCurriculo);
-
-        // Edita os cargos de um currículo (Categorias de profissão)
-        $this->editaCargo($curriculo->codCurriculo, $request->cargoCurriculo);
-
         $curriculo['videoCurriculo']     = $request->videoCurriculo;
         $curriculo['descricaoCurriculo'] = $request->descricaoCurriculo;
         $curriculo['codCandidato']       = $request->codCandidato;
@@ -93,102 +84,5 @@ class CurriculoController extends Controller {
      */
     public function destroy(int $codCurriculo){
         Curriculo::destroy($codCurriculo);
-    }
-
-    /**
-     * Cria adicionais em um currículo
-     *
-     * @param int $codCurriculo
-     * @param array $adicionais
-     */
-    private function criaAdicionais(int $codCurriculo, array $adicionais){
-        $adicional = [];
-        $adicional['codCurriculo'] = $codCurriculo;
-        foreach ( $adicionais as $codAdicional ) {
-            $adicional['codAdicional'] = $codAdicional;
-            AdicionalCurriculo::create($adicional);
-        }
-    }
-
-    /**
-     * Remove adicionais de um currículo
-     *
-     * @param int $codCurriculo
-     * @param array $adicionais
-     */
-    private function removeAdicionais(int $codCurriculo, array $adicionais){
-        foreach ( $adicionais as $codAdicional ) {
-            $adicional = AdicionalCurriculo::where([
-                ['tbAdicionalCurriculo.codCurriculo', $codCurriculo],
-                ['tbAdicionalCurriculo.codAdicional', $codAdicional]
-            ])->first();
-
-            AdicionalCurriculo::destroy($adicional->codAdicionalCurriculo);
-        }
-    }
-
-    /**
-     * Edita os adicionais de um currículo
-     *
-     * @param int $codCurriculo
-     * @param array $adicionais
-     */
-    private function editaAdicionais(int $codCurriculo, array $adicionais){
-        $adicionaisExistentes = array_map(
-            function($i){
-                return (int)$i['codAdicional'];
-            }, AdicionalCurriculo::where('tbAdicionalCurriculo.codCurriculo', '=', $codCurriculo)->get()->toArray()
-        );
-
-        $this->criaAdicionais($codCurriculo, array_diff($adicionais, $adicionaisExistentes));
-        $this->removeAdicionais($codCurriculo, array_diff($adicionaisExistentes, $adicionais));
-    }
-
-    /**
-     * Adiciona cargos (categorias de profissão)
-     * em um currículo
-     *
-     * @param int $codCurriculo
-     * @param array $cargos
-     */
-    private function adicionaCargo(int $codCurriculo, array $cargos){
-        $cargo = [];
-        $cargo['codCurriculo'] = $codCurriculo;
-        foreach ( $cargos as $codCategoria ) {
-            $cargo['codCategoria'] = $codCategoria;
-            CargoCurriculo::create($cargo);
-        }
-    }
-
-    /**
-     * @param int $codCurriculo
-     * @param array $cargos
-     */
-    private function removeCargo(int $codCurriculo, array $cargos){
-        foreach ( $cargos as $codCategoria ) {
-            $cargo = Categoria::where([
-                ['codCurriculo', $codCurriculo],
-                ['codCategoria', $codCategoria]
-            ])->first();
-
-            CargoCurriculo::destroy($cargo->codCargoCurriculo);
-        }
-    }
-
-    /**
-     * Edita os cargos de um currículo
-     *
-     * @param int $codCurriculo
-     * @param array $cargos
-     */
-    private function editaCargo(int $codCurriculo, array $cargos){
-        $cargosExistentes = array_map(
-            function($i){
-                return (int)$i['codAdicional'];
-            }, CargoCurriculo::where('tbCargoCurriculo.codCurriculo', '=', $codCurriculo)->get()->toArray()
-        );
-
-        $this->adicionaCargo($codCurriculo, array_diff($cargos, $cargosExistentes));
-        $this->removeCargo($codCurriculo, array_diff($cargosExistentes, $cargos));
     }
 }
