@@ -125,6 +125,14 @@ $router->group(['prefix' => 'tipo-adicional'], function () use ($router) {
     $router->delete('/{codTipoAdicional}', 'TipoAdicionalController@destroy');
 });
 
+$router->group(['prefix' => 'usuario'], function () use ($router) {
+    $router->get('/', 'UsuarioController@index');
+    $router->get('/{codUsuario}', 'UsuarioController@show');
+    $router->post('/', 'UsuarioController@store');
+    $router->put('/{codUsuario}', 'UsuarioController@update');
+    $router->delete('/{codUsuario}', 'UsuarioController@destroy');
+});
+
 $router->group(['prefix' => 'vaga'], function () use ($router) {
     $router->get('/{codVaga}/beneficio', 'BeneficioController@getPorVaga');
     $router->get('/beneficio/{codBeneficio}', 'BeneficioController@show');
