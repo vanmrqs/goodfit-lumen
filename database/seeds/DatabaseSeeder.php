@@ -45,175 +45,175 @@ class DatabaseSeeder extends Seeder
     	]);
 
         //ENDEREÇOS
-        DB::table('tbEndereco')->insert([
-    		[
-    		    'codEndereco'         => 1,
-                'cepEndereco'         => '01538001',
-                'logradouroEndereco'  => 'Avenida Lins de Vasconcelos',
-                'numeroEndereco'      => '1222',
-                'complementoEndereco' => ' ',
-                'bairroEndereco'      => 'Cambuci',
-                'zonaEndereco'        => 'Zona Central',
-                'cidadeEndereco'      => 'São Paulo',
-                'estadoEndereco'      => 'SP',
-    		],
-            [
-                'codEndereco'         => 2,
-                'cepEndereco'         => '04044001',
-                'logradouroEndereco'  => 'Rua Machado Bitencourt',
-                'numeroEndereco'      => '361',
-                'complementoEndereco' => 'Sala 1110',
-                'bairroEndereco'      => 'Vila Clementino',
-                'zonaEndereco'        => 'Zona Sul',
-                'cidadeEndereco'      => 'São Paulo',
-                'estadoEndereco'      => 'SP',
-            ],
-            [
-                'codEndereco'         => 3,
-                'cepEndereco'         => '05425902',
-                'logradouroEndereco'  => 'Avenida Doutora Ruth Cardoso',
-                'numeroEndereco'      => '7221',
-                'complementoEndereco' => ' ',
-                'bairroEndereco'      => 'Pinheiros',
-                'zonaEndereco'        => 'Zona Oeste',
-                'cidadeEndereco'      => 'São Paulo',
-                'estadoEndereco'      => 'SP',
-            ],
-            [
-                'codEndereco'         => 4,
-                'cepEndereco'         => '04002032',
-                'logradouroEndereco'  => 'Rua Teixeira da Silva',
-                'numeroEndereco'      => '531',
-                'complementoEndereco' => ' ',
-                'bairroEndereco'      => 'Paraíso',
-                'zonaEndereco'        => 'Zona Sul',
-                'cidadeEndereco'      => 'São Paulo',
-                'estadoEndereco'      => 'SP',
-            ],
-            [
-                'codEndereco'         => 5,
-                'cepEndereco'         => '01418100',
-                'logradouroEndereco'  => 'Alameda Santos',
-                'numeroEndereco'      => '1054',
-                'complementoEndereco' => ' ',
-                'bairroEndereco'      => 'Jardim Paulista',
-                'zonaEndereco'        => 'Zona Sul',
-                'cidadeEndereco'      => 'São Paulo',
-                'estadoEndereco'      => 'SP',
-            ],
-        ]);
+        // DB::table('tbEndereco')->insert([
+    	// 	[
+    	// 	    'codEndereco'         => 1,
+        //         'cepEndereco'         => '01538001',
+        //         'logradouroEndereco'  => 'Avenida Lins de Vasconcelos',
+        //         'numeroEndereco'      => '1222',
+        //         'complementoEndereco' => ' ',
+        //         'bairroEndereco'      => 'Cambuci',
+        //         'zonaEndereco'        => 'Zona Central',
+        //         'cidadeEndereco'      => 'São Paulo',
+        //         'estadoEndereco'      => 'SP',
+    	// 	],
+        //     [
+        //         'codEndereco'         => 2,
+        //         'cepEndereco'         => '04044001',
+        //         'logradouroEndereco'  => 'Rua Machado Bitencourt',
+        //         'numeroEndereco'      => '361',
+        //         'complementoEndereco' => 'Sala 1110',
+        //         'bairroEndereco'      => 'Vila Clementino',
+        //         'zonaEndereco'        => 'Zona Sul',
+        //         'cidadeEndereco'      => 'São Paulo',
+        //         'estadoEndereco'      => 'SP',
+        //     ],
+        //     [
+        //         'codEndereco'         => 3,
+        //         'cepEndereco'         => '05425902',
+        //         'logradouroEndereco'  => 'Avenida Doutora Ruth Cardoso',
+        //         'numeroEndereco'      => '7221',
+        //         'complementoEndereco' => ' ',
+        //         'bairroEndereco'      => 'Pinheiros',
+        //         'zonaEndereco'        => 'Zona Oeste',
+        //         'cidadeEndereco'      => 'São Paulo',
+        //         'estadoEndereco'      => 'SP',
+        //     ],
+        //     [
+        //         'codEndereco'         => 4,
+        //         'cepEndereco'         => '04002032',
+        //         'logradouroEndereco'  => 'Rua Teixeira da Silva',
+        //         'numeroEndereco'      => '531',
+        //         'complementoEndereco' => ' ',
+        //         'bairroEndereco'      => 'Paraíso',
+        //         'zonaEndereco'        => 'Zona Sul',
+        //         'cidadeEndereco'      => 'São Paulo',
+        //         'estadoEndereco'      => 'SP',
+        //     ],
+        //     [
+        //         'codEndereco'         => 5,
+        //         'cepEndereco'         => '01418100',
+        //         'logradouroEndereco'  => 'Alameda Santos',
+        //         'numeroEndereco'      => '1054',
+        //         'complementoEndereco' => ' ',
+        //         'bairroEndereco'      => 'Jardim Paulista',
+        //         'zonaEndereco'        => 'Zona Sul',
+        //         'cidadeEndereco'      => 'São Paulo',
+        //         'estadoEndereco'      => 'SP',
+        //     ],
+        // ]);
 
         //USUARIOS
-        DB::table('tbUsuario')->insert(array(
-            //Empresas
-        	[
-            	'codUsuario'      => 1,
-                'fotoUsuario'     => 'empresa-colegio.jpg',
-                'loginUsuario'    => 'Education & Future',
-                'password'        => '$2y$10$UGYW4JK2i.8Jv1IQdHpZdu9hX.HwIXukFjpZxYcS5Y.KPEqciHNai',
-                'email'           =>'education@future.com.br',
-                'codNivelUsuario' => 3,
-                'codEndereco'     => 1,
-        	],
-            [
-                'codUsuario'      => 2,
-                'fotoUsuario'     => 'claro.jpg',
-                'loginUsuario'    => 'Claro',
-                'password'        => '$2y$10$UGYW4JK2i.8Jv1IQdHpZdu9hX.HwIXukFjpZxYcS5Y.KPEqciHNai',
-                'email'           =>'claro@telefonia.com.br',
-                'codNivelUsuario' => 3,
-                'codEndereco'     => 2,
-            ],
-            [
-                'codUsuario'      => 3,
-                'fotoUsuario'     => 'linx.jpg',
-                'loginUsuario'    => 'Linx',
-                'password'        => '$2y$10$UGYW4JK2i.8Jv1IQdHpZdu9hX.HwIXukFjpZxYcS5Y.KPEqciHNai',
-                'email'           =>'linx@software.com.br',
-                'codNivelUsuario' => 3,
-                'codEndereco'     => 3,
-            ],
-            [
-                'codUsuario'      => 4,
-                'fotoUsuario'     => 'cia-terra.jpg',
-                'loginUsuario'    => 'ciaTerra',
-                'password'        => '$2y$10$UGYW4JK2i.8Jv1IQdHpZdu9hX.HwIXukFjpZxYcS5Y.KPEqciHNai',
-                'email'           =>'cia@terra.com.br',
-                'codNivelUsuario' => 3,
-                'codEndereco'     => 4,
-            ],
-            [
-                'codUsuario'      => 5,
-                'fotoUsuario'     => 'starbucks.png',
-                'loginUsuario'    => 'starbucks',
-                'password'        => '$2y$10$UGYW4JK2i.8Jv1IQdHpZdu9hX.HwIXukFjpZxYcS5Y.KPEqciHNai',
-                'email'           =>'starbucks@gmail.com.br',
-                'codNivelUsuario' => 3,
-                'codEndereco'     => 5,
-            ],
+        // DB::table('tbUsuario')->insert(array(
+        //     //Empresas
+        // 	[
+        //     	'codUsuario'      => 1,
+        //         'fotoUsuario'     => 'empresa-colegio.jpg',
+        //         'loginUsuario'    => 'Education & Future',
+        //         'password'        => '$2y$10$UGYW4JK2i.8Jv1IQdHpZdu9hX.HwIXukFjpZxYcS5Y.KPEqciHNai',
+        //         'email'           =>'education@future.com.br',
+        //         'codNivelUsuario' => 3,
+        //         'codEndereco'     => 1,
+        // 	],
+        //     [
+        //         'codUsuario'      => 2,
+        //         'fotoUsuario'     => 'claro.jpg',
+        //         'loginUsuario'    => 'Claro',
+        //         'password'        => '$2y$10$UGYW4JK2i.8Jv1IQdHpZdu9hX.HwIXukFjpZxYcS5Y.KPEqciHNai',
+        //         'email'           =>'claro@telefonia.com.br',
+        //         'codNivelUsuario' => 3,
+        //         'codEndereco'     => 2,
+        //     ],
+        //     [
+        //         'codUsuario'      => 3,
+        //         'fotoUsuario'     => 'linx.jpg',
+        //         'loginUsuario'    => 'Linx',
+        //         'password'        => '$2y$10$UGYW4JK2i.8Jv1IQdHpZdu9hX.HwIXukFjpZxYcS5Y.KPEqciHNai',
+        //         'email'           =>'linx@software.com.br',
+        //         'codNivelUsuario' => 3,
+        //         'codEndereco'     => 3,
+        //     ],
+        //     [
+        //         'codUsuario'      => 4,
+        //         'fotoUsuario'     => 'cia-terra.jpg',
+        //         'loginUsuario'    => 'ciaTerra',
+        //         'password'        => '$2y$10$UGYW4JK2i.8Jv1IQdHpZdu9hX.HwIXukFjpZxYcS5Y.KPEqciHNai',
+        //         'email'           =>'cia@terra.com.br',
+        //         'codNivelUsuario' => 3,
+        //         'codEndereco'     => 4,
+        //     ],
+        //     [
+        //         'codUsuario'      => 5,
+        //         'fotoUsuario'     => 'starbucks.png',
+        //         'loginUsuario'    => 'starbucks',
+        //         'password'        => '$2y$10$UGYW4JK2i.8Jv1IQdHpZdu9hX.HwIXukFjpZxYcS5Y.KPEqciHNai',
+        //         'email'           =>'starbucks@gmail.com.br',
+        //         'codNivelUsuario' => 3,
+        //         'codEndereco'     => 5,
+        //     ],
 
-            //Candidatos
-            [
-        		    'codUsuario'      => 6,
-                'fotoUsuario'     => 'perfil.png',
-                'loginUsuario'    => 'Candidato',
-                'password'        => '$2y$10$Wrjg/tHTvKekdW5Qc/k4S.BrIJVVfWe0B1MoJ.EVarRbQMzkrw.Ii',
-                'email'           => 'candidato@example.com',
-                'codNivelUsuario' => 2,
-                'codEndereco'     => 1,
-        	],
-        ));
+        //     //Candidatos
+        //     [
+        // 		    'codUsuario'      => 6,
+        //         'fotoUsuario'     => 'perfil.png',
+        //         'loginUsuario'    => 'Candidato',
+        //         'password'        => '$2y$10$Wrjg/tHTvKekdW5Qc/k4S.BrIJVVfWe0B1MoJ.EVarRbQMzkrw.Ii',
+        //         'email'           => 'candidato@example.com',
+        //         'codNivelUsuario' => 2,
+        //         'codEndereco'     => 1,
+        // 	],
+        // ));
 
         //EMPRESAS
-        DB::table('tbEmpresa')->insert([
-        	[
-            	'codEmpresa'          => 1,
-                'razaoSocialEmpresa'  => 'Education & Future',
-                'nomeFantasiaEmpresa' => 'Education & Future',
-                'cnpjEmpresa'         => '76627089000182',
-                'codUsuario'          => 1,
-    	   ],
-           [
-                'codEmpresa'          => 2,
-                'razaoSocialEmpresa'  => 'Claro',
-                'nomeFantasiaEmpresa' => 'Claro',
-                'cnpjEmpresa'         => '40432544000147',
-                'codUsuario'          => 2,
-           ],
-           [
-                'codEmpresa'          => 3,
-                'razaoSocialEmpresa'  => 'Linx Sistemas e Consultoria',
-                'nomeFantasiaEmpresa' => 'Linx',
-                'cnpjEmpresa'         => '54517628000198',
-                'codUsuario'          => 3,
-           ],
-           [
-                'codEmpresa'          => 4,
-                'razaoSocialEmpresa'  => 'CIA Terra',
-                'nomeFantasiaEmpresa' => 'CIA Terra',
-                'cnpjEmpresa'         => '03409936000169',
-                'codUsuario'          => 4,
-           ],
-           [
-                'codEmpresa'          => 5,
-                'razaoSocialEmpresa'  => 'Starbucks',
-                'nomeFantasiaEmpresa' => 'STARBUCKS BRASIL COMERCIO DE CAFES LTDA',
-                'cnpjEmpresa'         => '07984267000100',
-                'codUsuario'          => 5,
-           ],
-        ]);
+        // DB::table('tbEmpresa')->insert([
+        // 	[
+        //     	'codEmpresa'          => 1,
+        //         'razaoSocialEmpresa'  => 'Education & Future',
+        //         'nomeFantasiaEmpresa' => 'Education & Future',
+        //         'cnpjEmpresa'         => '76627089000182',
+        //         'codUsuario'          => 1,
+    	//    ],
+        //    [
+        //         'codEmpresa'          => 2,
+        //         'razaoSocialEmpresa'  => 'Claro',
+        //         'nomeFantasiaEmpresa' => 'Claro',
+        //         'cnpjEmpresa'         => '40432544000147',
+        //         'codUsuario'          => 2,
+        //    ],
+        //    [
+        //         'codEmpresa'          => 3,
+        //         'razaoSocialEmpresa'  => 'Linx Sistemas e Consultoria',
+        //         'nomeFantasiaEmpresa' => 'Linx',
+        //         'cnpjEmpresa'         => '54517628000198',
+        //         'codUsuario'          => 3,
+        //    ],
+        //    [
+        //         'codEmpresa'          => 4,
+        //         'razaoSocialEmpresa'  => 'CIA Terra',
+        //         'nomeFantasiaEmpresa' => 'CIA Terra',
+        //         'cnpjEmpresa'         => '03409936000169',
+        //         'codUsuario'          => 4,
+        //    ],
+        //    [
+        //         'codEmpresa'          => 5,
+        //         'razaoSocialEmpresa'  => 'Starbucks',
+        //         'nomeFantasiaEmpresa' => 'STARBUCKS BRASIL COMERCIO DE CAFES LTDA',
+        //         'cnpjEmpresa'         => '07984267000100',
+        //         'codUsuario'          => 5,
+        //    ],
+        // ]);
 
         //CANDIDATOS
-        DB::table('tbCandidato')->insert([
-    	   [
-        	    'codCandidato'            => 1,
-                'nomeCandidato'           => 'Candidato',
-                'cpfCandidato'            => '12345678901',
-                'rgCandidato'             => '123',
-                'dataNascimentoCandidato' => '895795200',
-                'codUsuario'              => 6,
-    	   ],
-        ]);
+        // DB::table('tbCandidato')->insert([
+    	//    [
+        // 	    'codCandidato'            => 1,
+        //         'nomeCandidato'           => 'Candidato',
+        //         'cpfCandidato'            => '12345678901',
+        //         'rgCandidato'             => '123',
+        //         'dataNascimentoCandidato' => '895795200',
+        //         'codUsuario'              => 6,
+    	//    ],
+        // ]);
 
 
         //TIPOS ADICIONAIS
@@ -511,121 +511,121 @@ class DatabaseSeeder extends Seeder
     	]);
 
         //VAGAS
-        DB::table('tbVaga')->insert([
-    	   [
-    	      'codVaga'               => 1,
-            'descricaoVaga'        => 'Irá ministrar aula, fazer planejamento, preencher relatórios, fazer provas e trabalhos, semanário e trabalhar com projetos.',
-            'salarioVaga'          => 2,
-            'cargaHorariaVaga'     => '44:00:00',
-            'quantidadeVaga'       => 5,
-            'codEmpresa'           => 1,
-            'codProfissao'         => 1,
-            'codEndereco'          => 1,
-            'codRegimeContratacao' => 1,
-    	   ],
-           [
-            'codVaga'                  => 2,
-            'descricaoVaga'            => 'Realizar ligações para nossos clientes através de nossa central de Televendas, ofertar os produtos da NET & Claro (TV a cabo, internet banda larga, telefônia fixa e móvel)',
-            'salarioVaga'              => 1500,
-            'cargaHorariaVaga'         => '44:00:00',
-            'quantidadeVaga'           => 15,
-            'codEmpresa'               => 2,
-            'codProfissao'             => 2,
-            'codEndereco'              => 2,
-            'codRegimeContratacao'     => 1,
-           ],
-           [
-            'codVaga'                  => 3,
-            'descricaoVaga'            => 'Criar a plataforma de anúncios e produtos patrocinados que integram os produtos da Linx Impulse seguindo as necessidades e padrões elevados de exigência dos nossos clientes, criando um código de qualidade, escalável e proporcionando a melhor experiência ao cliente final',
-            'salarioVaga'              => 2500,
-            'cargaHorariaVaga'         => '44:00:00',
-            'quantidadeVaga'           => 1,
-            'codEmpresa'               => 3,
-            'codProfissao'             => 3,
-            'codEndereco'              => 3,
-            'codRegimeContratacao'     => 4,
-           ],
-           [
-            'codVaga'                  => 4,
-            'descricaoVaga'            => 'Lecionar aulas de dança para iniciantes',
-            'salarioVaga'              => 3000,
-            'cargaHorariaVaga'         => '20:00:00',
-            'quantidadeVaga'           => 1,
-            'codEmpresa'               => 4,
-            'codProfissao'             => 4,
-            'codEndereco'              => 4,
-            'codRegimeContratacao'     => 1,
-           ],
-           [
-            'codVaga'                  => 5,
-            'descricaoVaga'            => 'Se você tem interesse em fazer parte de uma empresa onde você pode impactar pessoas, viver seus valores e desfrutar de grandes oportunidades, gostaríamos de te conhecer.',
-            'salarioVaga'              => 1500,
-            'cargaHorariaVaga'         => '44:00:00',
-            'quantidadeVaga'           => 1,
-            'codEmpresa'               => 5,
-            'codProfissao'             => 5,
-            'codEndereco'              => 5,
-            'codRegimeContratacao'     => 3,
-           ],
-        ]);
+        // DB::table('tbVaga')->insert([
+    	//    [
+    	//       'codVaga'               => 1,
+        //     'descricaoVaga'        => 'Irá ministrar aula, fazer planejamento, preencher relatórios, fazer provas e trabalhos, semanário e trabalhar com projetos.',
+        //     'salarioVaga'          => 2,
+        //     'cargaHorariaVaga'     => '44:00:00',
+        //     'quantidadeVaga'       => 5,
+        //     'codEmpresa'           => 1,
+        //     'codProfissao'         => 1,
+        //     'codEndereco'          => 1,
+        //     'codRegimeContratacao' => 1,
+    	//    ],
+        //    [
+        //     'codVaga'                  => 2,
+        //     'descricaoVaga'            => 'Realizar ligações para nossos clientes através de nossa central de Televendas, ofertar os produtos da NET & Claro (TV a cabo, internet banda larga, telefônia fixa e móvel)',
+        //     'salarioVaga'              => 1500,
+        //     'cargaHorariaVaga'         => '44:00:00',
+        //     'quantidadeVaga'           => 15,
+        //     'codEmpresa'               => 2,
+        //     'codProfissao'             => 2,
+        //     'codEndereco'              => 2,
+        //     'codRegimeContratacao'     => 1,
+        //    ],
+        //    [
+        //     'codVaga'                  => 3,
+        //     'descricaoVaga'            => 'Criar a plataforma de anúncios e produtos patrocinados que integram os produtos da Linx Impulse seguindo as necessidades e padrões elevados de exigência dos nossos clientes, criando um código de qualidade, escalável e proporcionando a melhor experiência ao cliente final',
+        //     'salarioVaga'              => 2500,
+        //     'cargaHorariaVaga'         => '44:00:00',
+        //     'quantidadeVaga'           => 1,
+        //     'codEmpresa'               => 3,
+        //     'codProfissao'             => 3,
+        //     'codEndereco'              => 3,
+        //     'codRegimeContratacao'     => 4,
+        //    ],
+        //    [
+        //     'codVaga'                  => 4,
+        //     'descricaoVaga'            => 'Lecionar aulas de dança para iniciantes',
+        //     'salarioVaga'              => 3000,
+        //     'cargaHorariaVaga'         => '20:00:00',
+        //     'quantidadeVaga'           => 1,
+        //     'codEmpresa'               => 4,
+        //     'codProfissao'             => 4,
+        //     'codEndereco'              => 4,
+        //     'codRegimeContratacao'     => 1,
+        //    ],
+        //    [
+        //     'codVaga'                  => 5,
+        //     'descricaoVaga'            => 'Se você tem interesse em fazer parte de uma empresa onde você pode impactar pessoas, viver seus valores e desfrutar de grandes oportunidades, gostaríamos de te conhecer.',
+        //     'salarioVaga'              => 1500,
+        //     'cargaHorariaVaga'         => '44:00:00',
+        //     'quantidadeVaga'           => 1,
+        //     'codEmpresa'               => 5,
+        //     'codProfissao'             => 5,
+        //     'codEndereco'              => 5,
+        //     'codRegimeContratacao'     => 3,
+        //    ],
+        // ]);
 
         //REQUISITOS
-        DB::table('tbRequisitoVaga')->insert([
-        	[
-        	    'codRequisitoVaga'             => 1,
-                'obrigatoriedadeRequisitoVaga' => 0,
-                'codAdicional'                 => 1,
-                'codVaga'                      => 1,
-        	],
-            [
-        		'codRequisitoVaga'             => 2,
-                'obrigatoriedadeRequisitoVaga' => 0,
-                'codAdicional'                 => 6,
-                'codVaga'                      => 1,
-        	],
-            [
-        		'codRequisitoVaga'             => 3,
-                'obrigatoriedadeRequisitoVaga' => 0,
-                'codAdicional'                 => 11,
-                'codVaga'                      => 1,
-        	],
-            [
-        		'codRequisitoVaga'             => 4,
-                'obrigatoriedadeRequisitoVaga' => 1,
-                'codAdicional'                 => 10,
-                'codVaga'                      => 1,
-        	],
-            [
-                'codRequisitoVaga'             => 5,
-                'obrigatoriedadeRequisitoVaga' => 1,
-                'codAdicional'                 => 3,
-                'codVaga'                      => 5,
-            ],
-            [
-                'codRequisitoVaga'             => 6,
-                'obrigatoriedadeRequisitoVaga' => 0,
-                'codAdicional'                 => 4,
-                'codVaga'                      => 5,
-            ],
-    	]);
+        // DB::table('tbRequisitoVaga')->insert([
+        // 	[
+        // 	    'codRequisitoVaga'             => 1,
+        //         'obrigatoriedadeRequisitoVaga' => 0,
+        //         'codAdicional'                 => 1,
+        //         'codVaga'                      => 1,
+        // 	],
+        //     [
+        // 		'codRequisitoVaga'             => 2,
+        //         'obrigatoriedadeRequisitoVaga' => 0,
+        //         'codAdicional'                 => 6,
+        //         'codVaga'                      => 1,
+        // 	],
+        //     [
+        // 		'codRequisitoVaga'             => 3,
+        //         'obrigatoriedadeRequisitoVaga' => 0,
+        //         'codAdicional'                 => 11,
+        //         'codVaga'                      => 1,
+        // 	],
+        //     [
+        // 		'codRequisitoVaga'             => 4,
+        //         'obrigatoriedadeRequisitoVaga' => 1,
+        //         'codAdicional'                 => 10,
+        //         'codVaga'                      => 1,
+        // 	],
+        //     [
+        //         'codRequisitoVaga'             => 5,
+        //         'obrigatoriedadeRequisitoVaga' => 1,
+        //         'codAdicional'                 => 3,
+        //         'codVaga'                      => 5,
+        //     ],
+        //     [
+        //         'codRequisitoVaga'             => 6,
+        //         'obrigatoriedadeRequisitoVaga' => 0,
+        //         'codAdicional'                 => 4,
+        //         'codVaga'                      => 5,
+        //     ],
+    	// ]);
 
       //Beneficios
-      DB::table('tbBeneficio')->insert([
-        [
-          'codBeneficio'  => 1,
-          'nomeBeneficio' => "Vale Transporte",
-          'codVaga'       => 5,
-        ],
-        [
-          'codBeneficio'  => 2,
-          'nomeBeneficio' => "Vale Alimentação",
-          'codVaga'       => 5,
-        ],
-        [
-          'codBeneficio'  => 3,
-          'nomeBeneficio' => "Assistência Médica",
-          'codVaga'       => 5,
-        ],
-    ]);
+    //   DB::table('tbBeneficio')->insert([
+    //     [
+    //       'codBeneficio'  => 1,
+    //       'nomeBeneficio' => "Vale Transporte",
+    //       'codVaga'       => 5,
+    //     ],
+    //     [
+    //       'codBeneficio'  => 2,
+    //       'nomeBeneficio' => "Vale Alimentação",
+    //       'codVaga'       => 5,
+    //     ],
+    //     [
+    //       'codBeneficio'  => 3,
+    //       'nomeBeneficio' => "Assistência Médica",
+    //       'codVaga'       => 5,
+    //     ],
+    // ]);
     }
 }
