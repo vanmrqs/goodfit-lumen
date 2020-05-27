@@ -42,13 +42,21 @@ class UsuarioController extends Controller {
     public function store(Request $request){
         $usuario = $this->validate($request, Usuario::$rules);
 
-        $usuario->fotoUsuario = $this->uploadFoto($request->foto, $request->codNivelUsuario);
+        $usuario['fotoUsuario'] = $this->uploadFoto($request->foto, $request->codNivelUsuario);
+        $usuario['password']    = password_hash($request->password, PASSWORD_BCRYPT);
 
         $usuario = Usuario::create($usuario);
 
         return $usuario->codUsuario;
     }
 
+    /**
+     * Atualiza um usuário
+     *
+     * @param Request $request
+     * @param int $codUsuario
+     * @throws ValidationException
+     */
     public function update(Request $request, int $codUsuario){
         $this->validate($request, Usuario::$rules);
 
@@ -60,11 +68,16 @@ class UsuarioController extends Controller {
         }
 
         $usuario['loginUsuario'] = $request->loginUsuario;
-        $usuario['email'] = $request->email;
-        $usuario['password'] = $request->password;
+        $usuario['email']        = $request->email;
+        $usuario['password']     = password_hash($request->password, PASSWORD_BCRYPT)
         $usuario->save();
     }
 
+    /**
+     * Exclui um usuário
+     *
+     * @param int $codUsuario
+     */
     public function destroy(int $codUsuario){
         Usuario::destroy($codUsuario);
     }

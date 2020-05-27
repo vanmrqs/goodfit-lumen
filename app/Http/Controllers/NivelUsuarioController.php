@@ -8,10 +8,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-define('NIVEL_MODERADOR', 1);
-define('NIVEL_CANDIDATO', 2);
-define('NIVEL_EMPRESA', 3);
-
 class NivelUsuarioController extends Controller {
     /**
      * Retorna todos os níveis de

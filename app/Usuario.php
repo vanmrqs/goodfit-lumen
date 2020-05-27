@@ -15,7 +15,7 @@ class Usuario extends Model
   protected $fillable   = ['fotoUsuario', 'loginUsuario', 'email', 'password', 'codNivelUsuario'];
 
   public static $rules = [
-      'fotoUsuario'     => 'string|required',
+      'fotoUsuario'     => 'string',
       'loginUsuario'    => 'string|required|min:6|max:50',
       'email'           => 'email|required|max:150',
       'password'        => 'string|required',
