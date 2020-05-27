@@ -12,7 +12,7 @@ class Adicional extends Model
 
     public static $rules  = [
         'imagemAdicional'  => '',
-        'nomeAdicional'    => 'required|max:100|string',
+        'nomeAdicional'    => 'required|max:100|string|unique:tbadicional',
         'grauAdicional'    => 'required|integer',
         'codTipoAdicional' => 'required|integer'
     ];

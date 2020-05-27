@@ -16,8 +16,8 @@ class Usuario extends Model
 
   public static $rules = [
       'fotoUsuario'     => 'string',
-      'loginUsuario'    => 'string|required|min:6|max:50',
-      'email'           => 'email|required|max:150',
+      'loginUsuario'    => 'string|required|min:6|max:50|unique:tbusuario',
+      'email'           => 'email|required|max:150|unique:tbusuario',
       'password'        => 'string|required',
       'codNivelUsuario' => 'integer|required'
   ];

@@ -134,6 +134,13 @@ $router->group(['prefix' => 'usuario'], function () use ($router) {
 });
 
 $router->group(['prefix' => 'vaga'], function () use ($router) {
+    $router->get('/', 'VagaController@index');
+    $router->get('/{codVaga}', 'VagaController@show');
+    $router->get('/match/{codCandidato}/{codCurriculo}', 'VagaController@getMatch');
+    $router->post('/', 'VagaController@store');
+    $router->put('/{codVaga}', 'VagaController@update');
+    $router->delete('/{codVaga}', 'VagaController@destroy');
+
     $router->get('/{codVaga}/beneficio', 'BeneficioController@getPorVaga');
     $router->get('/beneficio/{codBeneficio}', 'BeneficioController@show');
     $router->post('beneficio/', 'BeneficioController@store');

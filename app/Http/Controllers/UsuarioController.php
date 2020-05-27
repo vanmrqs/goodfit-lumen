@@ -69,7 +69,7 @@ class UsuarioController extends Controller {
 
         $usuario['loginUsuario'] = $request->loginUsuario;
         $usuario['email']        = $request->email;
-        $usuario['password']     = password_hash($request->password, PASSWORD_BCRYPT)
+        $usuario['password']     = password_hash($request->password, PASSWORD_BCRYPT);
         $usuario->save();
     }
 
