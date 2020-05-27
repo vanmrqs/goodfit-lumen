@@ -16,7 +16,7 @@ class BeneficioController extends Controller {
      * @param int $codBeneficio
      * @return mixed
      */
-    public function show($codBeneficio){
+    public function show(int $codBeneficio){
         return Beneficio::find($codBeneficio);
     }
 
@@ -40,7 +40,7 @@ class BeneficioController extends Controller {
      * @param $codBeneficio
      * @throws ValidationException
      */
-    public function update(Request $request, $codBeneficio){
+    public function update(Request $request, int $codBeneficio){
         $this->validate($request, Beneficio::$rules);
 
         $beneficio = Beneficio::findOrFail($codBeneficio);
@@ -54,7 +54,7 @@ class BeneficioController extends Controller {
      *
      * @param $codBeneficio
      */
-    public function destroy($codBeneficio){
+    public function destroy(int $codBeneficio){
         Beneficio::destroy($codBeneficio);
     }
 
@@ -65,7 +65,7 @@ class BeneficioController extends Controller {
      * @param int $codVaga
      * @return mixed
      */
-    public function getPorVaga($codVaga){
+    public function getPorVaga(int $codVaga){
         return Beneficio::where('codVaga', $codVaga)->get();
     }
 }
