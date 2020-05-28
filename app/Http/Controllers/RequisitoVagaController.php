@@ -54,4 +54,105 @@ class RequisitoVagaController extends Controller {
     public function destroy(int $codRequisitoVaga){
         RequisitoVaga::destroy($codRequisitoVaga);
     }
+
+    /**
+     * Cria requisitos em uma vaga
+     *
+     * @param Request $request
+     */
+    public function criaRequisitos(Request $request){
+        $novoRequisito = [];
+        $novoRequisito['codVaga'] = $request->codVaga;
+
+        foreach ( $request->requisitos as $requisito ) {
+            $novoRequisito['codAdicional']                 = $requisito['codAdicional'];
+            $novoRequisito['obrigatoriedadeRequisitoVaga'] = $requisito['obrigatoriedade'];
+            RequisitoVaga::create($novoRequisito);
+        }
+    }
+
+    /**
+     * Remove requisitos de uma vaga
+     *
+     * @param int $codVaga
+     * @param array $requisitos
+     */
+    private function removeRequisitos(int $codVaga, array $requisitos){
+        foreach ( $requisitos as $codAdicional ) {
+            $requisito = RequisitoVaga::where([
+                ['tbRequisitoVaga.codVaga', $codVaga],
+                ['tbRequisitoVaga.codAdicional', $codAdicional]
+            ])->first();
+
+            RequisitoVaga::destroy($requisito->codRequisitoVaga);
+        }
+    }
+
+    /**
+     * Edita os requisitos de uma vaga
+     *
+     * @param Request $request
+     * @param int $codVaga
+     */
+    public function editaRequisitos(Request $request, int $codVaga){
+        $requisitos = $request->requisitos;
+
+        $requisitosExistentes = array_map(function($requisito){
+            $data = [];
+            $data['codAdicional']                 = $requisito['codAdicional'];
+            $data['obrigatoriedadeRequisitoVaga'] = $requisito['obrigatoriedadeRequisitoVaga'];
+
+            return $data;
+        }, RequisitoVaga::where('tbRequisitoVaga.codVaga', $codVaga)->get()->toArray());
+
+        $this->criaRequisitos($this->criaRequisitoRequest($codVaga, $this->requisitosAdicionar($requisitos, $requisitosExistentes)));
+        $this->removeRequisitos($codVaga, $this->requisitosRemover($requisitos, $requisitosExistentes));
+    }
+
+    private function criaRequisitoRequest(int $codVaga, array $requisitos){
+        $objeto = new Request();
+        $objeto->request->add(['codVaga'    => $codVaga]);
+        $objeto->request->add(['requisitos' => $requisitos]);
+
+        return $objeto;
+    }
+
+    /**
+     * Verifica quais requisitos devem
+     * ser adicionados na vaga
+     *
+     * @param array $requisitos
+     * @param array $requisitosExistentes
+     * @return mixed
+     */
+    private function requisitosAdicionar(array $requisitos, array $requisitosExistentes){
+        $requisitosAdicionar = array_diff(
+            array_map('json_encode', $requisitos),
+            array_map('json_encode', $requisitosExistentes)
+        );
+
+        $retorno = [];
+        foreach ( $requisitosAdicionar as $requisito ) {
+            $retorno[] = json_decode($requisito);
+        }
+
+        return $retorno;
+    }
+
+    /**
+     * Verifica quais requisitos devem
+     * ser removidos da vaga
+     *
+     * @param array $requisitos
+     * @param array $requisitosExistentes
+     * @return mixed
+     */
+    private function requisitosRemover(array $requisitos, array $requisitosExistentes){
+        $requisitosRemover = array_diff(
+            array_map('json_encode', $requisitosExistentes),
+            array_map('json_encode', $requisitos)
+        );
+
+        return json_decode($requisitosRemover);
+    }
 }

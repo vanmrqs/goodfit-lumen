@@ -146,4 +146,12 @@ $router->group(['prefix' => 'vaga'], function () use ($router) {
     $router->post('beneficio/', 'BeneficioController@store');
     $router->put('/beneficio/{codBeneficio}', 'BeneficioController@update');
     $router->delete('/beneficio/{codBeneficio}', 'BeneficioController@destroy');
+
+    $router->get('/requisito/{codVaga}', 'AdicionalController@getEmVaga');
+    $router->get('/{codVaga}/requisitos/', 'RequisitoVagaController@show');
+    $router->post('/requisito', 'RequisitoVagaController@store');
+    $router->post('/requisitos', 'RequisitoVagaController@criaRequisitos');
+    $router->put('/requisito/{codRequisito}', 'RequisitoVagaController@update');
+    $router->put('/{codVaga}/requisitos', 'RequisitoVagaController@editaRequisitos');
+    $router->delete('/requisito/{codRequisito}', 'RequisitoVagaController@destroy');
 });
