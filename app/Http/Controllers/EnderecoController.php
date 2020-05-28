@@ -23,11 +23,13 @@ class EnderecoController extends Controller {
      * Insere um novo endereço
      *
      * @param Request $request
+     * @return int
      * @throws ValidationException
      */
     public function store(Request $request){
         $endereco = $this->validate($request, Endereco::$rules);
-        Endereco::create($endereco);
+        $endereco = Endereco::create($endereco);
+        return $endereco->codEndereco;
     }
 
     /**

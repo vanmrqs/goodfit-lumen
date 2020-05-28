@@ -125,10 +125,33 @@ $router->group(['prefix' => 'tipo-adicional'], function () use ($router) {
     $router->delete('/{codTipoAdicional}', 'TipoAdicionalController@destroy');
 });
 
+$router->group(['prefix' => 'usuario'], function () use ($router) {
+    $router->get('/', 'UsuarioController@index');
+    $router->get('/{codUsuario}', 'UsuarioController@show');
+    $router->post('/', 'UsuarioController@store');
+    $router->put('/{codUsuario}', 'UsuarioController@update');
+    $router->delete('/{codUsuario}', 'UsuarioController@destroy');
+});
+
 $router->group(['prefix' => 'vaga'], function () use ($router) {
+    $router->get('/', 'VagaController@index');
+    $router->get('/{codVaga}', 'VagaController@show');
+    $router->get('/match/{codCandidato}/{codCurriculo}', 'VagaController@getMatch');
+    $router->post('/', 'VagaController@store');
+    $router->put('/{codVaga}', 'VagaController@update');
+    $router->delete('/{codVaga}', 'VagaController@destroy');
+
     $router->get('/{codVaga}/beneficio', 'BeneficioController@getPorVaga');
     $router->get('/beneficio/{codBeneficio}', 'BeneficioController@show');
     $router->post('beneficio/', 'BeneficioController@store');
     $router->put('/beneficio/{codBeneficio}', 'BeneficioController@update');
     $router->delete('/beneficio/{codBeneficio}', 'BeneficioController@destroy');
+
+    $router->get('/requisito/{codVaga}', 'AdicionalController@getEmVaga');
+    $router->get('/{codVaga}/requisitos/', 'RequisitoVagaController@show');
+    $router->post('/requisito', 'RequisitoVagaController@store');
+    $router->post('/requisitos', 'RequisitoVagaController@criaRequisitos');
+    $router->put('/requisito/{codRequisito}', 'RequisitoVagaController@update');
+    $router->put('/{codVaga}/requisitos', 'RequisitoVagaController@editaRequisitos');
+    $router->delete('/requisito/{codRequisito}', 'RequisitoVagaController@destroy');
 });

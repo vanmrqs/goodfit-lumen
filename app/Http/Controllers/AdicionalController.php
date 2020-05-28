@@ -134,4 +134,16 @@ class AdicionalController extends Controller {
             ->orderBy('tbAdicional.nomeAdicional', 'ASC')
             ->get();
     }
+
+    /**
+     * Retorna os requisitos de uma vaga
+     *
+     * @param int $codVaga
+     * @return mixed
+     */
+    public function getEmVaga(int $codVaga){
+        return Adicional::join('tbRequisitoVaga', 'tbAdicional.codAdicional', '=', 'tbRequisitoVaga.codAdicional')
+            ->where('tbRequisitoVaga.codVaga', $codVaga)
+            ->get();
+    }
 }

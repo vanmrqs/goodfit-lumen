@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Intervention\Image\Facades\Image;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
+define('NIVEL_MODERADOR', 1);
+define('NIVEL_CANDIDATO', 2);
+define('NIVEL_EMPRESA', 3);
+
 class Controller extends BaseController
 {
     /**
@@ -19,6 +23,11 @@ class Controller extends BaseController
      */
     public function uploadImagem($imagem, $width, $height, $pastaDestino){
         $nomeImagem = md5(uniqid(microtime())).'.'.$imagem->getClientOriginalExtension();
+        $caminho    = app()->basePath('public/images/'.$pastaDestino);
+
+        if ( ! file_exists( $caminho ) ) {
+            mkdir($caminho);
+        }
 
         $image = Image::make($imagem);
         $image->orientate()->fit($width, $height);
