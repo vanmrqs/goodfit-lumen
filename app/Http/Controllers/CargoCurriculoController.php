@@ -68,7 +68,7 @@ class CargoCurriculoController extends Controller {
      */
     private function removeCargos(int $codCurriculo, array $cargos){
         foreach ( $cargos as $codCategoria ) {
-            $cargo = Categoria::where([
+            $cargo = CargoCurriculo::where([
                 ['codCurriculo', $codCurriculo],
                 ['codCategoria', $codCategoria]
             ])->first();
@@ -88,7 +88,7 @@ class CargoCurriculoController extends Controller {
 
         $cargosExistentes = array_map(
             function($i){
-                return (int)$i['codAdicional'];
+                return (int)$i['codCategoria'];
             }, CargoCurriculo::where('tbCargoCurriculo.codCurriculo', '=', $codCurriculo)->get()->toArray()
         );
 
@@ -105,10 +105,10 @@ class CargoCurriculoController extends Controller {
      * @return Request
      */
     private function criaRequestCargos(int $codCurriculo, array $cargos){
-        $adicionar = new Request();
-        $adicionar->request->add(['codCurriculo' => $codCurriculo]);
-        $adicionar->request->add(['cargos'       => $cargos]);
+        $cargo = [];
+        $cargo['codCurriculo'] = $codCurriculo;
+        $cargo['cargos']       = $cargos;
 
-        return $adicionar;
+        return new Request($cargo);
     }
 }
