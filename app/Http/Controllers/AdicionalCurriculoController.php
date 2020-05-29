@@ -104,10 +104,10 @@ class AdicionalCurriculoController extends Controller {
      * @return Request
      */
     private function criaRequestAdicional(int $codCurriculo, array $adicionais){
-        $adicionar = new Request();
-        $adicionar->request->add(['codCurriculo' => $codCurriculo]);
-        $adicionar->request->add(['adicionais'   => $adicionais]);
+        $adicionar = [];
+        $adicionar['codCurriculo'] = $codCurriculo;
+        $adicionar['adicionais']   = $adicionais;
 
-        return $adicionar;
+        return new Request($adicionar);
     }
 }
