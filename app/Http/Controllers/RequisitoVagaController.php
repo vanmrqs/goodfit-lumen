@@ -65,6 +65,10 @@ class RequisitoVagaController extends Controller {
         $novoRequisito['codVaga'] = $request->codVaga;
 
         foreach ( $request->requisitos as $requisito ) {
+            if ( gettype($requisito) == 'object' ) {
+                $requisito = (array)$requisito;
+            }
+
             $novoRequisito['codAdicional']                 = $requisito['codAdicional'];
             $novoRequisito['obrigatoriedadeRequisitoVaga'] = $requisito['obrigatoriedade'];
             RequisitoVaga::create($novoRequisito);
@@ -78,13 +82,13 @@ class RequisitoVagaController extends Controller {
      * @param array $requisitos
      */
     private function removeRequisitos(int $codVaga, array $requisitos){
-        foreach ( $requisitos as $codAdicional ) {
-            $requisito = RequisitoVaga::where([
+        foreach ( $requisitos as $requisito ) {
+            $remover = RequisitoVaga::where([
                 ['tbRequisitoVaga.codVaga', $codVaga],
-                ['tbRequisitoVaga.codAdicional', $codAdicional]
+                ['tbRequisitoVaga.codAdicional', $requisito->codAdicional]
             ])->first();
 
-            RequisitoVaga::destroy($requisito->codRequisitoVaga);
+            RequisitoVaga::destroy($remover->codRequisitoVaga);
         }
     }
 
@@ -110,11 +114,11 @@ class RequisitoVagaController extends Controller {
     }
 
     private function criaRequisitoRequest(int $codVaga, array $requisitos){
-        $objeto = new Request();
-        $objeto->request->add(['codVaga'    => $codVaga]);
-        $objeto->request->add(['requisitos' => $requisitos]);
+        $requisito = [];
+        $requisito['codVaga']    = $codVaga;
+        $requisito['requisitos'] = $requisitos;
 
-        return $objeto;
+        return new Request($requisito);
     }
 
     /**
@@ -153,6 +157,6 @@ class RequisitoVagaController extends Controller {
             array_map('json_encode', $requisitos)
         );
 
-        return json_decode($requisitosRemover);
+        return array_map('json_decode', $requisitosRemover);
     }
 }
