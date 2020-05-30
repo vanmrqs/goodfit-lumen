@@ -109,6 +109,14 @@ $router->group(['prefix' => 'profissao'], function () use ($router) {
     $router->delete('/{codProfissao}', 'ProfissaoController@destroy');
 });
 
+$router->group(['prefix' => 'regime-contratacao'], function () use ($router) {
+    $router->get('/', 'RegimeContratacaoController@index');
+    $router->get('/{codRegimeContratacao}', 'RegimeContratacaoController@show');
+    $router->post('/', 'RegimeContratacaoController@store');
+    $router->put('/{codRegimeContratacao}', 'RegimeContratacaoController@update');
+    $router->delete('/{codRegimeContratacao}', 'RegimeContratacaoController@destroy');
+});
+
 $router->group(['prefix' => 'status'], function () use ($router) {
     $router->get('/', 'StatusController@index');
     $router->get('/{codStatus}', 'StatusController@show');
