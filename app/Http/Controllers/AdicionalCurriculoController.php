@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\AdicionalCurriculo;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -30,29 +31,35 @@ class AdicionalCurriculoController extends Controller {
      * um currículo
      *
      * @param Request $request
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function store(Request $request){
         $adicionalCurriculo = $this->validate($request, AdicionalCurriculo::$rules);
         AdicionalCurriculo::create($adicionalCurriculo);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
      * Remove um adicional de um currículo
      *
      * @param int $codAdicionalCurriculo
+     * @return JsonResponse
      */
     public function destroy($codAdicionalCurriculo){
         AdicionalCurriculo::destroy($codAdicionalCurriculo);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
      * Cria adicionais em um currículo
      *
      * @param Request $request
+     * @return JsonResponse
      */
     public function criaAdicionais(Request $request){
         $this->criaEmLote($request, 'codCurriculo', 'adicionais', 'codAdicional', $this->model);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -70,6 +77,7 @@ class AdicionalCurriculoController extends Controller {
      *
      * @param Request $request
      * @param int $codCurriculo
+     * @return JsonResponse
      */
     public function editaAdicionais(Request $request, int $codCurriculo){
         $adicionais = $request->adicionais;
@@ -78,6 +86,7 @@ class AdicionalCurriculoController extends Controller {
 
         $this->criaAdicionais($this->criaRequestAdicional($codCurriculo, array_diff($adicionais, $adicionaisExistentes)));
         $this->removeAdicionais($codCurriculo, array_diff($adicionaisExistentes, $adicionais));
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
