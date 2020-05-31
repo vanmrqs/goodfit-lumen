@@ -18,7 +18,7 @@ class TbCandidato extends Migration
             $table->string('nomeCandidato', 150);
             $table->string('cpfCandidato', 11)->unique();
             $table->string('rgCandidato', 20)->unique();
-            $table->date('dataNascimentoCandidato');
+            $table->int('dataNascimentoCandidato');
             $table->integer('codUsuario')->unsigned();
             $table->timestamps();
         });
