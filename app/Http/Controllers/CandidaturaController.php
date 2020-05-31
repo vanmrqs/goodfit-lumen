@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Candidatura;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -32,21 +33,25 @@ class CandidaturaController extends Controller {
      * Registra uma nova candidatura
      *
      * @param Request $request
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function store(Request $request){
         $candidatura = $this->validate($request, Candidatura::$rules);
         $candidatura['codStatusCandidatura'] = STATUS_ANALISE;
         Candidatura::create($candidatura);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
      * Exclui uma candidatura
      *
      * @param int $codCandidatura
+     * @return JsonResponse
      */
     public function destroy(int $codCandidatura){
         Candidatura::destroy($codCandidatura);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -54,10 +59,12 @@ class CandidaturaController extends Controller {
      *
      * @param Request $request
      * @param $codCandidatura
+     * @return JsonResponse
      */
     public function trocarStatus(Request $request, $codCandidatura){
         $candidatura = Candidatura::findOrFail($codCandidatura);
         $candidatura['codStatusCandidatura'] = $request->codStatusCandidatura;
         $candidatura->save();
+        return response()->json(['message' => 'success'], 200);
     }
 }
