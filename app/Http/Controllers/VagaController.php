@@ -19,7 +19,8 @@ class VagaController extends Controller {
 
     public function store(Request $request){
         $vaga = $this->validate($request, Vaga::$rules);
-        Vaga::create($vaga);
+        $vaga = Vaga::create($vaga);
+        return $vaga->codVaga;
     }
 
     public function update(Request $request, int $codVaga){
