@@ -125,4 +125,24 @@ class Controller extends BaseController
             $classe::destroy($itemRemover->$primaryKey);
         }
     }
+
+    /**
+     * Retorna os itens existentes
+     *
+     * @param int $codBase
+     * @param string $nomeBase
+     * @param string $nomeCampo
+     * @param $objetoClasse
+     * @return array
+     */
+    public function getItensExistentes(int $codBase, string $nomeBase, string $nomeCampo, $objetoClasse){
+        $classe = get_class($objetoClasse);
+        $itensExistentes = array_map(
+            function($i) use ($nomeCampo){
+                return $i[$nomeCampo];
+            }, $classe::where($nomeBase, $codBase)->get()->toArray()
+        );
+
+        return $itensExistentes;
+    }
 }

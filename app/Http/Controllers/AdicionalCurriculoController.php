@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class AdicionalCurriculoController extends Controller {
+    private $model;
+    public function __construct(){
+        $this->model = new AdicionalCurriculo();
+    }
+
     /**
      * Retorna um adicional de um
      * currículo pelo código
@@ -47,8 +52,7 @@ class AdicionalCurriculoController extends Controller {
      * @param Request $request
      */
     public function criaAdicionais(Request $request){
-        $classe = new AdicionalCurriculo();
-        $this->criaEmLote($request, 'codCurriculo', 'adicionais', 'codAdicional', $classe);
+        $this->criaEmLote($request, 'codCurriculo', 'adicionais', 'codAdicional', $this->model);
     }
 
     /**
@@ -58,8 +62,7 @@ class AdicionalCurriculoController extends Controller {
      * @param array $adicionais
      */
     private function removeAdicionais(int $codCurriculo, array $adicionais){
-        $classe = new AdicionalCurriculo();
-        $this->removeEmLote($codCurriculo, 'codCurriculo', $adicionais, 'codAdicional', $classe);
+        $this->removeEmLote($codCurriculo, 'codCurriculo', $adicionais, 'codAdicional', $this->model);
     }
 
     /**
@@ -71,11 +74,7 @@ class AdicionalCurriculoController extends Controller {
     public function editaAdicionais(Request $request, int $codCurriculo){
         $adicionais = $request->adicionais;
 
-        $adicionaisExistentes = array_map(
-            function($i){
-                return (int)$i['codAdicional'];
-            }, AdicionalCurriculo::where('tbAdicionalCurriculo.codCurriculo', '=', $codCurriculo)->get()->toArray()
-        );
+        $adicionaisExistentes = $this->getItensExistentes($codCurriculo, 'codCurriculo', 'codAdicional', $this->model);
 
         $this->criaAdicionais($this->criaRequestAdicional($codCurriculo, array_diff($adicionais, $adicionaisExistentes)));
         $this->removeAdicionais($codCurriculo, array_diff($adicionaisExistentes, $adicionais));

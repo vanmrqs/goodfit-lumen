@@ -82,14 +82,7 @@ class RequisitoVagaController extends Controller {
      * @param array $requisitos
      */
     private function removeRequisitos(int $codVaga, array $requisitos){
-        foreach ( $requisitos as $requisito ) {
-            $remover = RequisitoVaga::where([
-                ['tbRequisitoVaga.codVaga', $codVaga],
-                ['tbRequisitoVaga.codAdicional', $requisito->codAdicional]
-            ])->first();
-
-            RequisitoVaga::destroy($remover->codRequisitoVaga);
-        }
+        $this->removeEmLote($codVaga, 'codVaga', $requisitos, 'codAdicional', new RequisitoVaga());
     }
 
     /**

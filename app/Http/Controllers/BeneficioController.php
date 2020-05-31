@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class BeneficioController extends Controller {
+    private $model;
+    public function __construct(){
+        $this->model = new Beneficio();
+    }
+
     /**
      * Retorna um benefício pelo
      * código
@@ -64,8 +69,7 @@ class BeneficioController extends Controller {
      * @param Request $request
      */
     public function criaBeneficios(Request $request){
-        $classe = new Beneficio();
-        $this->criaEmLote($request, 'codVaga', 'beneficios', 'nomeBeneficio', $classe);
+        $this->criaEmLote($request, 'codVaga', 'beneficios', 'nomeBeneficio', $this->model);
     }
 
     /**
@@ -75,8 +79,7 @@ class BeneficioController extends Controller {
      * @param array $beneficios
      */
     public function removeBeneficios(int $codVaga, array $beneficios){
-        $classe = new Beneficio();
-        $this->removeEmLote($codVaga, 'codVaga', $beneficios, 'nomeBeneficio', $classe);
+        $this->removeEmLote($codVaga, 'codVaga', $beneficios, 'nomeBeneficio', $this->model);
     }
 
     /**
@@ -88,9 +91,7 @@ class BeneficioController extends Controller {
     public function editaBeneficios(Request $request, int $codVaga){
         $beneficios = $request->beneficios;
 
-        $beneficiosExistentes = array_map(function($i){
-            return (int)$i['nomeBeneficio'];
-        }, Beneficio::where('codaVaga', $codVaga)->get()->toArray());
+        $beneficiosExistentes = $this->getItensExistentes($codVaga, 'codVaga', 'nomeBeneficio', $this->model);
 
         $this->criaBeneficios($this->criaBeneficioRequest($codVaga, array_diff($beneficios, $beneficiosExistentes)));;
         $this->removeBeneficios($codVaga, array_diff($beneficiosExistentes, $beneficios));

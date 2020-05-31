@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class CargoCurriculoController extends Controller {
+    private $model;
+    public function __construct(){
+        $this->model = new CargoCurriculo();
+    }
+
     /**
      * Retorna um cargo em
      * um currículo
@@ -51,8 +56,7 @@ class CargoCurriculoController extends Controller {
      * @param Request $request
      */
     public function adicionaCargos(Request $request){
-        $classe = new CargoCurriculo();
-        $this->criaEmLote($request, 'codCurriculo', 'cargos', 'codCategoria', $classe);
+        $this->criaEmLote($request, 'codCurriculo', 'cargos', 'codCategoria', $this->model);
     }
 
     /**
@@ -60,8 +64,7 @@ class CargoCurriculoController extends Controller {
      * @param array $cargos
      */
     private function removeCargos(int $codCurriculo, array $cargos){
-        $classe = new CargoCurriculo();
-        $this->removeEmLote($codCurriculo, 'codCurriculo', $cargos, 'codCategoria', $classe);
+        $this->removeEmLote($codCurriculo, 'codCurriculo', $cargos, 'codCategoria', $this->model);
     }
 
     /**
@@ -73,11 +76,7 @@ class CargoCurriculoController extends Controller {
     public function editaCargos(Request $request, int $codCurriculo){
         $cargos = $request->cargos;
 
-        $cargosExistentes = array_map(
-            function($i){
-                return (int)$i['codCategoria'];
-            }, CargoCurriculo::where('tbCargoCurriculo.codCurriculo', $codCurriculo)->get()->toArray()
-        );
+        $cargosExistentes = $this->getItensExistentes($codCurriculo, 'codCurriculo', 'codCategoria', $this->model);
 
         $this->adicionaCargos($this->criaRequestCargos($codCurriculo, array_diff($cargos, $cargosExistentes)));
         $this->removeCargos($codCurriculo, array_diff($cargosExistentes, $cargos));
