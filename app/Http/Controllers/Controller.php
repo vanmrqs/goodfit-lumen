@@ -101,4 +101,28 @@ class Controller extends BaseController
             $classe::create($itemAdd);
         }
     }
+
+    /**
+     * Remove itens em lote
+     *
+     * @param int $codBase
+     * @param string $nomeBase
+     * @param array $itens
+     * @param string $nomeItem
+     * @param $objetoClasse
+     */
+    public function removeEmLote(int $codBase, string $nomeBase, array $itens, string $nomeItem, $objetoClasse){
+        $classe = get_class($objetoClasse);
+
+        foreach ( $itens as $item ) {
+            $itemRemover = $classe::where([
+                [$nomeBase, $codBase],
+                [$nomeItem, $item]
+            ])->first();
+
+            $primaryKey = $itemRemover->getKeyName();
+
+            $classe::destroy($itemRemover->$primaryKey);
+        }
+    }
 }

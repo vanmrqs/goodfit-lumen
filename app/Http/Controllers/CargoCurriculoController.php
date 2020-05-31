@@ -60,14 +60,8 @@ class CargoCurriculoController extends Controller {
      * @param array $cargos
      */
     private function removeCargos(int $codCurriculo, array $cargos){
-        foreach ( $cargos as $codCategoria ) {
-            $cargo = CargoCurriculo::where([
-                ['codCurriculo', $codCurriculo],
-                ['codCategoria', $codCategoria]
-            ])->first();
-
-            CargoCurriculo::destroy($cargo->codCargoCurriculo);
-        }
+        $classe = new CargoCurriculo();
+        $this->removeEmLote($codCurriculo, 'codCurriculo', $cargos, 'codCategoria', $classe);
     }
 
     /**
@@ -82,7 +76,7 @@ class CargoCurriculoController extends Controller {
         $cargosExistentes = array_map(
             function($i){
                 return (int)$i['codCategoria'];
-            }, CargoCurriculo::where('tbCargoCurriculo.codCurriculo', '=', $codCurriculo)->get()->toArray()
+            }, CargoCurriculo::where('tbCargoCurriculo.codCurriculo', $codCurriculo)->get()->toArray()
         );
 
         $this->adicionaCargos($this->criaRequestCargos($codCurriculo, array_diff($cargos, $cargosExistentes)));

@@ -58,14 +58,8 @@ class AdicionalCurriculoController extends Controller {
      * @param array $adicionais
      */
     private function removeAdicionais(int $codCurriculo, array $adicionais){
-        foreach ( $adicionais as $codAdicional ) {
-            $adicional = AdicionalCurriculo::where([
-                ['tbAdicionalCurriculo.codCurriculo', $codCurriculo],
-                ['tbAdicionalCurriculo.codAdicional', $codAdicional]
-            ])->first();
-
-            AdicionalCurriculo::destroy($adicional->codAdicionalCurriculo);
-        }
+        $classe = new AdicionalCurriculo();
+        $this->removeEmLote($codCurriculo, 'codCurriculo', $adicionais, 'codAdicional', $classe);
     }
 
     /**

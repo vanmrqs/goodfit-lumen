@@ -75,14 +75,8 @@ class BeneficioController extends Controller {
      * @param array $beneficios
      */
     public function removeBeneficios(int $codVaga, array $beneficios){
-        foreach ( $beneficios as $beneficio ) {
-            $beneficio = Beneficio::where([
-                ['codVaga', $codVaga],
-                ['nomeBeneficio', $beneficio]
-            ])->first();
-
-            Beneficio::destroy($beneficio->codBeneficio);
-        }
+        $classe = new Beneficio();
+        $this->removeEmLote($codVaga, 'codVaga', $beneficios, 'nomeBeneficio', $classe);
     }
 
     /**
