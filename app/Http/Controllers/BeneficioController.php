@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Beneficio;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -30,11 +31,13 @@ class BeneficioController extends Controller {
      * vaga
      *
      * @param Request $request
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function store(Request $request){
         $beneficio = $this->validate($request, Beneficio::$rules);
         Beneficio::create($beneficio);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -43,14 +46,15 @@ class BeneficioController extends Controller {
      *
      * @param Request $request
      * @param $codBeneficio
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function update(Request $request, int $codBeneficio){
         $this->validate($request, Beneficio::$rules);
 
         $beneficio = Beneficio::findOrFail($codBeneficio);
-        $beneficio['nomeBeneficio'] = $request->nomeBeneficio;
-        $beneficio->save();
+        $beneficio->update($request->all());
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -58,18 +62,22 @@ class BeneficioController extends Controller {
      * vaga
      *
      * @param $codBeneficio
+     * @return JsonResponse
      */
     public function destroy(int $codBeneficio){
         Beneficio::destroy($codBeneficio);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
      * Cria benefícios em uma vaga
      *
      * @param Request $request
+     * @return JsonResponse
      */
     public function criaBeneficios(Request $request){
         $this->criaEmLote($request, 'codVaga', 'beneficios', 'nomeBeneficio', $this->model);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -87,6 +95,7 @@ class BeneficioController extends Controller {
      *
      * @param Request $request
      * @param int $codVaga
+     * @return JsonResponse
      */
     public function editaBeneficios(Request $request, int $codVaga){
         $beneficios = $request->beneficios;
@@ -95,6 +104,7 @@ class BeneficioController extends Controller {
 
         $this->criaBeneficios($this->criaBeneficioRequest($codVaga, array_diff($beneficios, $beneficiosExistentes)));;
         $this->removeBeneficios($codVaga, array_diff($beneficiosExistentes, $beneficios));
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
