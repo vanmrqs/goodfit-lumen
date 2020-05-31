@@ -21,6 +21,10 @@ $router->get('/key', function() {
     return \Illuminate\Support\Str::random(32);
 });
 
+$router->group(['prefix' => 'endereco'], function () use ($router) {
+    $router->post('/', 'EnderecoController@store');
+});
+
 $router->group(['prefix' => 'adicional'], function () use ($router) {
     $router->get('/', 'AdicionalController@index');
     $router->get('/{codAdicional}', 'AdicionalController@show');
