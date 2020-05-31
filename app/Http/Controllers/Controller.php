@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\AdicionalCurriculo;
+use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
@@ -77,6 +79,26 @@ class Controller extends BaseController
 
         if ( file_exists($video) ) {
             unlink($video);
+        }
+    }
+
+    /**
+     * Cria itens em lote
+     *
+     * @param Request $request
+     * @param string $nomeBase
+     * @param string $nomeItens
+     * @param string $nomeCampo
+     * @param $objetoClasse
+     */
+    public function criaEmLote(Request $request, string $nomeBase, string $nomeItens, string $nomeCampo, $objetoClasse){
+        $itemAdd = [];
+        $itemAdd[$nomeBase] = $request->$nomeBase;
+        foreach ( $request->$nomeItens as $item ) {
+            $itemAdd[$nomeCampo] = $item;
+
+            $classe = get_class($objetoClasse);
+            $classe::create($itemAdd);
         }
     }
 }

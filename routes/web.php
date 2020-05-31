@@ -77,7 +77,6 @@ $router->group(['prefix' => 'curriculo'], function () use ($router) {
     $router->get('/{codCurriculo}/adicional', 'AdicionalController@getEmCurriculo');
 
     $router->get('{codCurriculo}/cargo', 'CategoriaController@getPorCurriculo');
-
     $router->get('/cargo/{codCargoCurriculo}', 'CargoCurriculoController@show');
     $router->post('/cargo', 'CargoCurriculoController@store');
     $router->post('/cargos', 'CargoCurriculoController@adicionaCargos');

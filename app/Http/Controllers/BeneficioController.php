@@ -64,12 +64,8 @@ class BeneficioController extends Controller {
      * @param Request $request
      */
     public function criaBeneficios(Request $request){
-        $beneficio = [];
-        $beneficio['codVaga'] = $request->codVaga;
-        foreach ($request->beneficios as $beneficio ) {
-            $beneficio['nomeBeneficio'] = $beneficio;
-            Beneficio::create($beneficio);
-        }
+        $classe = new Beneficio();
+        $this->criaEmLote($request, 'codVaga', 'beneficios', 'nomeBeneficio', $classe);
     }
 
     /**

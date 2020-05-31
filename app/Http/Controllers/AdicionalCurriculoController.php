@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\AdicionalCurriculo;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\ValidationException;
 
 class AdicionalCurriculoController extends Controller {
@@ -48,15 +47,8 @@ class AdicionalCurriculoController extends Controller {
      * @param Request $request
      */
     public function criaAdicionais(Request $request){
-        $codCurriculo = $request->codCurriculo;
-        $adicionais   = $request->adicionais;
-
-        $adicional = [];
-        $adicional['codCurriculo'] = $codCurriculo;
-        foreach ( $adicionais as $codAdicional ) {
-            $adicional['codAdicional'] = $codAdicional;
-            AdicionalCurriculo::create($adicional);
-        }
+        $classe = new AdicionalCurriculo();
+        $this->criaEmLote($request, 'codCurriculo', 'adicionais', 'codAdicional', $classe);
     }
 
     /**

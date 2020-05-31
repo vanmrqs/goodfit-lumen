@@ -51,15 +51,8 @@ class CargoCurriculoController extends Controller {
      * @param Request $request
      */
     public function adicionaCargos(Request $request){
-        $codCurriculo = $request->codCurriculo;
-        $cargos       = $request->cargos;
-
-        $cargo = [];
-        $cargo['codCurriculo'] = $codCurriculo;
-        foreach ( $cargos as $codCategoria ) {
-            $cargo['codCategoria'] = $codCategoria;
-            CargoCurriculo::create($cargo);
-        }
+        $classe = new CargoCurriculo();
+        $this->criaEmLote($request, 'codCurriculo', 'cargos', 'codCategoria', $classe);
     }
 
     /**
