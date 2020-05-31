@@ -19,6 +19,6 @@ class Endereco extends Model
         'bairroEndereco'      => 'string|required|min:6|max:50',
         'zonaEndereco'        => 'string|required|min:6|max:50',
         'cidadeEndereco'      => 'string|required|min:3|max:100',
-        'estadoEndereco'      => 'string|required|min:3|max:50'
+        'estadoEndereco'      => 'string|required|min:2|max:50'
     ];
 }
