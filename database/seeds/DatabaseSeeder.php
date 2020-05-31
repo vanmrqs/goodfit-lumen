@@ -154,7 +154,7 @@ class DatabaseSeeder extends Seeder
 
             //Candidatos
             [
-        		    'codUsuario'      => 6,
+        		'codUsuario'      => 6,
                 'fotoUsuario'     => 'perfil.png',
                 'loginUsuario'    => 'Candidato',
                 'password'        => '$2y$10$Wrjg/tHTvKekdW5Qc/k4S.BrIJVVfWe0B1MoJ.EVarRbQMzkrw.Ii',
@@ -210,7 +210,7 @@ class DatabaseSeeder extends Seeder
                 'nomeCandidato'           => 'Candidato',
                 'cpfCandidato'            => '12345678901',
                 'rgCandidato'             => '123',
-                'dataNascimentoCandidato' => '895795200',
+                'dataNascimentoCandidato' => '22/05/1998',
                 'codUsuario'              => 6,
     	   ],
         ]);
