@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Usuario;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -44,7 +45,6 @@ class UsuarioController extends Controller {
 
         $usuario['fotoUsuario'] = $this->uploadFoto($request->foto, $request->codNivelUsuario);
         $usuario['password']    = password_hash($request->password, PASSWORD_BCRYPT);
-
         $usuario = Usuario::create($usuario);
 
         return $usuario->codUsuario;
@@ -55,6 +55,7 @@ class UsuarioController extends Controller {
      *
      * @param Request $request
      * @param int $codUsuario
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function update(Request $request, int $codUsuario){
@@ -63,23 +64,24 @@ class UsuarioController extends Controller {
         $usuario = Usuario::findOrFail($codUsuario);
 
         if ( $request->has('foto') ) {
-            $this->deletaImagem($usuario->fotoUsuario, PASTA_IMAGENS);
+            $this->deletaImagem($usuario['fotoUsuario'], PASTA_IMAGENS);
             $request->fotoUsuario = $this->uploadFoto($request->foto, $usuario->codNivelUsuario);
         }
 
-        $usuario['loginUsuario'] = $request->loginUsuario;
-        $usuario['email']        = $request->email;
-        $usuario['password']     = password_hash($request->password, PASSWORD_BCRYPT);
-        $usuario->save();
+        $request->password = password_hash($request->password, PASSWORD_BCRYPT);
+        $usuario->update($request->all());
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
      * Exclui um usuário
      *
      * @param int $codUsuario
+     * @return JsonResponse
      */
     public function destroy(int $codUsuario){
         Usuario::destroy($codUsuario);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**

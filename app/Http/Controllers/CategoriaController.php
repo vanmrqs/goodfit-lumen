@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Categoria;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -37,6 +38,7 @@ class CategoriaController extends Controller {
      * Cadastra uma nova categoria
      *
      * @param Request $request
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function store(Request $request){
@@ -47,6 +49,7 @@ class CategoriaController extends Controller {
         }
 
         Categoria::create($categoria);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -54,6 +57,7 @@ class CategoriaController extends Controller {
      *
      * @param Request $request
      * @param $codCategoria
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function update(Request $request, $codCategoria){
@@ -63,21 +67,23 @@ class CategoriaController extends Controller {
 
         if ( $request->has('imagemCategoria') ) {
             $this->deletaImagem($categoria['imagemCategoria'], PASTA_IMAGENS);
-            $categoria['imagemCategoria'] = $this->uploadImagem($request->imagemCategoria, 300, 300, PASTA_IMAGENS);
+            $request->imagemCategoria = $this->uploadImagem($request->imagemCategoria, 300, 300, PASTA_IMAGENS);
         }
 
-        $categoria['nomeCategoria'] = $request->nomeCategoria;
-        $categoria->save();
+        $categoria->update($request->all());
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
      * Exclui uma categoria
      *
      * @param int $codCategoria
+     * @return JsonResponse
      */
     public function destroy(int $codCategoria){
         //TODO: Excluir cargoCurriculo
         Categoria::destroy($codCategoria);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**

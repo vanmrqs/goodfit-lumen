@@ -3,12 +3,9 @@
 
 namespace App\Http\Controllers;
 
-
-use App\AdicionalCurriculo;
-use App\CargoCurriculo;
-use App\Categoria;
 use App\Curriculo;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -59,6 +56,7 @@ class CurriculoController extends Controller {
      *
      * @param Request $request
      * @param int $codCurriculo
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function update(Request $request, int $codCurriculo){
@@ -71,18 +69,18 @@ class CurriculoController extends Controller {
             $request['videoCurriculo'] = $this->uploadVideo($request->videoArquivo, PASTA_UPLOADS);
         }
 
-        $curriculo['videoCurriculo']     = $request->videoCurriculo;
-        $curriculo['descricaoCurriculo'] = $request->descricaoCurriculo;
-        $curriculo['codCandidato']       = $request->codCandidato;
-        $curriculo->save();
+        $curriculo->update($request->all());
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
      * Exclui um currículo
      *
      * @param int $codCurriculo
+     * @return JsonResponse
      */
     public function destroy(int $codCurriculo){
         Curriculo::destroy($codCurriculo);
+        return response()->json(['message' => 'success'], 200);
     }
 }

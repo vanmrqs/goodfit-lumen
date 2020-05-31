@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\TipoAdicional;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -34,11 +35,13 @@ class TipoAdicionalController extends Controller{
      * Cria um novo tipo
      *
      * @param Request $request
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function store(Request $request){
         $tipoAdicional = $this->validate($request, TipoAdicional::$rules);
         TipoAdicional::create($tipoAdicional);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -46,24 +49,26 @@ class TipoAdicionalController extends Controller{
      *
      * @param Request $request
      * @param int $codTipoAdicional
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function update(Request $request, int $codTipoAdicional){
         $this->validate($request, TipoAdicional::$rules);
 
         $tipoAdicional = TipoAdicional::findOrFail($codTipoAdicional);
-        $tipoAdicional['nomeTipoAdicional']        = $request->nomeTipoAdicional;
-        $tipoAdicional['escalonavelTipoAdicional'] = $request->escalonavelTipoAdicional;
-        $tipoAdicional->save();
+        $tipoAdicional->update($request->all());
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
      * Exclui um tipo
      *
      * @param int $codTipoAdicional
+     * @return JsonResponse
      */
     public function destroy(int $codTipoAdicional){
         TipoAdicional::destroy($codTipoAdicional);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**

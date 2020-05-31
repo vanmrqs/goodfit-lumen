@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\CargoCurriculo;
 use App\Categoria;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -32,11 +33,13 @@ class CargoCurriculoController extends Controller {
      * em um currículo
      *
      * @param Request $request
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function store(Request $request){
         $cargo = $this->validate($request, CargoCurriculo::$rules);
         CargoCurriculo::create($cargo);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -44,9 +47,11 @@ class CargoCurriculoController extends Controller {
      * um currículo
      *
      * @param $codCargoCurriculo
+     * @return JsonResponse
      */
     public function destroy($codCargoCurriculo){
         CargoCurriculo::destroy($codCargoCurriculo);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -54,9 +59,11 @@ class CargoCurriculoController extends Controller {
      * em um currículo
      *
      * @param Request $request
+     * @return JsonResponse
      */
     public function adicionaCargos(Request $request){
         $this->criaEmLote($request, 'codCurriculo', 'cargos', 'codCategoria', $this->model);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -72,6 +79,7 @@ class CargoCurriculoController extends Controller {
      *
      * @param Request $request
      * @param int $codCurriculo
+     * @return JsonResponse
      */
     public function editaCargos(Request $request, int $codCurriculo){
         $cargos = $request->cargos;
@@ -80,6 +88,7 @@ class CargoCurriculoController extends Controller {
 
         $this->adicionaCargos($this->criaRequestCargos($codCurriculo, array_diff($cargos, $cargosExistentes)));
         $this->removeCargos($codCurriculo, array_diff($cargosExistentes, $cargos));
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**

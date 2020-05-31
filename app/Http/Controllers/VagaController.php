@@ -5,41 +5,72 @@ namespace App\Http\Controllers;
 
 
 use App\Vaga;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class VagaController extends Controller {
+    /**
+     * Retorna todas as vagas
+     * cadastradas
+     *
+     * @return Vaga[]|Collection
+     */
     public function index(){
         return Vaga::all();
     }
 
+    /**
+     * Retorna uma vaga específica
+     * pelo código
+     *
+     * @param int $codVaga
+     * @return mixed
+     */
     public function show(int $codVaga){
         return Vaga::find($codVaga);
     }
 
+    /**
+     * Cria uma nova vaga
+     *
+     * @param Request $request
+     * @return int
+     * @throws ValidationException
+     */
     public function store(Request $request){
         $vaga = $this->validate($request, Vaga::$rules);
         $vaga = Vaga::create($vaga);
         return $vaga->codVaga;
     }
 
+    /**
+     * Atualiza uma vaga
+     *
+     * @param Request $request
+     * @param int $codVaga
+     * @return JsonResponse
+     * @throws ValidationException
+     */
     public function update(Request $request, int $codVaga){
         $this->validate($request, Vaga::$rules);
 
         $vaga = Vaga::findOrFail($codVaga);
-        $vaga['descricaoVaga']        = $request->descricaoVaga;
-        $vaga['salarioVaga']          = $request->salarioVaga;
-        $vaga['cargaHorariaVaga']     = $request->cargaHorariaVaga;
-        $vaga['quantidadeVaga']       = $request->quantidadeVaga;
-        $vaga['codProfissao']         = $request->codProfissao;
-        $vaga['codEmpresa']           = $request->codEmpresa;
-        $vaga['codEndereco']          = $request->codEndereco;
-        $vaga['codRegimeContratacao'] = $request->codRegimeContratacao;
-        $vaga->save();
+        $vaga->update($request->all());
+        return response()->json(['message' => 'success'], 200);
     }
 
+    /**
+     * Exclui uma vaga pelo código
+     *
+     * @param int $codVaga
+     * @return JsonResponse
+     */
     public function destroy(int $codVaga){
         Vaga::destroy($codVaga);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\StatusCandidatura;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -34,11 +35,13 @@ class StatusController extends Controller {
      * Cria um novo status
      *
      * @param Request $request
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function store(Request $request){
         $status = $this->validate($request, StatusCandidatura::$rules);
         StatusCandidatura::create($status);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -46,14 +49,15 @@ class StatusController extends Controller {
      *
      * @param Request $request
      * @param int $codStatus
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function update(Request $request, int $codStatus){
         $this->validate($request, StatusCandidatura::$rules);
 
         $status = StatusCandidatura::findOrFail($codStatus);
-        $status['nomeStatusCandidatura'] = $request->nomeStatusCandidatura;
-        $status->save();
+        $status->update($request->all());
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**

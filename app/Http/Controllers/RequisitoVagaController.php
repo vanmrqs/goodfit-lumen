@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\AdicionalCurriculo;
 use App\RequisitoVaga;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -24,11 +25,13 @@ class RequisitoVagaController extends Controller {
      * Adiciona um novo requisito
      *
      * @param Request $request
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function store(Request $request){
         $requisito = $this->validate($request, RequisitoVaga::$rules);
         RequisitoVaga::create($requisito);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -36,6 +39,7 @@ class RequisitoVagaController extends Controller {
      *
      * @param Request $request
      * @param int $codRequisitoVaga
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function update(Request $request, int $codRequisitoVaga){
@@ -44,21 +48,25 @@ class RequisitoVagaController extends Controller {
         $requisito = RequisitoVaga::findOrFail($codRequisitoVaga);
         $requisito['obrigatoriedadeRequisitoVaga'] = $request->obrigatoriedadeRequisitoVaga;
         $requisito->save();
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
      * Exclui um requisito
      *
      * @param int $codRequisitoVaga
+     * @return JsonResponse
      */
     public function destroy(int $codRequisitoVaga){
         RequisitoVaga::destroy($codRequisitoVaga);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
      * Cria requisitos em uma vaga
      *
      * @param Request $request
+     * @return JsonResponse
      */
     public function criaRequisitos(Request $request){
         $novoRequisito = [];
@@ -73,6 +81,7 @@ class RequisitoVagaController extends Controller {
             $novoRequisito['obrigatoriedadeRequisitoVaga'] = $requisito['obrigatoriedade'];
             RequisitoVaga::create($novoRequisito);
         }
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -80,9 +89,11 @@ class RequisitoVagaController extends Controller {
      *
      * @param int $codVaga
      * @param array $requisitos
+     * @return JsonResponse
      */
     private function removeRequisitos(int $codVaga, array $requisitos){
         $this->removeEmLote($codVaga, 'codVaga', $requisitos, 'codAdicional', new RequisitoVaga());
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -90,6 +101,7 @@ class RequisitoVagaController extends Controller {
      *
      * @param Request $request
      * @param int $codVaga
+     * @return JsonResponse
      */
     public function editaRequisitos(Request $request, int $codVaga){
         $requisitos = $request->requisitos;
@@ -104,6 +116,7 @@ class RequisitoVagaController extends Controller {
 
         $this->criaRequisitos($this->criaRequisitoRequest($codVaga, $this->requisitosAdicionar($requisitos, $requisitosExistentes)));
         $this->removeRequisitos($codVaga, $this->requisitosRemover($requisitos, $requisitosExistentes));
+        return response()->json(['message' => 'success'], 200);
     }
 
     private function criaRequisitoRequest(int $codVaga, array $requisitos){
