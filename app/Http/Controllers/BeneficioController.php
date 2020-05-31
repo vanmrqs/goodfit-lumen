@@ -59,6 +59,69 @@ class BeneficioController extends Controller {
     }
 
     /**
+     * Cria benefícios em uma vaga
+     *
+     * @param Request $request
+     */
+    public function criaBeneficios(Request $request){
+        $beneficio = [];
+        $beneficio['codVaga'] = $request->codVaga;
+        foreach ($request->beneficios as $beneficio ) {
+            $beneficio['nomeBeneficio'] = $beneficio;
+            Beneficio::create($beneficio);
+        }
+    }
+
+    /**
+     * Remove os benefícios de uma vaga
+     *
+     * @param int $codVaga
+     * @param array $beneficios
+     */
+    public function removeBeneficios(int $codVaga, array $beneficios){
+        foreach ( $beneficios as $beneficio ) {
+            $beneficio = Beneficio::where([
+                ['codVaga', $codVaga],
+                ['nomeBeneficio', $beneficio]
+            ])->first();
+
+            Beneficio::destroy($beneficio->codBeneficio);
+        }
+    }
+
+    /**
+     * Edita os benefícios de uma vaga
+     *
+     * @param Request $request
+     * @param int $codVaga
+     */
+    public function editaBeneficios(Request $request, int $codVaga){
+        $beneficios = $request->beneficios;
+
+        $beneficiosExistentes = array_map(function($i){
+            return (int)$i['nomeBeneficio'];
+        }, Beneficio::where('codaVaga', $codVaga)->get()->toArray());
+
+        $this->criaBeneficios($this->criaBeneficioRequest($codVaga, array_diff($beneficios, $beneficiosExistentes)));;
+        $this->removeBeneficios($codVaga, array_diff($beneficiosExistentes, $beneficios));
+    }
+
+    /**
+     * Cria um request do tipo benefício
+     *
+     * @param int $codVaga
+     * @param array $beneficios
+     * @return Request
+     */
+    private function criaBeneficioRequest(int $codVaga, array $beneficios){
+        $request = [];
+        $request['codVaga']    = $codVaga;
+        $request['beneficios'] = $beneficios;
+
+        return new Request($request);
+    }
+
+    /**
      * Retorna os benefícios de uma
      * vaga
      *

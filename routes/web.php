@@ -156,7 +156,9 @@ $router->group(['prefix' => 'vaga'], function () use ($router) {
     $router->get('/{codVaga}/beneficio', 'BeneficioController@getPorVaga');
     $router->get('/beneficio/{codBeneficio}', 'BeneficioController@show');
     $router->post('beneficio/', 'BeneficioController@store');
+    $router->post('/beneficios', 'BeneficioController@criaBeneficios');
     $router->put('/beneficio/{codBeneficio}', 'BeneficioController@update');
+    $router->put('/{codVaga}/beneficios', 'BeneficioController@editaBeneficios');
     $router->delete('/beneficio/{codBeneficio}', 'BeneficioController@destroy');
 
     $router->get('/requisito/{codVaga}', 'AdicionalController@getEmVaga');
