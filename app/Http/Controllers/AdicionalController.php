@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Adicional;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -36,6 +37,7 @@ class AdicionalController extends Controller {
      * Cria um novo adicional
      *
      * @param Request $request
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function store(Request $request){
@@ -46,6 +48,8 @@ class AdicionalController extends Controller {
         }
 
         Adicional::create($adicional);
+
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
@@ -53,6 +57,7 @@ class AdicionalController extends Controller {
      *
      * @param Request $request
      * @param int $codAdicional
+     * @return JsonResponse
      * @throws ValidationException
      */
     public function update(Request $request, $codAdicional){
@@ -65,19 +70,19 @@ class AdicionalController extends Controller {
             $adicional['imagemAdicional'] = $this->uploadImagem($request->imagemAdicional, 300, 300, PASTA_IMAGENS);
         }
 
-        $adicional['nomeAdicional']    = $request->nomeAdicional;
-        $adicional['grauAdicional']    = $request->grauAdicional;
-        $adicional['codTipoAdicional'] = $request->codTipoAdicional;
-        $adicional->save();
+        $adicional->update($request->all());
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
      * Exclui um adicional
      *
      * @param int $codAdicional
+     * @return JsonResponse
      */
     public function destroy($codAdicional){
         Adicional::destroy($codAdicional);
+        return response()->json(['message' => 'success'], 200);
     }
 
     /**
