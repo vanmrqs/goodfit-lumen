@@ -203,7 +203,7 @@ class DatabaseSeeder extends Seeder
            ],
         ]);
 
-        CANDIDATOS
+        //CANDIDATOS
         DB::table('tbCandidato')->insert([
     	   [
         	    'codCandidato'            => 1,
