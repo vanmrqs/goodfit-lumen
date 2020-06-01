@@ -165,4 +165,14 @@ class VagaController extends Controller {
 
         return $vagas;
     }
+
+    /**
+     * Retorna as vagas de uma empresa
+     *
+     * @param int $codEmpresa
+     * @return mixed
+     */
+    public function getPorEmpresa(int $codEmpresa){
+        return Vaga::where('codEmpresa', $codEmpresa)->get();
+    }
 }
