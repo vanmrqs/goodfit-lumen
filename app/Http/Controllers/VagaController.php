@@ -173,6 +173,6 @@ class VagaController extends Controller {
      * @return mixed
      */
     public function getPorEmpresa(int $codEmpresa){
-        return Vaga::where('codEmpresa', $codEmpresa)->get();
+        return Vaga::where('codEmpresa', $codEmpresa)->paginate(5);
     }
 }
