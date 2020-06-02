@@ -59,4 +59,15 @@ class EnderecoController extends Controller {
         Endereco::destroy($codEndereco);
         return response()->json(['message' => 'success'], 200);
     }
+
+    /**
+     * Retorna uma lista de endereços
+     * de códigos passados por array
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function getPorArray(Request $request){
+        return Endereco::whereIn('codEndereco', $request->enderecos)->get();
+    }
 }

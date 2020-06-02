@@ -94,6 +94,10 @@ $router->group(['prefix' => 'empresa'], function () use ($router) {
     $router->delete('/{codEmpresa}', 'EmpresaController@destroy');
 });
 
+$router->group(['prefix' => 'endereco'], function () use ($router) {
+    $router->post('/', 'EnderecoController@getPorArray');
+});
+
 $router->group(['prefix' => 'habilidade'], function () use ($router) {
     $router->get('/{codCurriculo}', 'AdicionalController@getHabilidadesCurriculo');
 });
