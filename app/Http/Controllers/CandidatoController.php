@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Adicional;
 use App\Candidato;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -96,6 +97,20 @@ class CandidatoController extends Controller {
     }
 
     /**
+     * Retorna os candidatos que estão participando
+     * de algum processo seletivo da empresa
+     *
+     * @param int $codEmpresa
+     * @return mixed
+     */
+    public function getPorProcessoSeletivoEmpresa(int $codEmpresa){
+        return Candidato::join('tbCandidatura', 'tbCandidato.codCandidato', '=', 'tbCandidatura.codCandidato')
+            ->join('tbVaga', 'tbCandidatura.codVaga', '=', 'tbVaga.codVaga')
+            ->where('tbVaga.codEmpresa', $codEmpresa)
+            ->paginate(15);
+    }
+
+    /**
      * Devolve apenas os números do
      * texto passado
      *
@@ -124,10 +139,10 @@ class CandidatoController extends Controller {
 
         for ($t = 9; $t < 11; $t++) {
             for ($d = 0, $c = 0; $c < $t; $c++) {
-                $d += $cpf{$c} * (($t + 1) - $c);
+                $d += $cpf[$c] * (($t + 1) - $c);
             }
             $d = ((10 * $d) % 11) % 10;
-            if ($cpf{$c} != $d) {
+            if ($cpf[$c] != $d) {
                 return false;
             }
         }

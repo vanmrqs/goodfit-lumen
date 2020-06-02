@@ -88,6 +88,7 @@ $router->group(['prefix' => 'empresa'], function () use ($router) {
     $router->get('/', 'EmpresaController@index');
     $router->get('/{codEmpresa}', 'EmpresaController@show');
     $router->get('/{codEmpresa}/vagas', 'VagaController@getPorEmpresa');
+    $router->get('/{codEmpresa}/candidatos', 'CandidatoController@getPorProcessoSeletivoEmpresa');
     $router->post('/', 'EmpresaController@store');
     $router->put('/{codEmpresa}', 'EmpresaController@update');
     $router->delete('/{codEmpresa}', 'EmpresaController@destroy');
