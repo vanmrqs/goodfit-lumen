@@ -129,11 +129,14 @@ class VagaController extends Controller {
             FROM tbVaga
             INNER JOIN tbRequisitoVaga
                 ON tbVaga.codVaga = tbRequisitoVaga.codVaga
+            INNER JOIN tbadicional
+                ON tbrequisitovaga.codAdicional = tbadicional.codAdicional
             WHERE tbRequisitoVaga.codAdicional NOT IN (
                 SELECT tbAdicionalCurriculo.codAdicional
                 FROM tbAdicionalCurriculo
                 WHERE tbAdicionalCurriculo.codCurriculo = '$codCurriculo'
             ) AND tbRequisitoVaga.obrigatoriedadeRequisitoVaga = 1
+            AND tbadicional.codTipoAdicional = 1
         ) AND tbVaga.codVaga IN (
             SELECT tbVaga.codVaga
             FROM tbVaga
@@ -141,6 +144,21 @@ class VagaController extends Controller {
                 ON tbVaga.codVaga = tbRequisitoVaga.codVaga
             INNER JOIN tbAdicionalCurriculo
                 ON tbRequisitoVaga.codAdicional = tbAdicionalCurriculo.codAdicional
+        ) AND tbVaga.codVaga IN (
+            SELECT tbVaga.codVaga
+            FROM tbVaga
+            INNER JOIN tbRequisitoVaga
+                ON tbVaga.codVaga = tbRequisitoVaga.codVaga
+            INNER JOIN tbAdicional AS tbComparaVaga
+                ON tbRequisitoVaga.codAdicional = tbComparaVaga.codAdicional
+                AND tbComparaVaga.codTipoAdicional IN (2, 3)
+            INNER JOIN tbAdicionalCurriculo
+                ON tbAdicionalCurriculo.codCurriculo = '$codCurriculo'
+            INNER JOIN tbAdicional AS tbComparaCurriculo
+                ON tbAdicionalCurriculo.codAdicional = tbComparaCurriculo.codAdicional
+                AND tbComparaCurriculo.codTipoAdicional = tbComparaVaga.codTipoAdicional
+                AND tbComparaCurriculo.codTipoAdicional IN (2, 3)
+            WHERE tbComparaCurriculo.grauAdicional >= tbComparaVaga.grauAdicional
         )
         AND tbVaga.quantidadeVaga > 0
         GROUP BY
