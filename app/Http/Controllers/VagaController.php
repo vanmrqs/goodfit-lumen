@@ -119,11 +119,9 @@ class VagaController extends Controller {
             ON tbProfissao.codCategoria = tbCategoria.codCategoria
         INNER JOIN tbCargoCurriculo
             ON tbCategoria.codCategoria = tbCargoCurriculo.codCategoria
-        WHERE tbVaga.codVaga NOT IN (
-            SELECT tbCandidatura.codVaga
-            FROM tbCandidatura
-            WHERE tbCandidatura.codCandidato = '$codCandidato'
-        )
+        LEFT JOIN tbcandidatura
+        	ON tbvaga.codVaga = tbcandidatura.codVaga
+            AND tbcandidatura.codCandidato = 3
         AND tbVaga.codVaga NOT IN (
             SELECT tbVaga.codVaga
             FROM tbVaga
@@ -161,6 +159,7 @@ class VagaController extends Controller {
             WHERE tbComparaCurriculo.grauAdicional >= tbComparaVaga.grauAdicional
         )
         AND tbVaga.quantidadeVaga > 0
+        AND tbcandidatura.codCandidatura IS NULL
         GROUP BY
             tbVaga.codVaga,
             tbVaga.descricaoVaga,
