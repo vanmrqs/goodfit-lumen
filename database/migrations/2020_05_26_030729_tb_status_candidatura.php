@@ -16,6 +16,7 @@ class TbStatusCandidatura extends Migration
         Schema::create('tbStatusCandidatura', function(Blueprint $table){
             $table->increments('codStatusCandidatura');
             $table->string('nomeStatusCandidatura', 50)->unique();
+            $table->text('feedbackCandidatura');
             $table->timestamps();
           });
     }
