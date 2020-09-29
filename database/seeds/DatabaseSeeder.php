@@ -209,7 +209,6 @@ class DatabaseSeeder extends Seeder
         	    'codCandidato'            => 1,
                 'nomeCandidato'           => 'Candidato',
                 'cpfCandidato'            => '12345678901',
-                'rgCandidato'             => '123',
                 'dataNascimentoCandidato' => '895795200',
                 'codUsuario'              => 6,
     	   ],

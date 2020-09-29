@@ -9,12 +9,11 @@ class Candidato extends Model
 {
     protected $table 	  = 'tbCandidato';
     protected $primaryKey = 'codCandidato';
-    protected $fillable   = ['nomeCandidato', 'cpfCandidato', 'rgCandidato', 'dataNascimentoCandidato', 'codUsuario'];
+    protected $fillable   = ['nomeCandidato', 'cpfCandidato', 'dataNascimentoCandidato', 'codUsuario'];
 
     public static $rules  = [
         'nomeCandidato'           => 'string|required|min:3|max:150',
         'cpfCandidato'            => 'string|required|min:11|max:11',
-        'rgCandidato'             => 'string|required|max:20',
         'dataNascimentoCandidato' => 'integer|required',
         'codUsuario'              => 'integer|required'
     ];
