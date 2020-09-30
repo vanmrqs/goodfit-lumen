@@ -98,6 +98,12 @@ $router->group(['prefix' => 'endereco'], function () use ($router) {
     $router->post('/', 'EnderecoController@getPorArray');
 });
 
+$router->group(['prefix' => 'experiencia-profissional'], function () use ($router) {
+    $router->get('/{codCurriculo}', 'ExperienciaProfissional@getPorCurriculo');
+    $router->post('/', 'ExperienciaProfissional@store');
+    $router->put('/{codExperiencia}', 'ExperienciaProfissional@update');
+});
+
 $router->group(['prefix' => 'habilidade'], function () use ($router) {
     $router->get('/{codCurriculo}', 'AdicionalController@getHabilidadesCurriculo');
 });
