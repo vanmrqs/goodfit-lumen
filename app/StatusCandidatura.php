@@ -8,9 +8,10 @@ class StatusCandidatura extends Model
 {
     protected $table 	  = 'tbStatusCandidatura';
     protected $primaryKey = 'codStatusCandidatura';
-    protected $fillable   = ['nomeStatusCandidatura'];
+    protected $fillable   = ['nomeStatusCandidatura', 'feedbackCandidatura'];
 
     public static $rules  = [
-        'nomeStatusCandidatura' => 'string|required|min:6|max:50'
+        'nomeStatusCandidatura' => 'string|required|min:6|max:50',
+        'feedbackCandidatura'   => 'string|min:10'
     ];
 }
