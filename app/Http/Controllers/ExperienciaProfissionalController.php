@@ -8,6 +8,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
+define('PASTA_UPLOADS', 'experiencia');
+
 class ExperienciaProfissionalController extends Controller {
     /**
      * Adiciona uma nova experiência profissional
@@ -18,6 +20,10 @@ class ExperienciaProfissionalController extends Controller {
      * @throws ValidationException
      */
     public function store(Request $request){
+        if ( $request->has('videoExperienciaProfissionalArquivo') ) {
+            $request['videoExperienciaProfissional'] = $this->uploadVideo($request->videoExperienciaProfissionalArquivo, PASTA_UPLOADS);
+        }
+
         $experiencia = $this->validate($request, ExperienciaProfissional::$rules);
         ExperienciaProfissional::create($experiencia);
         return response()->json(['message' => 'success'], 200);
@@ -35,6 +41,12 @@ class ExperienciaProfissionalController extends Controller {
         $this->validate($request, ExperienciaProfissional::$rules);
 
         $experiencia = ExperienciaProfissional::findOrFail($codExperiencia);
+
+        if ( $request->has('videoExperienciaProfissionalArquivo') ) {
+            $this->deletaVideo($experiencia['videoExperienciaProfissional'], PASTA_UPLOADS);
+            $request['videoExperienciaProfissional'] = $this->uploadVideo($request->videoExperienciaProfissionalArquivo, PASTA_UPLOADS);
+        }
+
         $experiencia->update($request->all());
         return response()->json(['message' => 'success'], 200);
     }

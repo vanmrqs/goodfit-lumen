@@ -4,12 +4,13 @@
 namespace App\Http\Controllers;
 
 
-use App\Adicional;
 use App\Candidato;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+
+define('PASTA_IMAGENS', 'candidato');
 
 class CandidatoController extends Controller {
     /**
@@ -48,6 +49,8 @@ class CandidatoController extends Controller {
             return response()->json(['message' => 'CPF inválido'], 400);
         }
 
+        $candidato['imagemCpfCandidato'] = $this->uploadFoto($request->imagemCpf, $request->codNivelUsuario);
+
         Candidato::create($candidato);
         return response()->json(['message' => 'success'], 200);
     }
@@ -63,12 +66,18 @@ class CandidatoController extends Controller {
     public function update(Request $request, int $codCandidato){
         $this->validate($request, Candidato::$rules);
 
+        $candidato = Candidato::findOrFail($codCandidato);
+
         $request->cpfCandidato = $this->removeNaoNumericos($request->cpfCandidato);
         if ( ! $this->validaCPF($request->cpfCandidato) ) {
             return response()->json(['message' => 'CPF inválido'], 400);
         }
 
-        $candidato = Candidato::findOrFail($codCandidato);
+        if ( $request->has('imagemCpf') ) {
+            $this->deletaImagem($candidato['imagemCpfCandidato'], PASTA_IMAGENS);
+            $request->fotoUsuario = $this->uploadFoto($request->imagemCpf);
+        }
+
         $candidato->update($request->all());
         return response()->json(['message' => 'success'], 200);
     }
@@ -148,5 +157,17 @@ class CandidatoController extends Controller {
         }
 
         return true;
+    }
+
+    /**
+     * Realiza o upload de foto para CPF
+     *
+     * @param $imagem
+     * @return string
+     */
+    private function uploadFoto($imagem){
+        if ( $imagem !== null ) {
+            return $this->uploadImagem($imagem, 300, 300, PASTA_IMAGENS);
+        }
     }
 }
