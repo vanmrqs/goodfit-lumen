@@ -21,6 +21,8 @@ $router->get('/key', function() {
     return \Illuminate\Support\Str::random(32);
 });
 
+$router->post('/login', 'UsuarioController@login');
+
 $router->group(['prefix' => 'endereco'], function () use ($router) {
     $router->post('/', 'EnderecoController@store');
 });

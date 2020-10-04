@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 define('PASTA_IMAGENS', 'usuario');
+define('SALT', 's0mRIdlKvI');
 
 class UsuarioController extends Controller {
     /**
@@ -82,6 +83,51 @@ class UsuarioController extends Controller {
     public function destroy(int $codUsuario){
         Usuario::destroy($codUsuario);
         return response()->json(['message' => 'success'], 200);
+    }
+
+    /**
+     * Autentica um usuário e retorna o token
+     *
+     * @param string $user
+     * @param string $password
+     * @return bool|string
+     */
+    public function authenticateUser(string $user, string $password){
+        $usuario = $this->getUsuarioPorUser($user);
+
+        if ( ! $usuario ) {
+            return false;
+        }
+
+        if (password_verify($password, $usuario->password)) {
+            return sha1(time() . uniqid() . SALT);
+        }
+
+        return false;
+    }
+
+    /**
+     * Função que retorna um usuário pelo id
+     *
+     * @param string $user
+     * @return mixed
+     */
+    public function getUsuarioPorUser(string $user) {
+        return Usuario::where('loginUsuario', $user)->get();
+    }
+
+    /**
+     * Recebe os dados do login e envia para
+     * autenticação
+     *
+     * @param Request $request
+     * @return bool|string
+     */
+    public function login(Request $request) {
+        $user     = $request->user;
+        $password = $request->password;
+
+        return $this->authenticateUser($user, $password);
     }
 
     /**

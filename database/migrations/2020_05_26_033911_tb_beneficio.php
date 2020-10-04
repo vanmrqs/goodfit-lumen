@@ -19,7 +19,7 @@ class TbBeneficio extends Migration
             $table->integer('codVaga')->unsigned();
             $table->timestamps();
         });
-      
+
         Schema::table('tbBeneficio', function($table){
             $table->foreign('codVaga')->references('codVaga')->on('tbVaga');
         });
