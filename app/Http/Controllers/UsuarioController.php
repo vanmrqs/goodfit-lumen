@@ -96,14 +96,21 @@ class UsuarioController extends Controller {
         $usuario = $this->getUsuarioPorUser($user);
 
         if ( ! $usuario ) {
-            return false;
+            return response()->json([
+                'error' => 'Usuário não encontrado'
+            ], 404);
         }
 
         if (password_verify($password, $usuario->getAttribute('password'))) {
-            return sha1(time() . uniqid() . SALT);
+            $token = sha1(time() . uniqid() . SALT);
+            return response()->json([
+                'token' => $token
+            ]);
         }
 
-        return false;
+        return response()->json([
+            'error' => 'Senha incorreta'
+        ], 403);
     }
 
     /**
