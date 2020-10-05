@@ -10,12 +10,13 @@ class Candidatura extends Model
 {
   protected $table      = 'tbCandidatura';
   protected $primaryKey = 'codCandidatura';
-  protected $fillable   =  ['codCandidato', 'codVaga', 'codStatusCandidatura'];
+  protected $fillable   =  ['codCandidato', 'codVaga', 'codStatusCandidatura', 'feedbackCandidatura'];
 
   public static $rules  = [
       'codCandidato'         => 'integer|required',
       'codVaga'              => 'integer|required',
-      'codStatusCandidatura' => 'integer'
+      'codStatusCandidatura' => 'integer',
+      'feedbackCandidatura'  => 'string|min:10'
   ];
 
   public function Candidato(){

@@ -99,7 +99,7 @@ class UsuarioController extends Controller {
             return false;
         }
 
-        if (password_verify($password, $usuario->password)) {
+        if (password_verify($password, $usuario->getAttribute('password'))) {
             return sha1(time() . uniqid() . SALT);
         }
 
@@ -113,7 +113,7 @@ class UsuarioController extends Controller {
      * @return mixed
      */
     public function getUsuarioPorUser(string $user) {
-        return Usuario::where('loginUsuario', $user)->get();
+        return Usuario::where('loginUsuario', $user)->first();
     }
 
     /**
