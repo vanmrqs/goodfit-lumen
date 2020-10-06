@@ -15,7 +15,7 @@ class TbCandidatura extends Migration
     {
         Schema::create('tbCandidatura', function(Blueprint $table){
             $table->increments('codCandidatura');
-            $table->timestamp('dataCandidatura');
+            $table->integer('dataCandidatura');
             $table->integer('codCandidato')->unsigned();
             $table->integer('codVaga')->unsigned();
             $table->integer('codStatusCandidatura')->unsigned();

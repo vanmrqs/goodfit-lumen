@@ -112,10 +112,23 @@ class CandidatoController extends Controller {
      * @param int $codEmpresa
      * @return mixed
      */
-    public function getPorProcessoSeletivoEmpresa(int $codEmpresa){
+    public function getCandidatosPorEmpresa(int $codEmpresa){
         return Candidato::join('tbCandidatura', 'tbCandidato.codCandidato', '=', 'tbCandidatura.codCandidato')
             ->join('tbVaga', 'tbCandidatura.codVaga', '=', 'tbVaga.codVaga')
+            ->join('tbProfissao', 'tbProfissao.codProfissao', 'tbVaga.codProfissao')
+            ->join('tbCategoria', 'tbProfissao.codCategoria', 'tbCategoria.codCategoria')
+            ->join('tbUsuario', 'tbCandidato.codUsuario', 'tbUsuario.codUsuario')
             ->where('tbVaga.codEmpresa', $codEmpresa)
+            ->select(
+                'tbCandidatura.codCandidato',
+                'tbProfissao.nomeProfissao',
+                'tbCategoria.imagemCategoria',
+                'tbVaga.codVaga',
+                'tbVaga.descricaoVaga',
+                'tbVaga.salarioVaga',
+                'tbUsuario.fotoUsuario',
+                'tbCandidato.nomeCandidato'
+            )
             ->paginate(15);
     }
 
