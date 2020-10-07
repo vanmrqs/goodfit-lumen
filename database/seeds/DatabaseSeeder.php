@@ -128,7 +128,7 @@ class DatabaseSeeder extends Seeder
                 'codUsuario'      => 3,
                 'fotoUsuario'     => 'linx.jpg',
                 'loginUsuario'    => 'Linx',
-                'password'        => '$2y$10$UGYW4JK2i.8Jv1IQdHpZdu9hX.HwIXukFjpZxYcS5Y.KPEqciHNai',
+                'password'        => '$2y$10$Mo4Fovd4Xj5Y7AzJwzZmUONa5dBXXSiCioCsk3H3NEUn4guSiL9JO',
                 'email'           =>'linx@software.com.br',
                 'codNivelUsuario' => 3,
                 'codEndereco'     => 3,

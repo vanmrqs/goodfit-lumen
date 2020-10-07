@@ -21,10 +21,10 @@ class TbUsuario extends Migration
             $table->string('email', 150)->unique();
             $table->integer('codNivelUsuario')->unsigned();
             $table->integer('codEndereco')->unsigned()->nullable();
-            $table->string('remember_token', 100)->nullable();
+            $table->string('token', 60)->nullable();
             $table->timestamps();
           });
-      
+
           Schema::table('tbUsuario', function($table){
             $table->foreign('codNivelUsuario')->references('codNivelUsuario')->on('tbNivelUsuario');
             $table->foreign('codEndereco')->references('codEndereco')->on('tbEndereco');

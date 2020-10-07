@@ -103,6 +103,9 @@ class UsuarioController extends Controller {
 
         if (password_verify($password, $usuario->getAttribute('password'))) {
             $token = sha1(time() . uniqid() . SALT);
+
+            $this->setToken($usuario, $token);
+
             return response()->json([
                 'token' => $token
             ]);
@@ -124,6 +127,20 @@ class UsuarioController extends Controller {
     }
 
     /**
+     * Retorna um usuário pelo token
+     *
+     * @param string $token
+     * @return |null
+     */
+    public function getUsuarioPorToken(string $token) {
+        if ( strlen($token) !== 60 ) {
+            return null;
+        }
+
+        return Usuario::where('token', $token);
+    }
+
+    /**
      * Recebe os dados do login e envia para
      * autenticação
      *
@@ -135,6 +152,17 @@ class UsuarioController extends Controller {
         $password = $request->password;
 
         return $this->authenticateUser($user, $password);
+    }
+
+    /**
+     * Seta um token para um usuário
+     *
+     * @param Usuario $usuario
+     * @param string $token
+     */
+    private function setToken(Usuario $usuario, string $token) {
+        $usuario->token = $token;
+        $usuario->save();
     }
 
     /**
