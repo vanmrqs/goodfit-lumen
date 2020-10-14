@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use phpDocumentor\Reflection\Types\Object_;
 
 define('PASTA_IMAGENS', 'candidato');
 
@@ -113,7 +114,7 @@ class CandidatoController extends Controller {
      * @return mixed
      */
     public function getCandidatosPorEmpresa(int $codEmpresa){
-        return Candidato::join('tbCandidatura', 'tbCandidato.codCandidato', '=', 'tbCandidatura.codCandidato')
+        $candidaturas = Candidato::join('tbCandidatura', 'tbCandidato.codCandidato', '=', 'tbCandidatura.codCandidato')
             ->join('tbVaga', 'tbCandidatura.codVaga', '=', 'tbVaga.codVaga')
             ->join('tbProfissao', 'tbProfissao.codProfissao', 'tbVaga.codProfissao')
             ->join('tbCategoria', 'tbProfissao.codCategoria', 'tbCategoria.codCategoria')
@@ -130,6 +131,9 @@ class CandidatoController extends Controller {
                 'tbCandidato.nomeCandidato'
             )
             ->paginate(15);
+
+
+        return $this->separaCandidatosPorVaga($candidaturas);
     }
 
     /**
@@ -142,6 +146,42 @@ class CandidatoController extends Controller {
      */
     private function removeNaoNumericos(string $texto){
         return preg_replace('/[^0-9]/', '', $texto);
+    }
+
+    /**
+     * Separa as candidaturas por vaga
+     *
+     * @param Object $response
+     * @return array
+     */
+    private function separaCandidatosPorVaga(Object $response) {
+        $vagas = [];
+
+        foreach ( $response->values() as $candidatura) {
+            $codVaga = $candidatura->getAttribute('codVaga');
+
+            if ( ! array_key_exists($codVaga, $vagas) ) {
+                $vaga = new \stdClass();
+
+                $vaga->descricaoVaga   = $candidatura->getAttribute('descricaoVaga');
+                $vaga->imagemCategoria = $candidatura->getAttribute('imagemCategoria');
+                $vaga->nomeProfissao   = $candidatura->getAttribute('nomeProfissao');
+                $vaga->salarioVaga     = $candidatura->getAttribute('salarioVaga');
+                $vaga->candidatos      = [];
+
+                $vagas[$codVaga]       = $vaga;
+            }
+
+            unset($candidatura->codVaga);
+            unset($candidatura->descricaoVaga);
+            unset($candidatura->imagemCategoria);
+            unset($candidatura->nomeProfissao);
+            unset($candidatura->salarioVaga);
+
+            $vagas[$codVaga]->candidatos[] = $candidatura;
+        }
+
+        return array_values($vagas);
     }
 
     /**
