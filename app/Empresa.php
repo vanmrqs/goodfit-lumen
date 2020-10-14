@@ -14,7 +14,7 @@ class Empresa extends Model
     public static $rules  = [
         'razaoSocialEmpresa'  => 'string|required|min:6|max:200',
         'nomeFantasiaEmpresa' => 'string|required|max:200',
-        'cnpjEmpresa'         => 'string|required|min:14|max:14',
+        'cnpjEmpresa'         => 'string|required|size:14',
         'codUsuario'          => 'integer|required'
     ];
 

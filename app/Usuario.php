@@ -18,7 +18,7 @@ class Usuario extends Model
       'fotoUsuario'     => 'string',
       'loginUsuario'    => 'string|required|min:6|max:50|unique:tbusuario',
       'email'           => 'email|required|max:150|unique:tbusuario',
-      'password'        => 'string|required',
+      'password'        => 'string|required|min:8',
       'codNivelUsuario' => 'integer|required',
       'token'           => 'string|size:60'
   ];
