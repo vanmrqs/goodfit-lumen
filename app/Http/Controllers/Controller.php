@@ -7,10 +7,6 @@ use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
-define('NIVEL_MODERADOR', 1);
-define('NIVEL_CANDIDATO', 2);
-define('NIVEL_EMPRESA', 3);
-
 class Controller extends BaseController
 {
     /**

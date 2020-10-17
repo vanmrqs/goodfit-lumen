@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Helper\UsuarioHelper;
 use App\Vaga;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -189,7 +190,17 @@ class VagaController extends Controller {
      * @param int $codEmpresa
      * @return mixed
      */
-    public function getPorEmpresa(int $codEmpresa){
-        return Vaga::where('codEmpresa', $codEmpresa)->paginate(5);
+    public function getPorEmpresa(Request $request){
+        $usuario = $request->auth;
+
+        if ( ! UsuarioHelper::isSpecialUser($usuario) ) {
+            return response()->json([
+                'error' => 'Você não possui permissão para acessar esses dados'
+            ], 403);
+        }
+
+        $empresa = UsuarioHelper::getEmpresaPorUsuario($usuario);
+
+        return Vaga::where('codEmpresa', $empresa->getAttribute('codEmpresa'))->paginate(5);
     }
 }

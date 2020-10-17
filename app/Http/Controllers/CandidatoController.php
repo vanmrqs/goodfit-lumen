@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Candidato;
 use App\Usuario;
+use App\Http\Helper\UsuarioHelper;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -117,18 +118,20 @@ class CandidatoController extends Controller {
     public function getCandidatosPorEmpresa(Request $request){
         $usuario      = $request->auth;
 
-        if ( ! $this->isSpecialUser($usuario) ) {
+        if ( ! UsuarioHelper::isSpecialUser($usuario) ) {
             return response()->json([
                 'error' => 'Você não possui permissão para acessar esses dados'
             ], 403);
         }
+
+        $empresa      = UsuarioHelper::getEmpresaPorUsuario($usuario);
 
         $candidaturas = Candidato::join('tbCandidatura', 'tbCandidato.codCandidato', '=', 'tbCandidatura.codCandidato')
             ->join('tbVaga', 'tbCandidatura.codVaga', '=', 'tbVaga.codVaga')
             ->join('tbProfissao', 'tbProfissao.codProfissao', 'tbVaga.codProfissao')
             ->join('tbCategoria', 'tbProfissao.codCategoria', 'tbCategoria.codCategoria')
             ->join('tbUsuario', 'tbCandidato.codUsuario', 'tbUsuario.codUsuario')
-            ->where('tbVaga.codEmpresa', $usuario->getAttribute('codUsuario'))
+            ->where('tbVaga.codEmpresa', $empresa->getAttribute('codUsuario'))
             ->select(
                 'tbCandidatura.codCandidato',
                 'tbProfissao.nomeProfissao',
@@ -231,13 +234,5 @@ class CandidatoController extends Controller {
         if ( $imagem !== null ) {
             return $this->uploadImagem($imagem, 300, 300, PASTA_IMAGENS);
         }
-    }
-
-    private function isSpecialUser(Usuario $usuario){
-        if ( in_array($usuario->getAttribute('codNivelUsuario'), [NIVEL_EMPRESA, NIVEL_MODERADOR]) ) {
-            return true;
-        }
-
-        return false;
     }
 }
