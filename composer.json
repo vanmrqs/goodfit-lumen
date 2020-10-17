@@ -6,8 +6,10 @@
     "type": "project",
     "require": {
         "php": "^7.2.5",
+        "firebase/php-jwt": "^5.2",
+        "intervention/image": "dev-master",
         "laravel/lumen-framework": "^7.0",
-		"intervention/image": "dev-master"
+        "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9.1",

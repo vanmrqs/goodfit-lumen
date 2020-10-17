@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 
 
 use App\Usuario;
+use Firebase\JWT\JWK;
+use Firebase\JWT;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 define('PASTA_IMAGENS', 'usuario');
-define('SALT', 's0mRIdlKvI');
+define('JWT_SECRET', 'dfdf685283bc4caf270b07d0753628cb');
 
 class UsuarioController extends Controller {
     /**
@@ -102,12 +104,8 @@ class UsuarioController extends Controller {
         }
 
         if (password_verify($password, $usuario->getAttribute('password'))) {
-            $token = sha1(time() . uniqid() . SALT);
-
-            $this->setToken($usuario, $token);
-
             return response()->json([
-                'token' => $token
+                'token' => $this->jwt($usuario->getAttribute('codUsuario'))
             ]);
         }
 
@@ -127,20 +125,6 @@ class UsuarioController extends Controller {
     }
 
     /**
-     * Retorna um usuário pelo token
-     *
-     * @param string $token
-     * @return |null
-     */
-    public function getUsuarioPorToken(string $token) {
-        if ( strlen($token) !== 60 ) {
-            return null;
-        }
-
-        return Usuario::where('token', $token);
-    }
-
-    /**
      * Recebe os dados do login e envia para
      * autenticação
      *
@@ -154,15 +138,14 @@ class UsuarioController extends Controller {
         return $this->authenticateUser($user, $password);
     }
 
-    /**
-     * Seta um token para um usuário
-     *
-     * @param Usuario $usuario
-     * @param string $token
-     */
-    private function setToken(Usuario $usuario, string $token) {
-        $usuario->token = $token;
-        $usuario->save();
+    protected function jwt(int $codUsuario) {
+        $payload = [
+            'iss' => 'lumen-jwt',
+            'sub' => $codUsuario,
+            'iat' => time()
+        ];
+
+        return JWT\JWT::encode($payload, JWT_SECRET);
     }
 
     /**

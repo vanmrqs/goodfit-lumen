@@ -21,6 +21,12 @@ $router->get('/key', function() {
     return \Illuminate\Support\Str::random(32);
 });
 
+$router->group(['middleware' => 'jwt.auth'],
+    function() use ($router) {
+        $router->get('nivel', 'NivelUsuarioController@index');
+    }
+);
+
 $router->post('/login', 'UsuarioController@login');
 
 $router->group(['prefix' => 'endereco'], function () use ($router) {
