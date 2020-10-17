@@ -23,7 +23,9 @@ $router->get('/key', function() {
 
 $router->group(['middleware' => 'jwt.auth'],
     function() use ($router) {
-        $router->get('nivel', 'NivelUsuarioController@index');
+        $router->group(['prefix' => 'empresa'], function () use ($router) {
+            $router->get('/candidatos', 'CandidatoController@getCandidatosPorEmpresa');
+        });
     }
 );
 
@@ -96,7 +98,6 @@ $router->group(['prefix' => 'empresa'], function () use ($router) {
     $router->get('/', 'EmpresaController@index');
     $router->get('/{codEmpresa}', 'EmpresaController@show');
     $router->get('/{codEmpresa}/vagas', 'VagaController@getPorEmpresa');
-    $router->get('/{codEmpresa}/candidatos', 'CandidatoController@getCandidatosPorEmpresa');
     $router->post('/', 'EmpresaController@store');
     $router->put('/{codEmpresa}', 'EmpresaController@update');
     $router->delete('/{codEmpresa}', 'EmpresaController@destroy');

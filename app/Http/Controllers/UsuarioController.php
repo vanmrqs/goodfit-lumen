@@ -105,7 +105,7 @@ class UsuarioController extends Controller {
 
         if (password_verify($password, $usuario->getAttribute('password'))) {
             return response()->json([
-                'token' => $this->jwt($usuario->getAttribute('codUsuario'))
+                'token' => $this->jwt($usuario)
             ]);
         }
 
@@ -138,11 +138,12 @@ class UsuarioController extends Controller {
         return $this->authenticateUser($user, $password);
     }
 
-    protected function jwt(int $codUsuario) {
+    protected function jwt(Usuario $usuario) {
         $payload = [
-            'iss' => 'lumen-jwt',
-            'sub' => $codUsuario,
-            'iat' => time()
+            'iss'   => 'lumen-jwt',
+            'cod'   => $usuario->getAttribute('codUsuario'),
+            'nivel' => $usuario->getAttribute('codNivelUsuario'),
+            'iat'   => time()
         ];
 
         return JWT\JWT::encode($payload, JWT_SECRET);

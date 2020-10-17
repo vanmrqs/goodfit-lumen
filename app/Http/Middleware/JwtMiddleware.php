@@ -6,6 +6,7 @@ namespace App\Http\Middleware;
 
 use App\Usuario;
 use Firebase\JWT\JWT;
+use Illuminate\Support\Facades\Config;
 
 define('JWT_SECRET', 'dfdf685283bc4caf270b07d0753628cb');
 
@@ -29,7 +30,7 @@ class JwtMiddleware
             ], 401);
         }
 
-        $request->auth = Usuario::findOrFail($credenciais->sub);
+        $request->auth = Usuario::findOrFail($credenciais->cod);
 
         return $next($request);
     }
