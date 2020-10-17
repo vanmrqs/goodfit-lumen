@@ -104,6 +104,7 @@ $router->group(['prefix' => 'empresa'], function () use ($router) {
 });
 
 $router->group(['prefix' => 'endereco'], function () use ($router) {
+    $router->get('/{codEndereco}', 'EnderecoController@show');
     $router->post('/', 'EnderecoController@getPorArray');
 });
 
