@@ -124,6 +124,21 @@ class UsuarioController extends Controller {
         return Usuario::where('loginUsuario', $user)->first();
     }
 
+    public function getUsuarioPorEmail(string $email) {
+        return Usuario::where('email', $email)->first();
+    }
+
+    public function findUser(Request $request){
+        if ($request->loginUsuario) {
+            $user = $request->loginUsuario;
+            return $this->getUsuarioPorUser($user);
+        }
+        if ($request->email) {
+            $email = $request->email;
+            return $this->getUsuarioPorEmail($email);
+        }
+    }
+
     /**
      * Recebe os dados do login e envia para
      * autenticação

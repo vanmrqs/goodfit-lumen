@@ -164,6 +164,7 @@ $router->group(['prefix' => 'usuario'], function () use ($router) {
     $router->post('/', 'UsuarioController@store');
     $router->put('/{codUsuario}', 'UsuarioController@update');
     $router->delete('/{codUsuario}', 'UsuarioController@destroy');
+    $router->post('/find', 'UsuarioController@findUser');
 });
 
 $router->group(['prefix' => 'vaga'], function () use ($router) {
