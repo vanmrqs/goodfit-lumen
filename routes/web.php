@@ -32,10 +32,6 @@ $router->group(['middleware' => 'jwt.auth'],
 
 $router->post('/login', 'UsuarioController@login');
 
-$router->group(['prefix' => 'endereco'], function () use ($router) {
-    $router->post('/', 'EnderecoController@store');
-});
-
 $router->group(['prefix' => 'adicional'], function () use ($router) {
     $router->get('/', 'AdicionalController@index');
     $router->get('/{codAdicional}', 'AdicionalController@show');
@@ -106,6 +102,7 @@ $router->group(['prefix' => 'empresa'], function () use ($router) {
 $router->group(['prefix' => 'endereco'], function () use ($router) {
     $router->get('/{codEndereco}', 'EnderecoController@show');
     $router->post('/', 'EnderecoController@getPorArray');
+    $router->post('/store', 'EnderecoController@store');
 });
 
 $router->group(['prefix' => 'experiencia-profissional'], function () use ($router) {
