@@ -75,6 +75,7 @@ $router->group(['prefix' => 'curriculo'], function () use ($router) {
     $router->post('/', 'CurriculoController@store');
     $router->put('/{codCurriculo}', 'CurriculoController@update');
     $router->delete('/{codCurriculo}', 'CurriculoController@destroy');
+    $router->get('/candidato/{codCandidato}', 'CurriculoController@getCurriculoByCandidatoId');
 
     $router->get('/adicional/{codAdicionalCurriculo}', 'AdicionalCurriculoController@show');
     $router->post('/adicional', 'AdicionalCurriculoController@store');

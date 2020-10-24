@@ -83,4 +83,9 @@ class CurriculoController extends Controller {
         Curriculo::destroy($codCurriculo);
         return response()->json(['message' => 'success'], 200);
     }
+
+    public function getCurriculoByCandidatoId(int $codCandidato){
+
+        return Curriculo::where('codCandidato', '=', $codCandidato)->first();
+    }
 }

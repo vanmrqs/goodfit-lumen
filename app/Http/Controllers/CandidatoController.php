@@ -105,7 +105,7 @@ class CandidatoController extends Controller {
      * @return mixed
      */
     public function getPorUsuario(int $codUsuario){
-        return Candidato::where('codUsuario', $codUsuario)->get();
+        return Candidato::where('codUsuario', $codUsuario)->first();
     }
 
     /**

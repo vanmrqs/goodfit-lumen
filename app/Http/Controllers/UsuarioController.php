@@ -14,6 +14,8 @@ use Illuminate\Validation\ValidationException;
 
 define('PASTA_IMAGENS', 'usuario');
 define('JWT_SECRET', 'dfdf685283bc4caf270b07d0753628cb');
+define('NIVEL_CANDIDATO', 2);
+define('NIVEL_MODERADOR', 1);
 
 class UsuarioController extends Controller {
     /**
@@ -105,6 +107,7 @@ class UsuarioController extends Controller {
 
         if (password_verify($password, $usuario->getAttribute('password'))) {
             return response()->json([
+                'codUsuario' => $usuario->codUsuario,
                 'token' => $this->jwt($usuario)
             ]);
         }
