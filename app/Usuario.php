@@ -12,7 +12,7 @@ class Usuario extends Model
 {
   protected $table      = 'tbUsuario';
   protected $primaryKey = 'codUsuario';
-  protected $fillable   = ['fotoUsuario', 'loginUsuario', 'email', 'password', 'codNivelUsuario', 'token'];
+  protected $fillable   = ['fotoUsuario', 'loginUsuario', 'email', 'password', 'codNivelUsuario', 'token', 'codEndereco'];
 
   public static $rules = [
       'fotoUsuario'     => 'string',
@@ -20,6 +20,7 @@ class Usuario extends Model
       'email'           => 'email|required|max:150|unique:tbusuario',
       'password'        => 'string|required|min:8',
       'codNivelUsuario' => 'integer|required',
+      'codEndereco'     => 'integer|required',
       'token'           => 'string|size:60'
   ];
 

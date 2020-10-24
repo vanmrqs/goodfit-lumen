@@ -40,10 +40,6 @@ $router->group(['middleware' => 'jwt.auth'],
 
 $router->post('/login', 'UsuarioController@login');
 
-$router->group(['prefix' => 'endereco'], function () use ($router) {
-    $router->post('/', 'EnderecoController@store');
-});
-
 $router->group(['prefix' => 'adicional'], function () use ($router) {
     $router->get('/', 'AdicionalController@index');
     $router->get('/{codAdicional}', 'AdicionalController@show');
@@ -87,6 +83,7 @@ $router->group(['prefix' => 'curriculo'], function () use ($router) {
     $router->post('/', 'CurriculoController@store');
     $router->put('/{codCurriculo}', 'CurriculoController@update');
     $router->delete('/{codCurriculo}', 'CurriculoController@destroy');
+    $router->get('/candidato/{codCandidato}', 'CurriculoController@getCurriculoByCandidatoId');
 
     $router->get('/adicional/{codAdicionalCurriculo}', 'AdicionalCurriculoController@show');
     $router->post('/adicional', 'AdicionalCurriculoController@store');
@@ -114,6 +111,7 @@ $router->group(['prefix' => 'empresa'], function () use ($router) {
 $router->group(['prefix' => 'endereco'], function () use ($router) {
     $router->get('/{codEndereco}', 'EnderecoController@show');
     $router->post('/', 'EnderecoController@getPorArray');
+    $router->post('/store', 'EnderecoController@store');
 });
 
 $router->group(['prefix' => 'experiencia-profissional'], function () use ($router) {
@@ -172,6 +170,7 @@ $router->group(['prefix' => 'usuario'], function () use ($router) {
     $router->post('/', 'UsuarioController@store');
     $router->put('/{codUsuario}', 'UsuarioController@update');
     $router->delete('/{codUsuario}', 'UsuarioController@destroy');
+    $router->post('/find', 'UsuarioController@findUser');
 });
 
 $router->group(['prefix' => 'vaga'], function () use ($router) {
