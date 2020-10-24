@@ -28,6 +28,10 @@ $router->group(['middleware' => 'jwt.auth'],
             $router->get('/vagas', 'VagaController@getPorEmpresa');
         });
 
+        $router->group(['prefix' => 'candidatura'], function () use ($router) {
+            $router->put('{codCandidatura}/status/', 'CandidaturaController@trocarStatus');
+        });
+
         $router->group(['prefix' => 'vaga'], function () use ($router) {
             $router->get('/{codVaga}', 'VagaController@getVaga');
 
@@ -65,7 +69,6 @@ $router->group(['prefix' => 'candidatura'], function () use ($router) {
     $router->get('/{codCandidatura}/status', 'StatusController@getPorCandidatura');
     $router->post('/', 'CandidaturaController@store');
     $router->delete('/{codCandidatura}', 'CandidaturaController@destroy');
-    $router->put('{codCandidatura}/status/', 'CandidaturaController@trocarStatus');
 });
 
 $router->group(['prefix' => 'categoria'], function () use ($router) {
