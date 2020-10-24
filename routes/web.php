@@ -27,6 +27,14 @@ $router->group(['middleware' => 'jwt.auth'],
             $router->get('/candidatos', 'CandidatoController@getCandidatosPorEmpresa');
             $router->get('/vagas', 'VagaController@getPorEmpresa');
         });
+
+        $router->group(['prefix' => 'vaga'], function () use ($router) {
+            $router->get('/{codVaga}', 'VagaController@getVaga');
+
+            $router->get('/{codVaga}/beneficio', 'BeneficioController@getPorVaga');
+
+            $router->get('/requisito/{codVaga}', 'AdicionalController@getEmVaga');
+        });
     }
 );
 
@@ -168,13 +176,11 @@ $router->group(['prefix' => 'usuario'], function () use ($router) {
 
 $router->group(['prefix' => 'vaga'], function () use ($router) {
     $router->get('/', 'VagaController@index');
-    $router->get('/{codVaga}', 'VagaController@show');
     $router->get('/match/{codCandidato}/{codCurriculo}', 'VagaController@getMatch');
     $router->post('/', 'VagaController@store');
     $router->put('/{codVaga}', 'VagaController@update');
     $router->delete('/{codVaga}', 'VagaController@destroy');
 
-    $router->get('/{codVaga}/beneficio', 'BeneficioController@getPorVaga');
     $router->get('/beneficio/{codBeneficio}', 'BeneficioController@show');
     $router->post('beneficio/', 'BeneficioController@store');
     $router->post('/beneficios', 'BeneficioController@criaBeneficios');
@@ -182,7 +188,6 @@ $router->group(['prefix' => 'vaga'], function () use ($router) {
     $router->put('/{codVaga}/beneficios', 'BeneficioController@editaBeneficios');
     $router->delete('/beneficio/{codBeneficio}', 'BeneficioController@destroy');
 
-    $router->get('/requisito/{codVaga}', 'AdicionalController@getEmVaga');
     $router->get('/{codVaga}/requisitos/', 'RequisitoVagaController@show');
     $router->post('/requisito', 'RequisitoVagaController@store');
     $router->post('/requisitos', 'RequisitoVagaController@criaRequisitos');

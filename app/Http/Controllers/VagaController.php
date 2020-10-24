@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Helper\EmpresaHelper;
 use App\Http\Helper\UsuarioHelper;
 use App\Vaga;
 use Illuminate\Database\Eloquent\Collection;
@@ -202,5 +203,59 @@ class VagaController extends Controller {
         $empresa = UsuarioHelper::getEmpresaPorUsuario($usuario);
 
         return Vaga::where('codEmpresa', $empresa->getAttribute('codEmpresa'))->paginate(5);
+    }
+
+    public function getVaga(Request $request) {
+        $usuario = $request->auth;
+
+        if ( ! UsuarioHelper::isSpecialUser($usuario) ) {
+            return response()->json([
+                'error' => 'Você não possui permissão para acessar esses dados'
+            ], 403);
+        }
+
+        $empresa = UsuarioHelper::getEmpresaPorUsuario($usuario);
+
+        if ( ! EmpresaHelper::isEmpresaDonaDaVaga($empresa, $request->codVaga) ) {
+            return response()->json([
+                'error' => 'Você não possui permissão para visualizar esta vaga'
+            ], 403);
+        }
+
+        return $this->getVagaAllInfo($request->codVaga);
+    }
+
+    /**
+     * Retorna uma vaga pelo código
+     * com suas informações
+     *
+     * @param int $codVaga
+     * @return array
+     */
+    private function getVagaAllInfo(int $codVaga) {
+        return DB::select("
+        SELECT
+            tbVaga.descricaoVaga,
+            tbVaga.salarioVaga,
+            tbVaga.cargaHorariaVaga,
+            tbVaga.quantidadeVaga,
+            tbProfissao.nomeProfissao,
+            tbCategoria.imagemCategoria,
+            CONCAT(
+                tbEndereco.logradouroEndereco, ', ',
+                tbEndereco.numeroEndereco, 	   ' - ',
+                tbEndereco.bairroEndereco
+            ) AS 'endereco',
+            tbRegimeContratacao.nomeRegimeContratacao
+        FROM tbVaga
+        INNER JOIN tbProfissao
+            ON tbVaga.codProfissao = tbProfissao.codProfissao
+        INNER JOIN tbCategoria
+            ON tbProfissao.codCategoria = tbCategoria.codCategoria
+        INNER JOIN tbEndereco
+            ON tbVaga.codEndereco = tbEndereco.codEndereco
+        INNER JOIN tbRegimeContratacao
+            ON tbVaga.codRegimeContratacao = tbRegimeContratacao.codRegimeContratacao
+        WHERE tbVaga.codVaga = ".$codVaga);
     }
 }

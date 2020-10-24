@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 
 use App\Adicional;
+use App\Http\Helper\EmpresaHelper;
+use App\Http\Helper\UsuarioHelper;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -143,12 +145,28 @@ class AdicionalController extends Controller {
     /**
      * Retorna os requisitos de uma vaga
      *
-     * @param int $codVaga
+     * @param Request $request
      * @return mixed
      */
-    public function getEmVaga(int $codVaga){
-        return Adicional::join('tbRequisitoVaga', 'tbAdicional.codAdicional', '=', 'tbRequisitoVaga.codAdicional')
-            ->where('tbRequisitoVaga.codVaga', $codVaga)
+    public function getEmVaga(Request $request){
+        $usuario = $request->auth;
+
+        if ( ! UsuarioHelper::isSpecialUser($usuario) ) {
+            return response()->json([
+                'error' => 'Você não possui permissão para acessar esses dados'
+            ], 403);
+        }
+
+        $empresa = UsuarioHelper::getEmpresaPorUsuario($usuario);
+
+        if ( ! EmpresaHelper::isEmpresaDonaDaVaga($empresa, $request->codVaga) ) {
+            return response()->json([
+                'error' => 'Você não possui permissão para visualizar esta vaga'
+            ], 403);
+        }
+
+        return Adicional::join('tbRequisitoVaga', 'tbAdicional.codAdicional', 'tbRequisitoVaga.codAdicional')
+            ->where('tbRequisitoVaga.codVaga', $request->codVaga)
             ->get();
     }
 }

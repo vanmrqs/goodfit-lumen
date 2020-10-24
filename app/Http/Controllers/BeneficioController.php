@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 
 use App\Beneficio;
+use App\Http\Helper\EmpresaHelper;
+use App\Http\Helper\UsuarioHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -126,10 +128,26 @@ class BeneficioController extends Controller {
      * Retorna os benefícios de uma
      * vaga
      *
-     * @param int $codVaga
+     * @param Request $request
      * @return mixed
      */
-    public function getPorVaga(int $codVaga){
-        return Beneficio::where('codVaga', $codVaga)->get();
+    public function getPorVaga(Request $request){
+        $usuario = $request->auth;
+
+        if ( ! UsuarioHelper::isSpecialUser($usuario) ) {
+            return response()->json([
+                'error' => 'Você não possui permissão para acessar esses dados'
+            ], 403);
+        }
+
+        $empresa = UsuarioHelper::getEmpresaPorUsuario($usuario);
+
+        if ( ! EmpresaHelper::isEmpresaDonaDaVaga($empresa, $request->codVaga) ) {
+            return response()->json([
+                'error' => 'Você não possui permissão para visualizar esta vaga'
+            ], 403);
+        }
+
+        return Beneficio::where('codVaga', $request->codVaga)->get();
     }
 }
