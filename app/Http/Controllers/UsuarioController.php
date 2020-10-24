@@ -108,6 +108,7 @@ class UsuarioController extends Controller {
         if (password_verify($password, $usuario->getAttribute('password'))) {
             return response()->json([
                 'codUsuario' => $usuario->codUsuario,
+                'codEndereco' => $usuario->codEndereco,
                 'token' => $this->jwt($usuario)
             ]);
         }
