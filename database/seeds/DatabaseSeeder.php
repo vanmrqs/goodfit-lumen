@@ -14,16 +14,20 @@ class DatabaseSeeder extends Seeder
         //STATUS CANDIDATURA
         DB::table('tbStatusCandidatura')->insert([
             [
-              'codStatusCandidatura'  => 1,
-              'nomeStatusCandidatura' => 'Aprovado',
+                'codStatusCandidatura'  => 1,
+                'nomeStatusCandidatura' => 'Aprovado',
             ],
             [
-              'codStatusCandidatura'  => 2,
-              'nomeStatusCandidatura' => 'Em análise',
+                'codStatusCandidatura'  => 2,
+                'nomeStatusCandidatura' => 'Em análise',
             ],
             [
-              'codStatusCandidatura'  => 3,
-              'nomeStatusCandidatura' => 'Recusado',
+                'codStatusCandidatura'  => 3,
+                'nomeStatusCandidatura' => 'Recusado',
+            ],
+            [
+                'codStatusCandidatura'  => 4,
+                'nomeStatusCandidatura' => 'Em Processo',
             ],
         ]);
 

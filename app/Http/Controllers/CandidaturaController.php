@@ -15,11 +15,13 @@ use Illuminate\Validation\ValidationException;
 define('STATUS_APROVADO', 1);
 define('STATUS_ANALISE', 2);
 define('STATUS_RECUSADO', 3);
+define('STATUS_PROCESSO', 4);
 
 define('STATUS_CANDIDATURA', [
-   STATUS_APROVADO,
-   STATUS_ANALISE,
-   STATUS_RECUSADO
+    STATUS_APROVADO,
+    STATUS_ANALISE,
+    STATUS_RECUSADO,
+    STATUS_PROCESSO
 ]);
 
 class CandidaturaController extends Controller {

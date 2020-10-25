@@ -26,6 +26,15 @@ $router->group(['middleware' => 'jwt.auth'],
         $router->group(['prefix' => 'empresa'], function () use ($router) {
             $router->get('/candidatos', 'CandidatoController@getCandidatosPorEmpresa');
             $router->get('/vagas', 'VagaController@getPorEmpresa');
+            $router->get('/vagas/processo', 'CandidatoController@getEmProcessoPorEmpresa');
+        });
+
+        $router->group(['prefix' => 'experiencia-profissional'], function () use ($router) {
+            $router->get('/{codCurriculo}', 'ExperienciaProfissional@getPorCurriculo');
+        });
+
+        $router->group(['prefix' => 'candidato'], function () use ($router) {
+            $router->get('/{codCandidato}', 'CandidatoController@getCandidato');
         });
 
         $router->group(['prefix' => 'candidatura'], function () use ($router) {
@@ -56,7 +65,6 @@ $router->group(['prefix' => 'adicional'], function () use ($router) {
 
 $router->group(['prefix' => 'candidato'], function () use ($router) {
     $router->get('/', 'CandidatoController@index');
-    $router->get('/{codCandidato}', 'CandidatoController@show');
     $router->get('/usuario/{codUsuario}', 'CandidatoController@getPorUsuario');
     $router->post('/', 'CandidatoController@store');
     $router->put('/{codCandidato}', 'CandidatoController@update');
@@ -118,7 +126,6 @@ $router->group(['prefix' => 'endereco'], function () use ($router) {
 });
 
 $router->group(['prefix' => 'experiencia-profissional'], function () use ($router) {
-    $router->get('/{codCurriculo}', 'ExperienciaProfissional@getPorCurriculo');
     $router->post('/', 'ExperienciaProfissional@store');
     $router->put('/{codExperiencia}', 'ExperienciaProfissional@update');
 });

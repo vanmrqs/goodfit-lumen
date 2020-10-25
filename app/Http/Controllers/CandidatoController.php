@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 
 
 use App\Candidato;
-use App\Usuario;
 use App\Http\Helper\UsuarioHelper;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use phpDocumentor\Reflection\Types\Object_;
 
 define('PASTA_IMAGENS', 'candidato');
 
@@ -109,6 +108,37 @@ class CandidatoController extends Controller {
     }
 
     /**
+     * Retorna um candidato pelo código
+     *
+     * @param Request $request
+     * @return array|JsonResponse
+     */
+    public function getCandidato(Request $request) {
+        $usuario = $request->auth;
+
+        if ( ($usuario->codUsuario !== $request->codCandidato) && ( ! UsuarioHelper::isSpecialUser($usuario) ) ) {
+            return response()->json([
+                'error' => 'Você não possui permissão para acessar esses dados'
+            ], 403);
+        }
+
+        return DB::select("
+            SELECT
+                tbCandidato.nomeCandidato,
+                tbUsuario.fotoUsuario,
+                tbUsuario.email,
+                tbCurriculo.videoCurriculo,
+                tbCurriculo.descricaoCurriculo,
+                TIMESTAMPDIFF(YEAR, FROM_UNIXTIME(tbCandidato.dataNascimentoCandidato), FROM_UNIXTIME(UNIX_TIMESTAMP())) AS 'idade'
+            FROM tbCandidato
+            INNER JOIN tbUsuario
+                ON tbCandidato.codUsuario = tbUsuario.codUsuario
+            INNER JOIN tbCurriculo
+                ON tbCandidato.codCandidato = tbCurriculo.codCurriculo
+            WHERE tbCandidato.codCandidato = ".$request->codCandidato);
+    }
+
+    /**
      * Retorna os candidatos que estão participando
      * de algum processo seletivo da empresa
      *
@@ -126,7 +156,8 @@ class CandidatoController extends Controller {
 
         $empresa      = UsuarioHelper::getEmpresaPorUsuario($usuario);
 
-        $candidaturas = Candidato::join('tbCandidatura', 'tbCandidato.codCandidato', '=', 'tbCandidatura.codCandidato')
+        $candidaturas = Candidato::
+            join('tbCandidatura', 'tbCandidato.codCandidato', 'tbCandidatura.codCandidato')
             ->join('tbVaga', 'tbCandidatura.codVaga', '=', 'tbVaga.codVaga')
             ->join('tbProfissao', 'tbProfissao.codProfissao', 'tbVaga.codProfissao')
             ->join('tbCategoria', 'tbProfissao.codCategoria', 'tbCategoria.codCategoria')
@@ -140,10 +171,53 @@ class CandidatoController extends Controller {
                 'tbVaga.descricaoVaga',
                 'tbVaga.salarioVaga',
                 'tbUsuario.fotoUsuario',
-                'tbCandidato.nomeCandidato'
+                'tbCandidato.nomeCandidato',
+                'tbCandidatura.codStatusCandidatura'
             )
             ->paginate(15);
 
+
+        return $this->separaCandidatosPorVaga($candidaturas);
+    }
+
+    /**
+     * Retorna os candidatos em processo por empresa
+     *
+     * @param Request $request
+     * @return array|JsonResponse
+     */
+    public function getEmProcessoPorEmpresa(Request $request) {
+        $usuario      = $request->auth;
+
+        if ( ! UsuarioHelper::isSpecialUser($usuario) ) {
+            return response()->json([
+                'error' => 'Você não possui permissão para acessar esses dados'
+            ], 403);
+        }
+
+        $empresa      = UsuarioHelper::getEmpresaPorUsuario($usuario);
+
+        $candidaturas = Candidato::join('tbCandidatura', 'tbCandidato.codCandidato', 'tbCandidatura.codCandidato')
+            ->join('tbVaga', 'tbCandidatura.codVaga', '=', 'tbVaga.codVaga')
+            ->join('tbProfissao', 'tbProfissao.codProfissao', 'tbVaga.codProfissao')
+            ->join('tbCategoria', 'tbProfissao.codCategoria', 'tbCategoria.codCategoria')
+            ->join('tbUsuario', 'tbCandidato.codUsuario', 'tbUsuario.codUsuario')
+            ->where([
+                ['tbVaga.codEmpresa', $empresa->getAttribute('codUsuario')],
+                ['tbCandidatura.codStatusCandidatura', 4]
+            ])
+            ->select(
+                'tbCandidatura.codCandidato',
+                'tbProfissao.nomeProfissao',
+                'tbCategoria.imagemCategoria',
+                'tbVaga.codVaga',
+                'tbVaga.descricaoVaga',
+                'tbVaga.salarioVaga',
+                'tbUsuario.fotoUsuario',
+                'tbCandidato.nomeCandidato',
+                'tbCandidatura.codStatusCandidatura'
+            )
+            ->paginate(15);
 
         return $this->separaCandidatosPorVaga($candidaturas);
     }

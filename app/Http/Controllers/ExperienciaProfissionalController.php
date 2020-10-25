@@ -55,11 +55,11 @@ class ExperienciaProfissionalController extends Controller {
      * Retorna as experiências profissionais
      * pelo currículo
      *
-     * @param int $codCurriculo
+     * @param Request $request
      * @return mixed
      */
-    public function getPorUsuario(int $codCurriculo){
-        return ExperienciaProfissional::where('tbExperienciaProfissional.codCurriculo', $codCurriculo)
+    public function getPorCurriculo(Request $request){
+        return ExperienciaProfissional::where('tbExperienciaProfissional.codCurriculo', $request->codCurriculo)
             ->orderBy('tbExperienciaProfissional.dataInicioExperienciaProfissional')
             ->get();
     }
