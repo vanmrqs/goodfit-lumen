@@ -155,7 +155,7 @@ class CandidatoController extends Controller {
                 tbCurriculo.videoCurriculo,
                 tbCurriculo.descricaoCurriculo,
                 tbCandidatura.codStatusCandidatura,
-                tbProfissao.codProfissao,
+                tbProfissao.nomeProfissao,
                 tbCategoria.imagemCategoria,
                 TIMESTAMPDIFF(YEAR, FROM_UNIXTIME(tbCandidato.dataNascimentoCandidato), FROM_UNIXTIME(UNIX_TIMESTAMP())) AS 'idade'
             FROM tbCandidato

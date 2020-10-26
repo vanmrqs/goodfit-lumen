@@ -97,11 +97,26 @@ class AdicionalCurriculoController extends Controller {
      * @param Request $request
      * @return mixed
      */
-    public function getAdicionaisPorCandidato(Request $request) {
+    public function getAdicionaisPorCandidatoEmVaga(Request $request) {
         return Adicional::join('tbAdicionalCurriculo', 'tbAdicional.codAdicional', 'tbAdicionalCurriculo.codAdicional')
             ->join('tbCurriculo', 'tbAdicionalCurriculo.codCurriculo', 'tbCurriculo.codCurriculo')
             ->join('tbCandidato', 'tbCurriculo.codCandidato', 'tbCandidato.codCandidato')
-            ->where('tbCandidato.codCandidato', $request->codCandidato);
+            ->leftJoin('tbRequisitoVaga', function($join) use ($request) {
+                $join->on('tbAdicional.codAdicional', 'tbRequisitoVaga.codAdicional')
+                    ->where([
+                        ['tbRequisitoVaga.codVaga', $request->codVaga],
+                        ['tbAdicional.codTipoAdicional', 1]
+                    ]);
+            })
+            ->where('tbCandidato.codCandidato', $request->codCandidato)
+            ->select(
+                'tbAdicional.codTipoAdicional',
+                'tbAdicional.imagemAdicional',
+                'tbAdicional.nomeAdicional',
+                'tbRequisitoVaga.codRequisitoVaga AS compativel'
+            )->orderByDesc('tbAdicional.codTipoAdicional')
+            ->orderBy('tbAdicional.nomeAdicional')
+            ->get();
     }
 
     /**
