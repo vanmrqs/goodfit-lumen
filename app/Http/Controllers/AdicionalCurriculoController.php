@@ -4,7 +4,9 @@
 namespace App\Http\Controllers;
 
 
+use App\Adicional;
 use App\AdicionalCurriculo;
+use App\Http\Helper\UsuarioHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -87,6 +89,19 @@ class AdicionalCurriculoController extends Controller {
         $this->criaAdicionais($this->criaRequestAdicional($codCurriculo, array_diff($adicionais, $adicionaisExistentes)));
         $this->removeAdicionais($codCurriculo, array_diff($adicionaisExistentes, $adicionais));
         return response()->json(['message' => 'success'], 200);
+    }
+
+    /**
+     * Retorna os adicionais de um candidato
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function getAdicionaisPorCandidato(Request $request) {
+        return Adicional::join('tbAdicionalCurriculo', 'tbAdicional.codAdicional', 'tbAdicionalCurriculo.codAdicional')
+            ->join('tbCurriculo', 'tbAdicionalCurriculo.codCurriculo', 'tbCurriculo.codCurriculo')
+            ->join('tbCandidato', 'tbCurriculo.codCandidato', 'tbCandidato.codCandidato')
+            ->where('tbCandidato.codCandidato', $request->codCandidato);
     }
 
     /**

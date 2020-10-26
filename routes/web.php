@@ -35,6 +35,7 @@ $router->group(['middleware' => 'jwt.auth'],
 
         $router->group(['prefix' => 'candidato'], function () use ($router) {
             $router->get('/{codCandidato}', 'CandidatoController@getCandidato');
+            $router->get('/{codCandidato}/adicionais', 'AdicionalCurriculoController@getAdicionaisPorCandidato');
         });
 
         $router->group(['prefix' => 'candidatura'], function () use ($router) {
@@ -45,6 +46,8 @@ $router->group(['middleware' => 'jwt.auth'],
             $router->get('/{codVaga}', 'VagaController@getVaga');
 
             $router->get('/{codVaga}/beneficio', 'BeneficioController@getPorVaga');
+
+            $router->get('{codVaga}/candidato/{codCandidato}', 'CandidatoController@getCandidatoEmVaga');
 
             $router->get('/requisito/{codVaga}', 'AdicionalController@getEmVaga');
         });

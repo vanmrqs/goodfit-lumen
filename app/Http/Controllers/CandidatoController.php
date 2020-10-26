@@ -139,6 +139,43 @@ class CandidatoController extends Controller {
     }
 
     /**
+     * Retorna um candidato pelo código
+     *
+     * @param Request $request
+     * @return array|JsonResponse
+     */
+    public function getCandidatoEmVaga(Request $request) {
+        $usuario = $request->auth;
+
+        return DB::select("
+            SELECT
+                tbCandidato.nomeCandidato,
+                tbUsuario.fotoUsuario,
+                tbUsuario.email,
+                tbCurriculo.videoCurriculo,
+                tbCurriculo.descricaoCurriculo,
+                tbCandidatura.codStatusCandidatura,
+                tbProfissao.codProfissao,
+                tbCategoria.imagemCategoria,
+                TIMESTAMPDIFF(YEAR, FROM_UNIXTIME(tbCandidato.dataNascimentoCandidato), FROM_UNIXTIME(UNIX_TIMESTAMP())) AS 'idade'
+            FROM tbCandidato
+            INNER JOIN tbUsuario
+                ON tbCandidato.codUsuario = tbUsuario.codUsuario
+            INNER JOIN tbCurriculo
+                ON tbCandidato.codCandidato = tbCurriculo.codCurriculo
+            INNER JOIN tbCandidatura
+                ON tbCandidato.codCandidato = tbCandidatura.codCandidato
+                AND tbCandidatura.codVaga = ".$request->codVaga."
+            INNER JOIN tbVaga
+                ON tbCandidatura.codVaga = tbVaga.codVaga
+            INNER JOIN tbProfissao
+                ON tbVaga.codProfissao = tbProfissao.codProfissao
+            INNER JOIN tbCategoria
+                ON tbProfissao.codCategoria = tbCategoria.codCategoria
+            WHERE tbCandidato.codCandidato = ".$request->codCandidato);
+    }
+
+    /**
      * Retorna os candidatos que estão participando
      * de algum processo seletivo da empresa
      *
@@ -249,6 +286,7 @@ class CandidatoController extends Controller {
             if ( ! array_key_exists($codVaga, $vagas) ) {
                 $vaga = new \stdClass();
 
+                $vaga->codVaga         = $candidatura->getAttribute('codVaga');
                 $vaga->descricaoVaga   = $candidatura->getAttribute('descricaoVaga');
                 $vaga->imagemCategoria = $candidatura->getAttribute('imagemCategoria');
                 $vaga->nomeProfissao   = $candidatura->getAttribute('nomeProfissao');
