@@ -4,8 +4,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Helper\UsuarioHelper;
 use App\Usuario;
-use Firebase\JWT\JWK;
 use Firebase\JWT;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -159,10 +159,13 @@ class UsuarioController extends Controller {
 
     protected function jwt(Usuario $usuario) {
         $payload = [
-            'iss'   => 'lumen-jwt',
-            'cod'   => $usuario->getAttribute('codUsuario'),
-            'nivel' => $usuario->getAttribute('codNivelUsuario'),
-            'iat'   => time()
+            'iss'         => 'lumen-jwt',
+            'cod'         => $usuario->getAttribute('codUsuario'),
+            'foto'        => $usuario->getAttribute('fotoUsuario'),
+            'nivel'       => $usuario->getAttribute('codNivelUsuario'),
+            'nome'        => UsuarioHelper::getNomeUsuario($usuario)[0]->nomeUsuario,
+            'username'    => $usuario->getAttribute('loginUsuario'),
+            'iat'         => time()
         ];
 
         return JWT\JWT::encode($payload, JWT_SECRET);

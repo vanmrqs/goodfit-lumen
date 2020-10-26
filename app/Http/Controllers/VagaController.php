@@ -153,10 +153,10 @@ class VagaController extends Controller {
                 AND tbAdicional.codTipoAdicional = 1
             ) AND (
                 (
-                    TIMESTAMPDIFF(YEAR, FROM_UNIXTIME(tbCandidato.dataNascimentoCandidato), FROM_UNIXTIME(UNIX_TIMESTAMP())) <= 16
+                    TIMESTAMPDIFF(YEAR, FROM_UNIXTIME(tbCandidato.dataNascimentoCandidato), FROM_UNIXTIME(UNIX_TIMESTAMP())) < 18
                     AND tbRegimeContratacao.nomeRegimeContratacao LIKE 'Estagiário'
                 ) OR (
-                    TIMESTAMPDIFF(YEAR, FROM_UNIXTIME(tbCandidato.dataNascimentoCandidato), FROM_UNIXTIME(UNIX_TIMESTAMP())) > 16
+                    TIMESTAMPDIFF(YEAR, FROM_UNIXTIME(tbCandidato.dataNascimentoCandidato), FROM_UNIXTIME(UNIX_TIMESTAMP())) >= 18
                 )
             )
         GROUP BY
@@ -239,8 +239,7 @@ class VagaController extends Controller {
             tbCategoria.imagemCategoria,
             CONCAT(
                 tbEndereco.logradouroEndereco, ', ',
-                tbEndereco.numeroEndereco, 	   ' - ',
-                tbEndereco.bairroEndereco
+                tbEndereco.numeroEndereco
             ) AS 'endereco',
             tbRegimeContratacao.nomeRegimeContratacao
         FROM tbVaga
