@@ -11,8 +11,21 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use mysql_xdevapi\Exception;
 
 define('PASTA_IMAGENS', 'candidato');
+
+define('STATUS_APROVADO', 1);
+define('STATUS_ANALISE', 2);
+define('STATUS_RECUSADO', 3);
+define('STATUS_PROCESSO', 4);
+
+define('STATUS_CANDIDATURA', [
+    STATUS_APROVADO,
+    STATUS_ANALISE,
+    STATUS_RECUSADO,
+    STATUS_PROCESSO
+]);
 
 class CandidatoController extends Controller {
     /**
@@ -193,6 +206,19 @@ class CandidatoController extends Controller {
 
         $empresa      = UsuarioHelper::getEmpresaPorUsuario($usuario);
 
+        try {
+            $this->validateStatus($request->status);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Parâmetros inválidos'
+            ], 400);
+        }
+
+        $status = explode(',', $request->status);
+        $status = array_map(function ($item) {
+            return (int)$item;
+        }, $status);
+
         $candidaturas = Candidato::
             join('tbCandidatura', 'tbCandidato.codCandidato', 'tbCandidatura.codCandidato')
             ->join('tbVaga', 'tbCandidatura.codVaga', '=', 'tbVaga.codVaga')
@@ -200,6 +226,7 @@ class CandidatoController extends Controller {
             ->join('tbCategoria', 'tbProfissao.codCategoria', 'tbCategoria.codCategoria')
             ->join('tbUsuario', 'tbCandidato.codUsuario', 'tbUsuario.codUsuario')
             ->where('tbVaga.codEmpresa', $empresa->getAttribute('codUsuario'))
+            ->whereIn('tbCandidatura.codStatusCandidatura', $status)
             ->select(
                 'tbCandidatura.codCandidatura',
                 'tbCandidatura.codCandidato',
@@ -346,6 +373,16 @@ class CandidatoController extends Controller {
     private function uploadFoto($imagem){
         if ( $imagem !== null ) {
             return $this->uploadImagem($imagem, 300, 300, PASTA_IMAGENS);
+        }
+    }
+
+    private function validateStatus(string $status) {
+        $status_separados = explode(',', $status);
+
+        foreach ( $status_separados as $status ) {
+            if ( ! in_array($status, STATUS_CANDIDATURA) ) {
+                throw new Exception('Status inválido');
+            }
         }
     }
 }
