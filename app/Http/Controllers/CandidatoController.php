@@ -201,6 +201,7 @@ class CandidatoController extends Controller {
             ->join('tbUsuario', 'tbCandidato.codUsuario', 'tbUsuario.codUsuario')
             ->where('tbVaga.codEmpresa', $empresa->getAttribute('codUsuario'))
             ->select(
+                'tbCandidatura.codCandidatura',
                 'tbCandidatura.codCandidato',
                 'tbProfissao.nomeProfissao',
                 'tbCategoria.imagemCategoria',

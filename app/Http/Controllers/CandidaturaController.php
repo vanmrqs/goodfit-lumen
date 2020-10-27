@@ -95,7 +95,10 @@ class CandidaturaController extends Controller {
         $candidatura['feedbackCandidatura']  = $response->feedback;
         $candidatura->save();
 
-        return response()->json(['message' => 'success'], 200);
+        return response()->json([
+            'message' => 'success',
+            'status'  => 200
+        ], 200);
     }
 
     /**

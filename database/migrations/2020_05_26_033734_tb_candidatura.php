@@ -19,7 +19,7 @@ class TbCandidatura extends Migration
             $table->integer('codCandidato')->unsigned();
             $table->integer('codVaga')->unsigned();
             $table->integer('codStatusCandidatura')->unsigned();
-            $table->text('feedbackCandidatura');
+            $table->text('feedbackCandidatura')->nullable();
             $table->timestamps();
         });
 
