@@ -40,6 +40,7 @@ $router->group(['middleware' => 'jwt.auth'],
         });
 
         $router->group(['prefix' => 'candidatura'], function () use ($router) {
+            $router->get('/compatibilidade/{codVaga}/{codCandidato}', 'CandidaturaController@getCompatibilidade');
             $router->put('{codCandidatura}/status/', 'CandidaturaController@trocarStatus');
         });
 

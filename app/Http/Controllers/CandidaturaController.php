@@ -10,6 +10,7 @@ use App\Http\Helper\EmpresaHelper;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 define('STATUS_APROVADO', 1);
@@ -99,6 +100,89 @@ class CandidaturaController extends Controller {
             'message' => 'success',
             'status'  => 200
         ], 200);
+    }
+
+    /**
+     * Retorna a compatibilidade de um candidato com
+     * uma vaga
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function getCompatibilidade(Request $request) {
+        return DB::select("
+            SELECT
+	            ROUND((SUM(possui) / SUM(total)) * 100, 0) AS 'compatibilidade'
+            FROM (
+                SELECT
+                    SUM(IF(tbAdicionalCurriculo.codAdicionalCurriculo IS NOT NULL, 1, 0)) AS 'possui',
+                    COUNT(tbRequisitoVaga.codRequisitoVaga) AS 'total'
+                FROM tbVaga
+                INNER JOIN tbRequisitoVaga
+                    ON tbVaga.codVaga = tbRequisitoVaga.codVaga
+                INNER JOIN tbAdicional
+                    ON tbRequisitoVaga.codAdicional = tbAdicional.codAdicional
+                INNER JOIN tbCandidatura
+                    ON tbVaga.codVaga = tbcandidatura.codVaga
+                INNER JOIN tbCandidato
+                    ON tbcandidatura.codCandidato = tbCandidato.codCandidato
+                INNER JOIN tbCurriculo
+                    ON tbCandidato.codCandidato = tbCurriculo.codCurriculo
+                LEFT JOIN tbAdicionalCurriculo
+                    ON tbAdicional.codAdicional = tbAdicionalCurriculo.codAdicional
+                WHERE tbVaga.codVaga = ".$request->codVaga."
+                    AND tbCandidatura.codCandidato = ".$request->codCandidato."
+
+                UNION
+
+                SELECT
+                    SUM(IF(tbCargoCurriculo.codCargoCurriculo IS NOT NULL, 1, 0)) AS 'possui',
+                    COUNT(tbVaga.codProfissao) AS 'total'
+                FROM tbVaga
+                INNER JOIN tbProfissao
+                    ON tbVaga.codProfissao = tbProfissao.codProfissao
+                INNER JOIN tbCategoria
+                    ON tbProfissao.codCategoria = tbCategoria.codCategoria
+                INNER JOIN tbCandidatura
+                    ON tbVaga.codVaga = tbcandidatura.codVaga
+                INNER JOIN tbCandidato
+                    ON tbcandidatura.codCandidato = tbCandidato.codCandidato
+                INNER JOIN tbCurriculo
+                    ON tbCandidato.codCandidato = tbCurriculo.codCurriculo
+                LEFT JOIN tbCargoCurriculo
+                    ON tbCategoria.codCategoria = tbCargoCurriculo.codCategoria
+                WHERE tbVaga.codVaga = ".$request->codVaga."
+                    AND tbCandidatura.codCandidato = ".$request->codCandidato."
+
+                UNION
+
+                SELECT
+                    SUM(IF(adicionalCandidato.codAdicional IS NOT NULL, 1, 0)) AS 'possui',
+                    COUNT(tbRequisitoVaga.codAdicional) AS 'total'
+                FROM tbVaga
+                INNER JOIN tbRequisitoVaga
+                    ON tbVaga.codVaga = tbRequisitoVaga.codVaga
+                INNER JOIN tbAdicional AS adicionalVaga
+                    ON tbRequisitoVaga.codAdicional = adicionalVaga.codAdicional
+                INNER JOIN tbTipoAdicional AS tipoVaga
+                    ON adicionalVaga.codTipoAdicional = tipoVaga.codTipoAdicional
+                    AND tipoVaga.escalonavelTipoAdicional = 1
+                INNER JOIN tbCandidatura
+                    ON tbVaga.codVaga = tbCandidatura.codVaga
+                    AND tbCandidatura.codCandidato = 1
+                INNER JOIN tbCandidato
+                    ON tbcandidatura.codCandidato = tbCandidato.codCandidato
+                INNER JOIN tbCurriculo
+                    ON tbCandidato.codCandidato = tbCurriculo.codCurriculo
+                INNER JOIN tbAdicionalCurriculo
+                    ON tbCurriculo.codCurriculo = tbAdicionalCurriculo.codCurriculo
+                INNER JOIN tbAdicional AS adicionalCandidato
+                    ON tbAdicionalCurriculo.codAdicional = adicionalCandidato.codAdicional
+                    AND adicionalVaga.codTipoAdicional = adicionalCandidato.codTipoAdicional
+                    AND adicionalCandidato.grauAdicional >= adicionalVaga.grauAdicional
+                WHERE tbVaga.codVaga = ".$request->codVaga."
+                    AND tbCandidatura.codCandidato = ".$request->codCandidato."
+            ) AS compatibilidade");
     }
 
     /**
