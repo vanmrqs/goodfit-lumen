@@ -63,4 +63,30 @@ class ExperienciaProfissionalController extends Controller {
             ->orderBy('tbExperienciaProfissional.dataInicioExperienciaProfissional')
             ->get();
     }
+
+    /**
+     * Retorna as experiências profissionais
+     * pelo candidato
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function getPorCandidato(Request $request){
+        return ExperienciaProfissional::join('tbCurriculo', 'tbExperienciaProfissional.codCurriculo', 'tbCurriculo.codCurriculo')
+            ->join('tbCandidato', 'tbCurriculo.codCandidato', 'tbCandidato.codCandidato')
+            ->join('tbProfissao', 'tbExperienciaProfissional.codProfissao', 'tbProfissao.codProfissao')
+            ->join('tbCategoria', 'tbProfissao.codCategoria', 'tbCategoria.codCategoria')
+            ->where('tbCandidato.codCandidato', $request->codCandidato)
+            ->select(
+                'tbExperienciaProfissional.empresaExperienciaProfissional',
+                'tbExperienciaProfissional.descricaoExperienciaProfissional',
+                'tbExperienciaProfissional.dataInicioExperienciaProfissional',
+                'tbExperienciaProfissional.dataFinalExperienciaProfissional',
+                'tbExperienciaProfissional.isEmpregoAtualExperienciaProfissional',
+                'tbProfissao.nomeProfissao',
+                'tbCategoria.imagemCategoria'
+            )
+            ->orderBy('tbExperienciaProfissional.dataInicioExperienciaProfissional')
+            ->get();
+    }
 }

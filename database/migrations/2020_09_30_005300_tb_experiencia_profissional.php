@@ -16,11 +16,11 @@ class TbExperienciaProfissional extends Migration
         Schema::create('tbExperienciaProfissional', function(Blueprint $table){
             $table->increments('codExperienciaProfissional');
             $table->string('empresaExperienciaProfissional');
-            $table->string('descricaoExperienciaProfissional');
+            $table->text('descricaoExperienciaProfissional');
             $table->string('videoExperienciaProfissional');
             $table->boolean('isEmpregoAtualExperienciaProfissional');
             $table->integer('dataInicioExperienciaProfissional');
-            $table->integer('dataFinalExperienciaProfissional');
+            $table->integer('dataFinalExperienciaProfissional')->nullable();
             $table->integer('codProfissao')->unsigned();
             $table->integer('codCurriculo')->unsigned();
             $table->timestamps();

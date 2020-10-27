@@ -24,7 +24,7 @@ class ExperienciaProfissional extends Model
         'empresaExperienciaProfissional'        => 'string|required|max:150',
         'descricaoExperienciaProfissional'      => 'string|max:250',
         'videoExperienciaProfissional'          => 'string',
-        'isEmpregoAtualExperienciaProfissional' => 'boolean|required',
+        'isEmpregoAtualExperienciaProfissional' => 'integer|size:1|required',
         'dataInicioExperienciaProfissional'     => 'integer|size:10',
         'dataFinalExperienciaProfissional'      => 'integer|size:10',
         'codProfissao'                          => 'integer',

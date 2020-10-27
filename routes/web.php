@@ -30,7 +30,8 @@ $router->group(['middleware' => 'jwt.auth'],
         });
 
         $router->group(['prefix' => 'experiencia-profissional'], function () use ($router) {
-            $router->get('/{codCurriculo}', 'ExperienciaProfissional@getPorCurriculo');
+            $router->get('/{codCurriculo}', 'ExperienciaProfissionalController@getPorCurriculo');
+            $router->get('/candidato/{codCandidato}', 'ExperienciaProfissionalController@getPorCandidato');
         });
 
         $router->group(['prefix' => 'candidato'], function () use ($router) {
