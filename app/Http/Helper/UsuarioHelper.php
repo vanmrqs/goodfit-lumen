@@ -2,6 +2,7 @@
 
 namespace App\Http\Helper;
 
+use App\Candidato;
 use App\Empresa;
 use App\Usuario;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,10 @@ if ( ! defined('NIVEL_EMPRESA') ) {
 class UsuarioHelper {
     public static function getEmpresaPorUsuario(Usuario $usuario) {
         return Empresa::where('codUsuario', $usuario->getAttribute('codUsuario'))->first();
+    }
+
+    public static function getCandidatoPorUsuario(Usuario $usuario) {
+        return Candidato::where('codUsuario', $usuario->getAttribute('codUsuario'))->first();
     }
 
     public static function isSpecialUser(Usuario $usuario) {

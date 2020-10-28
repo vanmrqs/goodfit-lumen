@@ -127,9 +127,10 @@ class CandidatoController extends Controller {
      * @return array|JsonResponse
      */
     public function getCandidato(Request $request) {
-        $usuario = $request->auth;
+        $usuario   = $request->auth;
+        $candidato = UsuarioHelper::getCandidatoPorUsuario($usuario);
 
-        if ( ($usuario->codUsuario !== $request->codCandidato) && ( ! UsuarioHelper::isSpecialUser($usuario) ) ) {
+        if ( (($candidato) && ($request->codCandidato !== $candidato->getAttribute('codCandidato'))) && ( ! UsuarioHelper::isSpecialUser($usuario) ) ) {
             return response()->json([
                 'error' => 'Você não possui permissão para acessar esses dados'
             ], 403);
