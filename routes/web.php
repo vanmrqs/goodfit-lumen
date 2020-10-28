@@ -24,6 +24,7 @@ $router->get('/key', function() {
 $router->group(['middleware' => 'jwt.auth'],
     function() use ($router) {
         $router->group(['prefix' => 'empresa'], function () use ($router) {
+            $router->get('/endereco', 'EnderecoController@getPorEmpresa');
             $router->get('/candidatos', 'CandidatoController@getCandidatosPorEmpresa');
             $router->get('/vagas', 'VagaController@getPorEmpresa');
             $router->get('/vagas/processo', 'CandidatoController@getEmProcessoPorEmpresa');

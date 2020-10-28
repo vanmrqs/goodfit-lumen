@@ -112,7 +112,7 @@ class CandidaturaController extends Controller {
     public function getCompatibilidade(Request $request) {
         return DB::select("
             SELECT
-	            ROUND((SUM(possui) / SUM(total)) * 100, 0) AS 'compatibilidade'
+                ROUND((SUM(possui) / SUM(total)) * 100, 0) AS 'compatibilidade'
             FROM (
                 SELECT
                     SUM(IF(tbAdicionalCurriculo.codAdicionalCurriculo IS NOT NULL, 1, 0)) AS 'possui',
@@ -122,6 +122,7 @@ class CandidaturaController extends Controller {
                     ON tbVaga.codVaga = tbRequisitoVaga.codVaga
                 INNER JOIN tbAdicional
                     ON tbRequisitoVaga.codAdicional = tbAdicional.codAdicional
+                    AND tbAdicional.codTipoAdicional = 1
                 INNER JOIN tbCandidatura
                     ON tbVaga.codVaga = tbcandidatura.codVaga
                 INNER JOIN tbCandidato

@@ -4,7 +4,9 @@
 namespace App\Http\Controllers;
 
 
+use App\Empresa;
 use App\Endereco;
+use App\Http\Helper\EmpresaHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -69,5 +71,20 @@ class EnderecoController extends Controller {
      */
     public function getPorArray(Request $request){
         return Endereco::whereIn('codEndereco', $request->enderecos)->get();
+    }
+
+    public function getPorEmpresa(Request $request) {
+        $usuario  = $request->auth;
+        $response = EmpresaHelper::validaEmpresa($usuario);
+
+        if ( ! $response instanceof Empresa ) return $response;
+
+        $empresa = $response;
+
+        return Endereco::join('tbUsuario', 'tbEndereco.codEndereco', 'tbUsuario.codEndereco')
+            ->join('tbEmpresa', 'tbUsuario.codUsuario', 'tbEmpresa.codUsuario')
+            ->where('tbEmpresa.codEmpresa', $empresa->getAttribute('codEmpresa'))
+            ->select('tbEndereco.*')
+            ->get();
     }
 }
