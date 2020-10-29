@@ -4,8 +4,10 @@
 namespace App\Http\Controllers;
 
 use App\ExperienciaProfissional;
+use App\Http\Helper\UsuarioHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 define('PASTA_UPLOADS', 'experiencia');
@@ -88,5 +90,26 @@ class ExperienciaProfissionalController extends Controller {
             )
             ->orderBy('tbExperienciaProfissional.dataInicioExperienciaProfissional')
             ->get();
+    }
+
+    /**
+     * Cria experiências profissionais em lote
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function criaExperiencias(Request $request){
+        $curriculo = UsuarioHelper::getCurriculoPorUsuario($request->auth);
+
+        DB::beginTransaction();
+
+        foreach ($request->experiencias AS $experiencia) {
+            $experiencia['codCurriculo'] = $curriculo->getAttribute('codCurriculo');
+            ExperienciaProfissional::create($experiencia);
+        }
+
+        DB::commit();
+
+        return response()->json(['message' => 'success'], 200);
     }
 }

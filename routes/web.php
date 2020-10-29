@@ -45,6 +45,10 @@ $router->group(['middleware' => 'jwt.auth'],
             $router->put('{codCandidatura}/status/', 'CandidaturaController@trocarStatus');
         });
 
+        $router->group(['prefix' => 'curriculo'], function () use ($router) {
+            $router->post('/experiencia-profissional', 'ExperienciaProfissionalController@criaExperiencias');
+        });
+
         $router->group(['prefix' => 'vaga'], function () use ($router) {
             $router->get('/{codVaga}', 'VagaController@getVaga');
 

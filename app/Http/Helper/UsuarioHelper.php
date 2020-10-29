@@ -3,6 +3,7 @@
 namespace App\Http\Helper;
 
 use App\Candidato;
+use App\Curriculo;
 use App\Empresa;
 use App\Usuario;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +27,11 @@ class UsuarioHelper {
 
     public static function getCandidatoPorUsuario(Usuario $usuario) {
         return Candidato::where('codUsuario', $usuario->getAttribute('codUsuario'))->first();
+    }
+
+    public static function getCurriculoPorUsuario(Usuario $usuario) {
+        return Curriculo::join('tbCandidato', 'tbCurriculo.codCandidato', 'tbCandidato.codCandidato')
+            ->where('tbCandidato.codUsuario', $usuario->getAttribute('codUsuario'))->first();
     }
 
     public static function isSpecialUser(Usuario $usuario) {
