@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -161,7 +162,7 @@ class DatabaseSeeder extends Seeder
         		'codUsuario'      => 6,
                 'fotoUsuario'     => 'perfil.png',
                 'loginUsuario'    => 'Candidato',
-                'password'        => '$2y$10$Wrjg/tHTvKekdW5Qc/k4S.BrIJVVfWe0B1MoJ.EVarRbQMzkrw.Ii',
+                'password'        => '$2y$10$Mo4Fovd4Xj5Y7AzJwzZmUONa5dBXXSiCioCsk3H3NEUn4guSiL9JO',
                 'email'           => 'candidato@example.com',
                 'codNivelUsuario' => 2,
                 'codEndereco'     => 1,
@@ -219,6 +220,16 @@ class DatabaseSeeder extends Seeder
     	   ],
         ]);
 
+        //CURRICULO
+        DB::table('tbCurriculo')->insert([
+            [
+                'videoCurriculo'          => '',
+                'descricaoCurriculo'      => 'Estou a procura de um emprego',
+                'codCandidato'            => 1
+            ],
+        ]);
+
+        //
 
         //TIPOS ADICIONAIS
         DB::table('tbTipoAdicional')->insert([
@@ -327,28 +338,28 @@ class DatabaseSeeder extends Seeder
     		],
             [
         		'codAdicional'     => 13,
-                'imagemAdicional'  => ' ',
+                'imagemAdicional'  => 'escolaridade.png',
                 'nomeAdicional'    => 'Ensino Fundamental Incompleto',
                 'grauAdicional'    => 10,
                 'codTipoAdicional' => 2,
     		],
             [
         		'codAdicional'     => 14,
-                'imagemAdicional'  => ' ',
+                'imagemAdicional'  => 'escolaridade.png',
                 'nomeAdicional'    => 'Ensino Fundamental Completo',
                 'grauAdicional'    => 20,
                 'codTipoAdicional' => 2,
     		],
             [
         		'codAdicional'     => 15,
-                'imagemAdicional'  => ' ',
+                'imagemAdicional'  => 'escolaridade.png',
                 'nomeAdicional'    => 'Ensino Médio Incompleto',
                 'grauAdicional'    => 30,
                 'codTipoAdicional' => 2,
     		],
             [
         		'codAdicional'     => 16,
-                'imagemAdicional'  => ' ',
+                'imagemAdicional'  => 'escolaridade.png',
                 'nomeAdicional'    => 'Ensino Médio Completo',
                 'grauAdicional'    => 40,
                 'codTipoAdicional' => 2,
@@ -356,35 +367,35 @@ class DatabaseSeeder extends Seeder
 
             [
         		'codAdicional'     => 17,
-                'imagemAdicional'  => ' ',
+                'imagemAdicional'  => 'escolaridade.png',
                 'nomeAdicional'    => 'Ensino Superior Incompleto',
                 'grauAdicional'    => 50,
                 'codTipoAdicional' => 2,
     		],
             [
         		'codAdicional'     => 18,
-                'imagemAdicional'  => ' ',
+                'imagemAdicional'  => 'escolaridade.png',
                 'nomeAdicional'    => 'Ensino Superior Completo',
                 'grauAdicional'    => 60,
                 'codTipoAdicional' => 2,
     		],
             [
         		'codAdicional'     => 19,
-                'imagemAdicional'  => ' ',
+                'imagemAdicional'  => 'alfabetizacao.png',
                 'nomeAdicional'    => 'Alfabetizado',
                 'grauAdicional'    => 100,
                 'codTipoAdicional' => 3,
     		],
             [
         		'codAdicional'     => 20,
-                'imagemAdicional'  => ' ',
+                'imagemAdicional'  => 'alfabetizacao.png',
                 'nomeAdicional'    => 'Semi-Analfabeto',
                 'grauAdicional'    => 50,
                 'codTipoAdicional' => 3,
     		],
             [
         		'codAdicional'     => 21,
-                'imagemAdicional'  => ' ',
+                'imagemAdicional'  => 'alfabetizacao.png',
                 'nomeAdicional'    => 'Analfabeto',
                 'grauAdicional'    => 0,
                 'codTipoAdicional' => 3,
@@ -516,60 +527,65 @@ class DatabaseSeeder extends Seeder
 
         //VAGAS
         DB::table('tbVaga')->insert([
-    	   [
-    	      'codVaga'               => 1,
-            'descricaoVaga'        => 'Irá ministrar aula, fazer planejamento, preencher relatórios, fazer provas e trabalhos, semanário e trabalhar com projetos.',
-            'salarioVaga'          => 2,
-            'cargaHorariaVaga'     => '44:00:00',
-            'quantidadeVaga'       => 5,
-            'codEmpresa'           => 1,
-            'codProfissao'         => 1,
-            'codEndereco'          => 1,
-            'codRegimeContratacao' => 1,
+            [
+    	        'codVaga'                  => 1,
+                'descricaoVaga'            => 'Irá ministrar aula, fazer planejamento, preencher relatórios, fazer provas e trabalhos, semanário e trabalhar com projetos.',
+                'salarioVaga'              => 2,
+                'cargaHorariaVaga'         => '44:00:00',
+                'quantidadeVaga'           => 5,
+                'quantidadeDisponivelVaga' => 5,
+                'codEmpresa'               => 1,
+                'codProfissao'             => 1,
+                'codEndereco'              => 1,
+                'codRegimeContratacao'     => 1,
     	   ],
            [
-            'codVaga'                  => 2,
-            'descricaoVaga'            => 'Realizar ligações para nossos clientes através de nossa central de Televendas, ofertar os produtos da NET & Claro (TV a cabo, internet banda larga, telefônia fixa e móvel)',
-            'salarioVaga'              => 1500,
-            'cargaHorariaVaga'         => '44:00:00',
-            'quantidadeVaga'           => 15,
-            'codEmpresa'               => 2,
-            'codProfissao'             => 2,
-            'codEndereco'              => 2,
-            'codRegimeContratacao'     => 1,
+                'codVaga'                  => 2,
+                'descricaoVaga'            => 'Realizar ligações para nossos clientes através de nossa central de Televendas, ofertar os produtos da NET & Claro (TV a cabo, internet banda larga, telefônia fixa e móvel)',
+                'salarioVaga'              => 1500,
+                'cargaHorariaVaga'         => '44:00:00',
+                'quantidadeVaga'           => 15,
+                'quantidadeDisponivelVaga' => 15,
+                'codEmpresa'               => 2,
+                'codProfissao'             => 2,
+                'codEndereco'              => 2,
+                'codRegimeContratacao'     => 1,
            ],
            [
-            'codVaga'                  => 3,
-            'descricaoVaga'            => 'Criar a plataforma de anúncios e produtos patrocinados que integram os produtos da Linx Impulse seguindo as necessidades e padrões elevados de exigência dos nossos clientes, criando um código de qualidade, escalável e proporcionando a melhor experiência ao cliente final',
-            'salarioVaga'              => 2500,
-            'cargaHorariaVaga'         => '44:00:00',
-            'quantidadeVaga'           => 1,
-            'codEmpresa'               => 3,
-            'codProfissao'             => 3,
-            'codEndereco'              => 3,
-            'codRegimeContratacao'     => 4,
+                'codVaga'                  => 3,
+                'descricaoVaga'            => 'Criar a plataforma de anúncios e produtos patrocinados que integram os produtos da Linx Impulse seguindo as necessidades e padrões elevados de exigência dos nossos clientes, criando um código de qualidade, escalável e proporcionando a melhor experiência ao cliente final',
+                'salarioVaga'              => 2500,
+                'cargaHorariaVaga'         => '44:00:00',
+                'quantidadeVaga'           => 1,
+                'quantidadeDisponivelVaga' => 1,
+                'codEmpresa'               => 3,
+                'codProfissao'             => 3,
+                'codEndereco'              => 3,
+                'codRegimeContratacao'     => 4,
            ],
            [
-            'codVaga'                  => 4,
-            'descricaoVaga'            => 'Lecionar aulas de dança para iniciantes',
-            'salarioVaga'              => 3000,
-            'cargaHorariaVaga'         => '20:00:00',
-            'quantidadeVaga'           => 1,
-            'codEmpresa'               => 4,
-            'codProfissao'             => 4,
-            'codEndereco'              => 4,
-            'codRegimeContratacao'     => 1,
+                'codVaga'                  => 4,
+                'descricaoVaga'            => 'Lecionar aulas de dança para iniciantes',
+                'salarioVaga'              => 3000,
+                'cargaHorariaVaga'         => '20:00:00',
+                'quantidadeVaga'           => 1,
+                'quantidadeDisponivelVaga' => 1,
+                'codEmpresa'               => 4,
+                'codProfissao'             => 4,
+                'codEndereco'              => 4,
+                'codRegimeContratacao'     => 1,
            ],
            [
-            'codVaga'                  => 5,
-            'descricaoVaga'            => 'Se você tem interesse em fazer parte de uma empresa onde você pode impactar pessoas, viver seus valores e desfrutar de grandes oportunidades, gostaríamos de te conhecer.',
-            'salarioVaga'              => 1500,
-            'cargaHorariaVaga'         => '44:00:00',
-            'quantidadeVaga'           => 1,
-            'codEmpresa'               => 5,
-            'codProfissao'             => 5,
-            'codEndereco'              => 5,
-            'codRegimeContratacao'     => 3,
+                'codVaga'                  => 5,
+                'descricaoVaga'            => 'Se você tem interesse em fazer parte de uma empresa onde você pode impactar pessoas, viver seus valores e desfrutar de grandes oportunidades, gostaríamos de te conhecer.',
+                'salarioVaga'              => 1500,
+                'cargaHorariaVaga'         => '44:00:00',
+                'quantidadeVaga'           => 1,
+                'quantidadeDisponivelVaga' => 1,
+                'codEmpresa'               => 5,
+                'codProfissao'             => 5,
+                'codEndereco'              => 5,
+                'codRegimeContratacao'     => 3,
            ],
         ]);
 
@@ -613,23 +629,74 @@ class DatabaseSeeder extends Seeder
             ],
     	]);
 
-      //Beneficios
-      DB::table('tbBeneficio')->insert([
-        [
-          'codBeneficio'  => 1,
-          'nomeBeneficio' => "Vale Transporte",
-          'codVaga'       => 5,
-        ],
-        [
-          'codBeneficio'  => 2,
-          'nomeBeneficio' => "Vale Alimentação",
-          'codVaga'       => 5,
-        ],
-        [
-          'codBeneficio'  => 3,
-          'nomeBeneficio' => "Assistência Médica",
-          'codVaga'       => 5,
-        ],
-    ]);
+        //Beneficios
+        DB::table('tbBeneficio')->insert([
+            [
+                'codBeneficio'  => 1,
+                'nomeBeneficio' => "Vale Transporte",
+                'codVaga'       => 5,
+            ],
+            [
+                'codBeneficio'  => 2,
+                'nomeBeneficio' => "Vale Alimentação",
+                'codVaga'       => 5,
+            ],
+            [
+                'codBeneficio'  => 3,
+                'nomeBeneficio' => "Assistência Médica",
+                'codVaga'       => 5,
+            ],
+        ]);
+
+        //CARGO CURRICULO
+        DB::table('tbCargoCurriculo')->insert([
+            [
+                'codCategoria'            => 4,
+                'codCurriculo'            => 1
+            ],
+        ]);
+
+        //ADICIONAL CURRICULO
+        DB::table('tbAdicionalCurriculo')->insert([
+            [
+                'codAdicional'            => 19,
+                'codCurriculo'            => 1
+            ],
+            [
+                'codAdicional'            => 1,
+                'codCurriculo'            => 1
+            ],
+            [
+                'codAdicional'            => 4,
+                'codCurriculo'            => 1
+            ],
+            [
+                'codAdicional'            => 6,
+                'codCurriculo'            => 1
+            ],
+            [
+                'codAdicional'            => 3,
+                'codCurriculo'            => 1
+            ],
+            [
+                'codAdicional'            => 11,
+                'codCurriculo'            => 1
+            ],
+            [
+                'codAdicional'            => 7,
+                'codCurriculo'            => 1
+            ],
+        ]);
+
+        //CANDIDATURA
+        DB::table('tbCandidatura')->insert([
+            [
+                'dataCandidatura'         => time(),
+                'codCandidato'            => 1,
+                'codVaga'                 => 5,
+                'codStatusCandidatura'    => 2,
+                'feedbackCandidatura'     => ''
+            ],
+        ]);
     }
 }

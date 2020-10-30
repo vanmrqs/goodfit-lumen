@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Candidatura;
 use App\Empresa;
 use App\Http\Helper\EmpresaHelper;
+use App\Http\Helper\VagaHelper;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -92,9 +93,29 @@ class CandidaturaController extends Controller {
             ], 400);
         }
 
+        $vaga = VagaHelper::getVagaPorCandidatura($candidatura);
+
+        if (
+            (! $request->codStatus === STATUS_RECUSADO)
+            && ((int)$vaga->getAttribute('quantidadeDisponivelVaga') <= 0)
+        ) {
+            return response()->json([
+                'error' => 'Vaga indisponível'
+            ], 400);
+        }
+
+        DB::beginTransaction();
+
         $candidatura['codStatusCandidatura'] = $request->codStatus;
         $candidatura['feedbackCandidatura']  = $response->feedback;
         $candidatura->save();
+
+        if ( $request->codStatus === STATUS_APROVADO ) {
+            $vaga->setAttribute('quantidadeDisponivelVaga', (int)$vaga->getAttribute('quantidadeDisponivelVaga') - 1);
+            $vaga->save();
+        }
+
+        DB::commit();
 
         return response()->json([
             'message' => 'success',

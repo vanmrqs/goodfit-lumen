@@ -19,13 +19,14 @@ class TbVaga extends Migration
             $table->double('salarioVaga');
             $table->string('cargaHorariaVaga');
             $table->integer('quantidadeVaga');
+            $table->integer('quantidadeDisponivelVaga');
             $table->integer('codEmpresa')->unsigned();
             $table->integer('codProfissao')->unsigned();
             $table->integer('codEndereco')->unsigned();
             $table->integer('codRegimeContratacao')->unsigned();
             $table->timestamps();
         });
-      
+
         Schema::table('tbVaga', function($table){
             $table->foreign('codEmpresa')->references('codEmpresa')->on('tbEmpresa');
             $table->foreign('codProfissao')->references('codProfissao')->on('tbProfissao');
