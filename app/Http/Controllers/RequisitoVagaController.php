@@ -165,4 +165,9 @@ class RequisitoVagaController extends Controller {
 
         return array_map('json_decode', $requisitosRemover);
     }
+
+
+    public function getAllByCodVaga(int $codVaga){
+        return RequisitoVaga::where('codVaga', $codVaga)->get();
+    }
 }
