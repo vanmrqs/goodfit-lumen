@@ -226,4 +226,8 @@ class CandidaturaController extends Controller {
 
         return true;
     }
+
+    public function getCandidaturaList(int $codCandidato){
+        return Candidatura::where('codCandidato', $codCandidato)->get();
+    }
 }

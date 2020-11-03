@@ -87,6 +87,7 @@ $router->group(['prefix' => 'candidatura'], function () use ($router) {
     $router->get('/{codCandidatura}/status', 'StatusController@getPorCandidatura');
     $router->post('/', 'CandidaturaController@store');
     $router->delete('/{codCandidatura}', 'CandidaturaController@destroy');
+    $router->get('/list/{codCandidato}', 'CandidaturaController@getCandidaturaList');
 });
 
 $router->group(['prefix' => 'categoria'], function () use ($router) {
@@ -195,6 +196,7 @@ $router->group(['prefix' => 'usuario'], function () use ($router) {
 
 $router->group(['prefix' => 'vaga'], function () use ($router) {
     $router->get('/', 'VagaController@index');
+    $router->get('/show/{codVaga}', 'VagaController@show');
     $router->get('/match/{codCandidato}/{codCurriculo}', 'VagaController@getMatch');
     $router->post('/', 'VagaController@store');
     $router->put('/{codVaga}', 'VagaController@update');
@@ -213,4 +215,5 @@ $router->group(['prefix' => 'vaga'], function () use ($router) {
     $router->put('/requisito/{codRequisito}', 'RequisitoVagaController@update');
     $router->put('/{codVaga}/requisitos', 'RequisitoVagaController@editaRequisitos');
     $router->delete('/requisito/{codRequisito}', 'RequisitoVagaController@destroy');
+    $router->get('/requisitos/{codVaga}', 'RequisitoVagaController@getAllByCodVaga');
 });
