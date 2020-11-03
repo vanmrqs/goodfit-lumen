@@ -235,6 +235,7 @@ class VagaController extends Controller {
             tbVaga.salarioVaga,
             tbVaga.cargaHorariaVaga,
             tbVaga.quantidadeVaga,
+            tbVaga.quantidadeDisponivelVaga,
             tbProfissao.nomeProfissao,
             tbCategoria.imagemCategoria,
             CONCAT(

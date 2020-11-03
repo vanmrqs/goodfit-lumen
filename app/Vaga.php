@@ -12,17 +12,18 @@ class Vaga extends Model
 {
     protected $table      = 'tbVaga';
     protected $primaryKey = 'codVaga';
-    protected $fillable   = ['descricaoVaga', 'salarioVaga', 'cargaHorariaVaga', 'quantidadeVaga', 'codProfissao', 'codEmpresa', 'codEndereco', 'codRegimeContratacao'];
+    protected $fillable   = ['descricaoVaga', 'salarioVaga', 'cargaHorariaVaga', 'quantidadeVaga', 'quantidadeDisponivelVaga', 'codProfissao', 'codEmpresa', 'codEndereco', 'codRegimeContratacao'];
 
     public static $rules  = [
-        'descricaoVaga'        => 'string|required|min:15',
-        'salarioVaga'          => 'numeric|required',
-        'cargaHorariaVaga'     => 'string|required',
-        'quantidadeVaga'       => 'integer|required|min:1',
-        'codProfissao'         => 'integer|required',
-        'codEmpresa'           => 'integer|required',
-        'codEndereco'          => 'integer|required',
-        'codRegimeContratacao' => 'integer|required'
+        'descricaoVaga'            => 'string|required|min:15',
+        'salarioVaga'              => 'numeric|required',
+        'cargaHorariaVaga'         => 'string|required',
+        'quantidadeVaga'           => 'integer|required|min:1',
+        'quantidadeDisponivelVaga' => 'integer|required|min:1',
+        'codProfissao'             => 'integer|required',
+        'codEmpresa'               => 'integer|required',
+        'codEndereco'              => 'integer|required',
+        'codRegimeContratacao'     => 'integer|required'
     ];
 
     public function Profissao(){
